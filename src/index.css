@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-bfi-red: #FF0044; /* Bold, vibrant red like BFI */
+  --color-industrial-black: #0A0A0A;
+  --color-industrial-gray: #F5F5F5;
+}
+
+@layer base {
+  body {
+    @apply bg-white text-industrial-black font-sans antialiased;
+  }
+}
+
+/* BFI-style grid borders */
+.bfi-grid {
+  @apply border-t border-l border-industrial-black/10;
+}
+
+.bfi-grid-item {
+  @apply border-r border-b border-industrial-black/10 p-6 transition-colors duration-300;
+}
+
+.bfi-grid-item:hover {
+  @apply bg-industrial-gray;
+}
+
+/* Massive display type */
+.display-large {
+  @apply text-[clamp(2.5rem,8vw,8rem)] font-black leading-[0.85] tracking-tighter uppercase;
+}
+
+.display-medium {
+  @apply text-[clamp(1.5rem,4vw,3.5rem)] font-extrabold leading-[0.9] tracking-tight uppercase;
+}
+
+/* Micro-labels */
+.micro-label {
+  @apply text-[10px] font-bold uppercase tracking-[0.15em] text-industrial-black/50;
+}
