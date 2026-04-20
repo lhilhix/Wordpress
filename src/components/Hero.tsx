@@ -1,7 +1,15 @@
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
+  const scrollToServices = () => {
+    const element = document.getElementById('services');
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="relative min-h-[80vh] flex flex-col justify-center px-6 py-20 overflow-hidden">
       <div className="max-w-screen-2xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -21,12 +29,18 @@ export default function Hero() {
             Entregamos componentes plásticos de alto desempenho para as indústrias automóvel, médica e eletrónica de consumo em todo o mundo.
           </p>
           <div className="flex flex-wrap gap-4">
-            <button className="bg-industrial-black text-white px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-bfi-red transition-all flex items-center gap-3">
+            <button 
+              onClick={scrollToServices}
+              className="bg-industrial-black text-white px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-bfi-red transition-all flex items-center gap-3"
+            >
               Explorar Serviços <ArrowRight size={18} />
             </button>
-            <button className="border-2 border-industrial-black px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-industrial-black hover:text-white transition-all">
+            <Link 
+              to="/about"
+              className="border-2 border-industrial-black px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-industrial-black hover:text-white transition-all text-center"
+            >
               Nossa Fábrica
-            </button>
+            </Link>
           </div>
         </motion.div>
 

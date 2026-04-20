@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { Settings, ShieldCheck, Zap, Package, Car, HeartPulse, Smartphone, Monitor, X } from "lucide-react";
 import { useState, useEffect, ReactNode } from "react";
+import { Link } from "react-router-dom";
 
 interface Service {
   title: string;
@@ -196,9 +197,12 @@ export default function GridSection() {
             <p className="text-industrial-black/60 mb-8">
               Desde componentes automóveis de alta segurança até dispositivos médicos estéreis, as nossas linhas de produção estão otimizadas para diversos padrões industriais.
             </p>
-            <button className="bg-industrial-black text-white px-8 py-4 font-bold text-xs uppercase tracking-widest hover:bg-bfi-red transition-all">
+            <Link 
+              to="/catalogo"
+              className="inline-block bg-industrial-black text-white px-8 py-4 font-bold text-xs uppercase tracking-widest hover:bg-bfi-red transition-all"
+            >
               Ver Casos de Estudo
-            </button>
+            </Link>
           </div>
 
           <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-4">

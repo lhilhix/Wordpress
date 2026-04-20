@@ -18,7 +18,7 @@
                     <a href="#services" class="bg-industrial-black text-white px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-bfi-red transition-all flex items-center gap-3">
                         Explorar Serviços →
                     </a>
-                    <a href="<?php echo esc_url(home_url('/about')); ?>" class="border-2 border-industrial-black px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-industrial-black hover:text-white transition-all">
+                    <a href="<?php echo esc_url(home_url('/about')); ?>" class="border-2 border-industrial-black px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-industrial-black hover:text-white transition-all text-center">
                         Nossa Fábrica
                     </a>
                 </div>
@@ -177,7 +177,7 @@
                         Desde componentes automóveis de alta segurança até dispositivos médicos estéreis, as nossas linhas de produção estão otimizadas para diversos padrões industriais.
                     </p>
                     <a href="<?php echo esc_url(home_url('/catalogo')); ?>" class="inline-block bg-industrial-black text-white px-8 py-4 font-bold text-xs uppercase tracking-widest hover:bg-bfi-red transition-all">
-                        Ver Catálogo
+                        Ver Casos de Estudo
                     </a>
                 </div>
 

@@ -111,7 +111,7 @@ get_header(); ?>
             <p class="text-white/60 text-lg mb-12 leading-relaxed">
                 A nossa equipa de engenharia pode ajudá-lo a projetar e fabricar moldes personalizados para os seus requisitos específicos. Do protótipo à produção em massa.
             </p>
-            <button class="bg-bfi-red text-white px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-white hover:text-industrial-black transition-all">
+            <button @click="quoteModalOpen = true" class="bg-bfi-red text-white px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-white hover:text-industrial-black transition-all">
                 Solicitar Consulta
             </button>
         </div>

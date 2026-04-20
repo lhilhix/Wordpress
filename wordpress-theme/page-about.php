@@ -119,7 +119,7 @@ get_header(); ?>
             <div class="bg-bfi-red p-12 flex flex-col justify-center text-white">
                 <h2 class="text-4xl font-black uppercase tracking-tighter mb-6">Junte-se à Nossa Missão</h2>
                 <p class="text-white/80 mb-8 max-w-md">Estamos sempre à procura de indivíduos talentosos para se juntarem às nossas equipas de produção e engenharia em Braga.</p>
-                <button class="self-start bg-white text-bfi-red px-8 py-4 font-black text-xs uppercase tracking-widest hover:bg-industrial-black hover:text-white transition-all">
+                <button @click="quoteModalOpen = true" class="self-start bg-white text-bfi-red px-8 py-4 font-black text-xs uppercase tracking-widest hover:bg-industrial-black hover:text-white transition-all">
                     Ver Carreiras
                 </button>
             </div>
