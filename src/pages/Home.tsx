@@ -1,6 +1,8 @@
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import GridSection from "../components/GridSection";
+import FeaturedCarousel from "../components/FeaturedCarousel";
+import CTASection from "../components/CTASection";
 import ContactSection, { Footer } from "../components/ContactSection";
 
 export default function Home() {
@@ -10,6 +12,8 @@ export default function Home() {
       <main>
         <Hero />
         <GridSection />
+        <FeaturedCarousel />
+        <CTASection />
         <ContactSection />
       </main>
       <Footer />

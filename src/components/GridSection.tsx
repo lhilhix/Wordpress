@@ -96,7 +96,7 @@ export default function GridSection() {
   }, [selectedService]);
 
   return (
-    <section id="services" className="py-24 px-6 bg-white">
+    <section id="services" className="py-24 px-6 bg-industrial-gray/30">
       <div className="max-w-screen-2xl mx-auto">
         <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div className="max-w-2xl">

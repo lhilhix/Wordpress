@@ -38,13 +38,18 @@ export const getProducts = async (): Promise<Product[]> => {
 
 export const subscribeToProducts = (callback: (products: Product[]) => void) => {
   const q = query(collection(db, PRODUCTS_COLLECTION), orderBy('id', 'asc'));
-  return onSnapshot(q, (querySnapshot) => {
-    const products = querySnapshot.docs.map(doc => ({
-      ...doc.data(),
-      firestoreId: doc.id
-    } as Product));
-    callback(products);
-  });
+  return onSnapshot(q, 
+    (querySnapshot) => {
+      const products = querySnapshot.docs.map(doc => ({
+        ...doc.data(),
+        firestoreId: doc.id
+      } as Product));
+      callback(products);
+    },
+    (error) => {
+      console.error("Error subscribing to products:", error);
+    }
+  );
 };
 
 export const addProduct = async (product: Omit<Product, 'firestoreId'>) => {
@@ -78,6 +83,7 @@ export interface SiteSettings {
   aboutText?: string;
   aboutImage?: string;
   servicesIntro?: string;
+  techCatalogUrl?: string;
 }
 
 export const getSiteSettings = async (): Promise<SiteSettings | null> => {
@@ -88,11 +94,16 @@ export const getSiteSettings = async (): Promise<SiteSettings | null> => {
 };
 
 export const subscribeToSiteSettings = (callback: (settings: SiteSettings) => void) => {
-  return onSnapshot(doc(db, 'settings', 'site'), (doc) => {
-    if (doc.exists()) {
-      callback(doc.data() as SiteSettings);
+  return onSnapshot(doc(db, 'settings', 'site'), 
+    (doc) => {
+      if (doc.exists()) {
+        callback(doc.data() as SiteSettings);
+      }
+    },
+    (error) => {
+      console.error("Error subscribing to site settings:", error);
     }
-  });
+  );
 };
 
 export const updateSiteSettings = async (settings: Partial<SiteSettings>) => {

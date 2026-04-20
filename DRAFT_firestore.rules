@@ -10,7 +10,6 @@ service cloud.firestore {
     function isSignedIn() { return request.auth != null; }
     function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
     function isAdmin() { 
-      // Auth tokens contain email and email_verified
       return isSignedIn() && 
              (request.auth.token.email == 'davidmbueso@gmail.com' && request.auth.token.email_verified == true);
     }
@@ -28,12 +27,16 @@ service cloud.firestore {
     }
 
     function isValidSiteSettings(data) {
-      return data.keys().size() <= 20; 
+      return data.keys().size() <= 15; // Loose check for simple settings object
     }
 
     // 1. Products Collection
     match /products/{productId} {
-      // allow read for everyone
+      // Pillar 3: Path Variable Hardening
+      // allow get: if isValidId(productId); // Hardening on single document target
+      
+      // Pillar 8: Secure List Queries
+      // Public read access for the catalog
       allow read: if true; 
       
       // Restricted write access to admins

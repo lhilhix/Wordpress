@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/ContactSection";
+import CTASection from "../components/CTASection";
 import { ArrowLeft, ArrowRight, Search, Filter, ChevronLeft, ChevronRight, Loader2, X, ShieldCheck, Factory } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import { subscribeToProducts, Product } from "../services/productService";
@@ -88,8 +89,9 @@ export default function Catalog() {
     <div className="min-h-screen bg-white selection:bg-bfi-red selection:text-white">
       <Navbar />
       
-      <main className="max-w-screen-2xl mx-auto px-6 py-20">
-        <header className="mb-20">
+      <main>
+        <div className="max-w-screen-2xl mx-auto px-6 py-20">
+          <header className="mb-20">
           <div className="micro-label mb-4 text-bfi-red">Catálogo de Produtos</div>
           <h1 className="display-large mb-8">Catálogo de <br /> Componentes</h1>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
@@ -128,7 +130,10 @@ export default function Catalog() {
                   transition={{ duration: 0.4, delay: index * 0.05 }}
                   className="bfi-grid-item group"
                 >
-                  <div className="relative aspect-square mb-8 overflow-hidden bg-industrial-gray grayscale group-hover:grayscale-0 transition-all duration-700">
+                  <div 
+                    className="relative aspect-square mb-8 overflow-hidden bg-industrial-gray grayscale group-hover:grayscale-0 transition-all duration-700 cursor-pointer"
+                    onClick={() => setSelectedProduct(product)}
+                  >
                     <img 
                       src={product.image} 
                       alt={product.name} 
@@ -139,6 +144,9 @@ export default function Catalog() {
                       {product.id}
                     </div>
                     <div className="absolute inset-0 bg-bfi-red/10 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                    <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-industrial-black/80 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500 flex items-center justify-center">
+                       <span className="micro-label text-white !text-opacity-100">Ver Detalhes Técnicos</span>
+                    </div>
                   </div>
                   
                   <div className="flex flex-col h-full">
@@ -243,8 +251,16 @@ export default function Catalog() {
                 </div>
 
                 {/* Right: Info */}
-                <div className="md:w-1/2 p-12 overflow-y-auto custom-scrollbar bg-white">
-                  <div className="micro-label text-bfi-red mb-4">{selectedProduct.category}</div>
+                <div className="md:w-1/2 p-8 md:p-12 overflow-y-auto custom-scrollbar bg-white">
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="micro-label text-bfi-red">{selectedProduct.category}</div>
+                    <button 
+                      onClick={() => setSelectedProduct(null)}
+                      className="md:hidden text-industrial-black/40 hover:text-bfi-red"
+                    >
+                      <X size={24} />
+                    </button>
+                  </div>
                   <h2 className="display-medium mb-8">{selectedProduct.name}</h2>
                   
                   <div className="space-y-10">
@@ -301,25 +317,9 @@ export default function Catalog() {
           )}
         </AnimatePresence>
 
-        {/* CTA Section */}
-        <section className="mt-32 bg-industrial-black text-white p-12 md:p-24 relative overflow-hidden">
-          <div className="relative z-10 max-w-3xl">
-            <div className="micro-label text-bfi-red mb-4">Soluções Personalizadas</div>
-            <h2 className="display-medium mb-8">Precisa de um Molde à Medida?</h2>
-            <p className="text-white/60 text-lg mb-12 leading-relaxed">
-              A nossa equipa de engenharia pode ajudá-lo a projetar e fabricar moldes personalizados para os seus requisitos específicos. Do protótipo à produção em massa.
-            </p>
-            <button 
-              onClick={() => window.dispatchEvent(new CustomEvent('openQuote'))}
-              className="bg-bfi-red text-white px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-white hover:text-industrial-black transition-all"
-            >
-              Solicitar Consulta
-            </button>
-          </div>
-          <div className="absolute -bottom-20 -right-20 text-[25vw] font-black text-white/5 select-none pointer-events-none uppercase">
-            Molde
-          </div>
-        </section>
+        </div>
+
+        <CTASection />
       </main>
 
       <Footer />

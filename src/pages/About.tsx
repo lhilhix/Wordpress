@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/ContactSection";
+import CTASection from "../components/CTASection";
 import { Award, Users, History, Globe } from "lucide-react";
 import { useSiteSettings } from "../hooks/useSiteSettings";
 
@@ -17,8 +18,9 @@ export default function About() {
     <div className="min-h-screen bg-white selection:bg-bfi-red selection:text-white">
       <Navbar />
       
-      <main className="max-w-screen-2xl mx-auto px-6 py-20">
-        <header className="mb-24">
+      <main>
+        <div className="max-w-screen-2xl mx-auto px-6 py-20">
+          <header className="mb-24">
           <div className="micro-label mb-4 text-bfi-red">A Nossa História</div>
           <h1 className="display-large mb-8">Sobre a <br /> Plásticos Bueso</h1>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -164,7 +166,10 @@ export default function About() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
+
+      <CTASection />
+    </main>
 
       <Footer />
     </div>

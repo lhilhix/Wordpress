@@ -29,7 +29,8 @@
         "address": { "type": "string" },
         "aboutText": { "type": "string" },
         "aboutImage": { "type": "string" },
-        "servicesIntro": { "type": "string" }
+        "servicesIntro": { "type": "string" },
+        "techCatalogUrl": { "type": "string" }
       }
     }
   },

@@ -369,6 +369,16 @@ export default function Admin() {
                     className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
                   />
                 </div>
+                <div className="space-y-2">
+                  <label className="micro-label">URL do Catálogo Técnico (PDF)</label>
+                  <input 
+                    type="text" 
+                    value={settings.techCatalogUrl || ""}
+                    onChange={(e) => setSettings({...settings, techCatalogUrl: e.target.value})}
+                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                    placeholder="https://..."
+                  />
+                </div>
                 <button type="submit" className="w-full bg-industrial-black text-white py-4 font-black uppercase tracking-widest hover:bg-bfi-red transition-all mt-4">
                   Guardar Alterações
                 </button>

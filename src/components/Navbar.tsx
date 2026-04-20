@@ -20,7 +20,7 @@ export default function Navbar() {
   const navLinks = [
     { name: "Início", href: "/" },
     { name: "Catálogo", href: "/catalogo" },
-    { name: "Serviços", href: "/#services" },
+    { name: "Serviços", href: "/servicos" },
     { name: "Sobre Nós", href: "/about" },
     { name: "Contacto", href: "/#contact" },
   ];

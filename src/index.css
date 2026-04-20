@@ -32,6 +32,11 @@
   @apply text-[clamp(2.5rem,8vw,8rem)] font-black leading-[0.85] tracking-tighter uppercase;
 }
 
+/* Fix sticky header overlap for anchor links */
+[id] {
+  scroll-margin-top: 5rem; /* Matches the 80px (h-20) navbar height */
+}
+
 .display-medium {
   @apply text-[clamp(1.5rem,4vw,3.5rem)] font-extrabold leading-[0.9] tracking-tight uppercase;
 }
