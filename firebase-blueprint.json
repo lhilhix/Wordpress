@@ -16,12 +16,31 @@
         "updatedAt": { "type": "string", "format": "date-time" }
       },
       "required": ["id", "name", "category", "description", "image"]
+    },
+    "SiteSettings": {
+      "title": "Site Settings",
+      "description": "Global site configuration like logos and hero images.",
+      "type": "object",
+      "properties": {
+        "heroImage": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "contactEmail": { "type": "string" },
+        "contactPhone": { "type": "string" },
+        "address": { "type": "string" },
+        "aboutText": { "type": "string" },
+        "aboutImage": { "type": "string" },
+        "servicesIntro": { "type": "string" }
+      }
     }
   },
   "firestore": {
     "/products/{productId}": {
       "schema": "Product",
       "description": "Collection of products for the catalog."
+    },
+    "/settings/site": {
+      "schema": "SiteSettings",
+      "description": "Global site settings document."
     }
   }
 }

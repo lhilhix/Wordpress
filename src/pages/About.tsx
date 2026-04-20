@@ -2,8 +2,10 @@ import { motion } from "motion/react";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/ContactSection";
 import { Award, Users, History, Globe } from "lucide-react";
+import { useSiteSettings } from "../hooks/useSiteSettings";
 
 export default function About() {
+  const { settings } = useSiteSettings();
   const milestones = [
     { year: "1985", event: "Fundada em Braga, Portugal, com uma única máquina de injeção." },
     { year: "1998", event: "Expansão para uma instalação de 2.000m² e obtenção da certificação ISO 9001." },
@@ -21,11 +23,13 @@ export default function About() {
           <h1 className="display-large mb-8">Sobre a <br /> Plásticos Bueso</h1>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <p className="text-xl text-industrial-black/60 leading-relaxed">
-              Há mais de três décadas que a Plásticos Bueso está na vanguarda da indústria de moldagem por injeção de plásticos em Portugal. Sediada no coração industrial de Braga, combinamos o artesanato tradicional com tecnologia futurista.
+              {settings?.aboutText || "Há mais de três décadas que a Plásticos Bueso está na vanguarda da indústria de moldagem por injeção de plásticos em Portugal. Sediada no coração industrial de Braga, combinamos o artesanato tradicional com tecnologia futurista."}
             </p>
-            <p className="text-xl text-industrial-black/60 leading-relaxed">
-              A nossa missão é simples: fornecer soluções de engenharia de precisão que capacitem os nossos parceiros globais a inovar e a ter sucesso. Não fabricamos apenas peças; construímos os componentes do futuro.
-            </p>
+            {!settings?.aboutText && (
+              <p className="text-xl text-industrial-black/60 leading-relaxed">
+                A nossa missão é simples: fornecer soluções de engenharia de precisão que capacitem os nossos parceiros globais a inovar e a ter sucesso. Não fabricamos apenas peças; construímos os componentes do futuro.
+              </p>
+            )}
           </div>
         </header>
 
@@ -131,7 +135,7 @@ export default function About() {
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[600px]">
           <div className="relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
             <img 
-              src="https://picsum.photos/seed/bueso-team/1200/1200" 
+              src={settings?.aboutImage || "https://picsum.photos/seed/bueso-team/1200/1200"} 
               alt="Our Team" 
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"

@@ -3,8 +3,10 @@ import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import QuoteModal from "./QuoteModal";
+import { useSiteSettings } from "../hooks/useSiteSettings";
 
 export default function Navbar() {
+  const { settings } = useSiteSettings();
   const [isOpen, setIsOpen] = useState(false);
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const location = useLocation();
@@ -41,12 +43,18 @@ export default function Navbar() {
       <nav className="sticky top-0 z-50 bg-white border-b border-industrial-black/10">
         <div className="max-w-screen-2xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 bg-bfi-red flex items-center justify-center text-white font-black text-xl group-hover:bg-industrial-black transition-colors">
-              B
-            </div>
-            <span className="font-black text-2xl tracking-tighter uppercase">
-              Plásticos Bueso
-            </span>
+            {settings?.logoUrl ? (
+              <img src={settings.logoUrl} alt="Plásticos Bueso" className="h-8 w-auto object-contain" referrerPolicy="no-referrer" />
+            ) : (
+              <>
+                <div className="w-8 h-8 bg-bfi-red flex items-center justify-center text-white font-black text-xl group-hover:bg-industrial-black transition-colors">
+                  B
+                </div>
+                <span className="font-black text-2xl tracking-tighter uppercase">
+                  Plásticos Bueso
+                </span>
+              </>
+            )}
           </Link>
 
           {/* Desktop Nav */}

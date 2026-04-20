@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Settings, ShieldCheck, Zap, Package, Car, HeartPulse, Smartphone, Monitor, X } from "lucide-react";
 import { useState, useEffect, ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { useSiteSettings } from "../hooks/useSiteSettings";
 
 interface Service {
   title: string;
@@ -13,6 +14,7 @@ interface Service {
 }
 
 export default function GridSection() {
+  const { settings } = useSiteSettings();
   const [selectedService, setSelectedService] = useState<Service | null>(null);
 
   const services: Service[] = [
@@ -102,7 +104,7 @@ export default function GridSection() {
             <h2 className="display-medium">Excelência Industrial</h2>
           </div>
           <p className="text-lg text-industrial-black/60 max-w-md">
-            Combinamos décadas de experiência com tecnologia de ponta para entregar soluções plásticas superiores.
+            {settings?.servicesIntro || "Combinamos décadas de experiência com tecnologia de ponta para entregar soluções plásticas superiores."}
           </p>
         </div>
 

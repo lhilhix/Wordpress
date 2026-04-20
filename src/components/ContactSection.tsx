@@ -1,7 +1,9 @@
 import { motion } from "motion/react";
 import { Mail, Phone, MapPin, Linkedin, Instagram, Twitter } from "lucide-react";
+import { useSiteSettings } from "../hooks/useSiteSettings";
 
 export default function ContactSection() {
+  const { settings } = useSiteSettings();
   return (
     <section id="contact" className="py-24 px-6 bg-industrial-gray">
       <div className="max-w-screen-2xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
@@ -34,7 +36,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <div className="micro-label mb-1">Telefone</div>
-                <p className="text-lg font-bold">+351 253 000 000</p>
+                <p className="text-lg font-bold">{settings?.contactPhone || "+351 253 000 000"}</p>
                 <p className="text-sm text-industrial-black/60">Segunda a Sexta: 08:00 - 18:00</p>
               </div>
             </div>
@@ -45,7 +47,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <div className="micro-label mb-1">Email</div>
-                <p className="text-lg font-bold">contacto@plasticosbueso.pt</p>
+                <p className="text-lg font-bold">{settings?.contactEmail || "contacto@plasticosbueso.pt"}</p>
                 <p className="text-sm text-industrial-black/60">Geral e Orçamentos</p>
               </div>
             </div>
@@ -98,16 +100,23 @@ export default function ContactSection() {
 }
 
 export function Footer() {
+  const { settings } = useSiteSettings();
   return (
     <footer className="bg-industrial-black text-white py-16 px-6">
       <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-bfi-red flex items-center justify-center text-white font-black text-xl">
-            B
-          </div>
-          <span className="font-black text-2xl tracking-tighter uppercase">
-            Plásticos Bueso
-          </span>
+          {settings?.logoUrl ? (
+            <img src={settings.logoUrl} alt="Plásticos Bueso" className="h-8 w-auto object-contain brightness-0 invert" referrerPolicy="no-referrer" />
+          ) : (
+            <>
+              <div className="w-8 h-8 bg-bfi-red flex items-center justify-center text-white font-black text-xl">
+                B
+              </div>
+              <span className="font-black text-2xl tracking-tighter uppercase">
+                Plásticos Bueso
+              </span>
+            </>
+          )}
         </div>
 
         <div className="flex flex-wrap justify-center gap-8">

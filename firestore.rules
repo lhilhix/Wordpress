@@ -29,5 +29,10 @@ service cloud.firestore {
       allow update: if isSignedIn() && isValidProduct(request.resource.data);
       allow delete: if isSignedIn();
     }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
   }
 }

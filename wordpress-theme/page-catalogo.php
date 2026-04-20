@@ -8,6 +8,7 @@ get_header(); ?>
       x-data="{ 
         currentPage: 1, 
         itemsPerPage: 6,
+        searchQuery: '',
         products: [
             { id: 'PB-001', name: 'Conjunto de Engrenagens de Precisão', category: 'Automóvel', description: 'Engrenagens POM de alta durabilidade para sistemas de transmissão.', image: 'https://picsum.photos/seed/gear/600/600' },
             { id: 'PB-002', name: 'Caixa Estéril', category: 'Médico', description: 'Caixa de policarbonato de grau médico para dispositivos de diagnóstico.', image: 'https://picsum.photos/seed/medical/600/600' },
@@ -22,10 +23,20 @@ get_header(); ?>
             { id: 'PB-011', name: 'Botões de Interface', category: 'Bens de Consumo', description: 'Botões bi-matéria para toque premium e durabilidade.', image: 'https://picsum.photos/seed/buttons/600/600' },
             { id: 'PB-012', name: 'Tampa de Depósito', category: 'Automóvel', description: 'Tampas resistentes quimicamente para sistemas de fluidos.', image: 'https://picsum.photos/seed/cap/600/600' }
         ],
-        get totalPages() { return Math.ceil(this.products.length / this.itemsPerPage) },
+        get filteredProducts() {
+            if (!this.searchQuery.trim()) return this.products;
+            const q = this.searchQuery.toLowerCase().trim();
+            return this.products.filter(p => 
+                p.name.toLowerCase().includes(q) || 
+                p.description.toLowerCase().includes(q) ||
+                p.id.toLowerCase().includes(q) ||
+                p.category.toLowerCase().includes(q)
+            );
+        },
+        get totalPages() { return Math.ceil(this.filteredProducts.length / this.itemsPerPage) },
         get paginatedProducts() {
             const start = (this.currentPage - 1) * this.itemsPerPage;
-            return this.products.slice(start, start + this.itemsPerPage);
+            return this.filteredProducts.slice(start, start + this.itemsPerPage);
         },
         changePage(page) {
             this.currentPage = page;
@@ -46,6 +57,8 @@ get_header(); ?>
                     <input 
                         type="text" 
                         placeholder="Pesquisar peças..." 
+                        x-model="searchQuery"
+                        @input="currentPage = 1"
                         class="w-full pl-12 pr-4 py-4 border border-industrial-black/10 focus:border-bfi-red outline-none micro-label"
                     >
                 </div>
@@ -74,6 +87,14 @@ get_header(); ?>
                 <button class="flex items-center gap-2 micro-label font-black group-hover:text-bfi-red transition-colors">
                     Especificações Técnicas →
                 </button>
+            </div>
+        </template>
+
+        <!-- Empty State -->
+        <template x-if="paginatedProducts.length === 0">
+            <div class="col-span-full flex flex-col items-center justify-center py-20 text-industrial-black/30">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4 opacity-20"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <p class="micro-label text-lg uppercase tracking-widest font-black">Nenhum produto encontrado</p>
             </div>
         </template>
     </div>
@@ -107,9 +128,6 @@ get_header(); ?>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
         </button>
     </div>
-
-    <!-- CTA Section -->
-    <section class="mt-32 bg-industrial-black text-white p-12 md:p-24 relative overflow-hidden">
 
     <!-- CTA Section -->
     <section class="mt-32 bg-industrial-black text-white p-12 md:p-24 relative overflow-hidden">

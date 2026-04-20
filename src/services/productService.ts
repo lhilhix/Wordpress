@@ -67,3 +67,37 @@ export const deleteProduct = async (firestoreId: string) => {
   const productRef = doc(db, PRODUCTS_COLLECTION, firestoreId);
   return await deleteDoc(productRef);
 };
+
+// Site Settings
+export interface SiteSettings {
+  heroImage?: string;
+  logoUrl?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  address?: string;
+  aboutText?: string;
+  aboutImage?: string;
+  servicesIntro?: string;
+}
+
+export const getSiteSettings = async (): Promise<SiteSettings | null> => {
+  const docRef = doc(db, 'settings', 'site');
+  const docSnap = await getDocs(query(collection(db, 'settings')));
+  const siteDoc = docSnap.docs.find(d => d.id === 'site');
+  return siteDoc ? (siteDoc.data() as SiteSettings) : null;
+};
+
+export const subscribeToSiteSettings = (callback: (settings: SiteSettings) => void) => {
+  return onSnapshot(doc(db, 'settings', 'site'), (doc) => {
+    if (doc.exists()) {
+      callback(doc.data() as SiteSettings);
+    }
+  });
+};
+
+export const updateSiteSettings = async (settings: Partial<SiteSettings>) => {
+  const docRef = doc(db, 'settings', 'site');
+  // Use setDoc with merge instead of updateDoc in case the document doesn't exist yet
+  const { setDoc } = await import('firebase/firestore');
+  return await setDoc(docRef, settings, { merge: true });
+};

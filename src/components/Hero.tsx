@@ -1,8 +1,10 @@
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useSiteSettings } from "../hooks/useSiteSettings";
 
 export default function Hero() {
+  const { settings } = useSiteSettings();
   const scrollToServices = () => {
     const element = document.getElementById('services');
     if (element) {
@@ -51,7 +53,7 @@ export default function Hero() {
           className="relative aspect-square lg:aspect-video overflow-hidden grayscale hover:grayscale-0 transition-all duration-700"
         >
           <img
-            src="https://picsum.photos/seed/injection-molding/1200/800"
+            src={settings?.heroImage || "https://picsum.photos/seed/injection-molding/1200/800"}
             alt="Industrial plastic injection molding machine"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
