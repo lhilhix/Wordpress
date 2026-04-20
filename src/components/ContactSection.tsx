@@ -111,6 +111,7 @@ export function Footer() {
         </div>
 
         <div className="flex flex-wrap justify-center gap-8">
+          <a href="/login" className="micro-label text-bfi-red hover:text-white transition-colors">Admin Portal</a>
           <a href="#" className="micro-label text-white/60 hover:text-white transition-colors">Política de Privacidade</a>
           <a href="#" className="micro-label text-white/60 hover:text-white transition-colors">Termos de Serviço</a>
           <a href="#" className="micro-label text-white/60 hover:text-white transition-colors">Cookies</a>

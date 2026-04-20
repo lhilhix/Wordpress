@@ -1,0 +1,27 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "An industrial product in the catalog.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique reference ID (e.g., PB-001)" },
+        "name": { "type": "string", "description": "Display name of the product" },
+        "category": { "type": "string", "description": "Industrial category" },
+        "description": { "type": "string", "description": "Brief description of the product" },
+        "image": { "type": "string", "description": "URL of the product image" },
+        "detailedDescription": { "type": "string", "description": "In-depth details for the product modal" },
+        "specifications": { "type": "string", "description": "Technical specifications" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "category", "description", "image"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Collection of products for the catalog."
+    }
+  }
+}

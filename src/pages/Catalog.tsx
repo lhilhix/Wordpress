@@ -1,54 +1,51 @@
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/ContactSection";
-import { ArrowRight, Search, Filter } from "lucide-react";
+import { ArrowLeft, ArrowRight, Search, Filter, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { useState, useMemo, useEffect } from "react";
+import { subscribeToProducts, Product } from "../services/productService";
 
-const products = [
-  {
-    id: "PB-001",
-    name: "Conjunto de Engrenagens de Precisão",
-    category: "Automóvel",
-    description: "Engrenagens POM de alta durabilidade para sistemas de transmissão.",
-    image: "https://picsum.photos/seed/gear/600/600",
-  },
-  {
-    id: "PB-002",
-    name: "Caixa Estéril",
-    category: "Médico",
-    description: "Caixa de policarbonato de grau médico para dispositivos de diagnóstico.",
-    image: "https://picsum.photos/seed/medical/600/600",
-  },
-  {
-    id: "PB-003",
-    name: "Hub de Conectores",
-    category: "Eletrónica",
-    description: "Conectores PA66 retardadores de chama para uso industrial.",
-    image: "https://picsum.photos/seed/connector/600/600",
-  },
-  {
-    id: "PB-004",
-    name: "Acabamento de Painel",
-    category: "Automóvel",
-    description: "Acabamento estético ABS/PC com acabamento soft-touch.",
-    image: "https://picsum.photos/seed/trim/600/600",
-  },
-  {
-    id: "PB-005",
-    name: "Êmbolo de Seringa",
-    category: "Médico",
-    description: "Êmbolos de PP de alta precisão para seringas médicas.",
-    image: "https://picsum.photos/seed/syringe/600/600",
-  },
-  {
-    id: "PB-006",
-    name: "Caixa de Proteção",
-    category: "Bens de Consumo",
-    description: "Caixas de ABS resistentes ao impacto para dispositivos domésticos inteligentes.",
-    image: "https://picsum.photos/seed/case/600/600",
-  },
+const staticProducts: Product[] = [
+  // ... existing mock data for fallback ...
+  { id: "PB-001", name: "Conjunto de Engrenagens de Precisão", category: "Automóvel", description: "Engrenagens POM de alta durabilidade para sistemas de transmissão.", image: "https://picsum.photos/seed/gear/600/600" },
+  { id: "PB-002", name: "Caixa Estéril", category: "Médico", description: "Caixa de policarbonato de grau médico para dispositivos de diagnóstico.", image: "https://picsum.photos/seed/medical/600/600" },
+  { id: "PB-003", name: "Hub de Conectores", category: "Eletrónica", description: "Conectores PA66 retardadores de chama para uso industrial.", image: "https://picsum.photos/seed/connector/600/600" },
+  { id: "PB-004", name: "Acabamento de Painel", category: "Automóvel", description: "Acabamento estético ABS/PC com acabamento soft-touch.", image: "https://picsum.photos/seed/trim/600/600" },
+  { id: "PB-005", name: "Êmbolo de Seringa", category: "Médico", description: "Êmbolos de PP de alta precisão para seringas médicas.", image: "https://picsum.photos/seed/syringe/600/600" },
+  { id: "PB-006", name: "Caixa de Proteção", category: "Bens de Consumo", description: "Caixas de ABS resistentes ao impacto para dispositivos domésticos inteligentes.", image: "https://picsum.photos/seed/case/600/600" },
 ];
 
 export default function Catalog() {
+  const [dbProducts, setDbProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  useEffect(() => {
+    const unsubscribe = subscribeToProducts((data) => {
+      setDbProducts(data);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const displayProducts = useMemo(() => {
+    return dbProducts.length > 0 ? dbProducts : staticProducts;
+  }, [dbProducts]);
+
+  const totalPages = Math.ceil(displayProducts.length / itemsPerPage);
+
+  const currentProducts = useMemo(() => {
+    const begin = (currentPage - 1) * itemsPerPage;
+    const end = begin + itemsPerPage;
+    return displayProducts.slice(begin, end);
+  }, [currentPage, itemsPerPage, displayProducts]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen bg-white selection:bg-bfi-red selection:text-white">
       <Navbar />
@@ -78,44 +75,77 @@ export default function Catalog() {
           </div>
         </header>
 
-        {/* Catalog Grid */}
-        <div className="bfi-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {products.map((product, index) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="bfi-grid-item group"
-            >
-              <div className="relative aspect-square mb-8 overflow-hidden bg-industrial-gray grayscale group-hover:grayscale-0 transition-all duration-700">
-                <img 
-                  src={product.image} 
-                  alt={product.name} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute top-4 left-4 bg-industrial-black text-white px-3 py-1 micro-label text-[8px]">
-                  {product.id}
+        {/* Catalog Grid with Animation */}
+        <div className="bfi-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-h-[800px]">
+          <AnimatePresence mode="wait">
+            {currentProducts.map((product, index) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                className="bfi-grid-item group"
+              >
+                <div className="relative aspect-square mb-8 overflow-hidden bg-industrial-gray grayscale group-hover:grayscale-0 transition-all duration-700">
+                  <img 
+                    src={product.image} 
+                    alt={product.name} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute top-4 left-4 bg-industrial-black text-white px-3 py-1 micro-label text-[8px]">
+                    {product.id}
+                  </div>
+                  <div className="absolute inset-0 bg-bfi-red/10 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
                 </div>
-                <div className="absolute inset-0 bg-bfi-red/10 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-              </div>
-              
-              <div className="flex flex-col h-full">
-                <div className="micro-label text-bfi-red mb-2">{product.category}</div>
-                <h3 className="text-3xl font-black uppercase tracking-tighter mb-4 leading-none">
-                  {product.name}
-                </h3>
-                <p className="text-industrial-black/60 text-sm mb-8 flex-grow">
-                  {product.description}
-                </p>
-                <button className="flex items-center gap-2 micro-label font-black group-hover:text-bfi-red transition-colors">
-                  Especificações Técnicas <ArrowRight size={14} />
-                </button>
-              </div>
-            </motion.div>
-          ))}
+                
+                <div className="flex flex-col h-full">
+                  <div className="micro-label text-bfi-red mb-2">{product.category}</div>
+                  <h3 className="text-3xl font-black uppercase tracking-tighter mb-4 leading-none">
+                    {product.name}
+                  </h3>
+                  <p className="text-industrial-black/60 text-sm mb-8 flex-grow">
+                    {product.description}
+                  </p>
+                  <button className="flex items-center gap-2 micro-label font-black group-hover:text-bfi-red transition-colors">
+                    Especificações Técnicas <ArrowRight size={14} />
+                  </button>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="mt-16 flex items-center justify-center gap-4">
+          <button 
+            onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+            disabled={currentPage === 1}
+            className={`p-4 border border-industrial-black/10 transition-all ${currentPage === 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-industrial-black hover:text-white'}`}
+          >
+            <ChevronLeft size={20} />
+          </button>
+          
+          <div className="flex gap-2">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`w-12 h-12 micro-label flex items-center justify-center transition-all ${currentPage === page ? 'bg-bfi-red text-white' : 'border border-industrial-black/10 hover:bg-industrial-gray'}`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+
+          <button 
+            onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+            disabled={currentPage === totalPages}
+            className={`p-4 border border-industrial-black/10 transition-all ${currentPage === totalPages ? 'opacity-30 cursor-not-allowed' : 'hover:bg-industrial-black hover:text-white'}`}
+          >
+            <ChevronRight size={20} />
+          </button>
         </div>
 
         {/* CTA Section */}
