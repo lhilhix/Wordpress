@@ -73,6 +73,37 @@ get_header(); ?>
         </div>
     </section>
 
+    <!-- FAQ Section -->
+    <section class="mb-32">
+        <div class="micro-label mb-12 text-bfi-red">FAQ / Perguntas Frequentes</div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-24 gap-y-16">
+            <div>
+                <h3 class="text-xl font-black uppercase tracking-tighter mb-4 border-l-4 border-bfi-red pl-4">Quais são as vossas capacidades de produção?</h3>
+                <p class="text-industrial-black/60 leading-relaxed">
+                    Dispomos de um parque de máquinas de moldagem por injeção com forças de fecho de 50 a 1000 toneladas, permitindo-nos produzir desde micro-componentes técnicos a grandes peças estruturais com alta precisão.
+                </p>
+            </div>
+            <div>
+                <h3 class="text-xl font-black uppercase tracking-tighter mb-4 border-l-4 border-bfi-red pl-4">Que tipos de materiais plásticos processam?</h3>
+                <p class="text-industrial-black/60 leading-relaxed">
+                    Processamos uma vasta gama de polímeros de engenharia (ABS, PC, PA, POM, PBT), plásticos técnicos de alto desempenho, bem como materiais bio-baseados e reciclados para soluções sustentáveis.
+                </p>
+            </div>
+            <div>
+                <h3 class="text-xl font-black uppercase tracking-tighter mb-4 border-l-4 border-bfi-red pl-4">Quais são os vossos padrões de qualidade?</h3>
+                <p class="text-industrial-black/60 leading-relaxed">
+                    Somos certificados ISO 9001. O nosso controlo de qualidade inclui medição CMM tridimensional, inspeção óptica automatizada e análise SPC em tempo real para garantir defeito zero em toda a produção.
+                </p>
+            </div>
+            <div>
+                <h3 class="text-xl font-black uppercase tracking-tighter mb-4 border-l-4 border-bfi-red pl-4">Oferecem serviços de acabamento e montagem?</h3>
+                <p class="text-industrial-black/60 leading-relaxed">
+                    Sim, oferecemos soluções completas "chave na mão" incluindo cromagem, metalização, soldadura por ultrassons, tampografia e montagem de conjuntos técnicos complexos.
+                </p>
+            </div>
+        </div>
+    </section>
+
     <!-- Careers CTA -->
     <section class="mb-32">
         <div class="grid grid-cols-1 lg:grid-cols-2">
