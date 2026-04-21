@@ -7,7 +7,8 @@
       "properties": {
         "id": { "type": "string", "description": "The unique reference ID (e.g., PB-001)" },
         "name": { "type": "string", "description": "Display name of the product" },
-        "category": { "type": "string", "description": "Industrial category" },
+        "category": { "type": "string", "description": "Type of product category (e.g., Gear, Connector)" },
+        "industry": { "type": "string", "description": "Industrial sector (e.g., Automotive, Medical)" },
         "description": { "type": "string", "description": "Brief description of the product" },
         "image": { "type": "string", "description": "URL of the product image" },
         "detailedDescription": { "type": "string", "description": "In-depth details for the product modal" },
@@ -32,6 +33,26 @@
         "servicesIntro": { "type": "string" },
         "techCatalogUrl": { "type": "string" }
       }
+    },
+    "ChatMessage": {
+      "title": "Chat Message",
+      "type": "object",
+      "properties": {
+        "role": { "type": "string", "enum": ["user", "model", "system"] },
+        "content": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["role", "content", "timestamp"]
+    },
+    "ChatSession": {
+      "title": "Chat Session",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "lastMessage": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
     }
   },
   "firestore": {
@@ -42,6 +63,14 @@
     "/settings/site": {
       "schema": "SiteSettings",
       "description": "Global site settings document."
+    },
+    "/chatSessions/{sessionId}": {
+      "schema": "ChatSession",
+      "description": "Chat sessions for support."
+    },
+    "/chatSessions/{sessionId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Individual messages in a chat session."
     }
   }
 }

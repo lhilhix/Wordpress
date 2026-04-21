@@ -17,6 +17,7 @@ export interface Product {
   firestoreId?: string; // The Firestore auto-generated ID
   name: string;
   category: string;
+  industry: string;
   description: string;
   image: string;
   detailedDescription?: string;

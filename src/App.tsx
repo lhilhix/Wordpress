@@ -5,6 +5,7 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
+import ChatWidget from "./components/ChatWidget";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>
+      <ChatWidget />
     </BrowserRouter>
   );
 }

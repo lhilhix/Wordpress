@@ -35,7 +35,8 @@ export default function Admin() {
   const [formData, setFormData] = useState<Omit<Product, 'firestoreId'>>({
     id: "",
     name: "",
-    category: "Automóvel",
+    category: "Engrenagens",
+    industry: "Automóvel",
     description: "",
     image: "https://picsum.photos/seed/default/600/600",
     detailedDescription: "",
@@ -86,7 +87,8 @@ export default function Admin() {
       setFormData({
         id: "",
         name: "",
-        category: "Automóvel",
+        category: "Engrenagens",
+        industry: "Automóvel",
         description: "",
         image: "https://picsum.photos/seed/" + Math.random() + "/600/600",
         detailedDescription: "",
@@ -113,6 +115,7 @@ export default function Admin() {
       id: product.id,
       name: product.name,
       category: product.category,
+      industry: product.industry,
       description: product.description,
       image: product.image,
       detailedDescription: product.detailedDescription || "",
@@ -195,10 +198,25 @@ export default function Admin() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="micro-label">Categoria</label>
+                    <label className="micro-label">Categoria (Tipo de Peça)</label>
                     <select 
                       value={formData.category}
                       onChange={(e) => setFormData({...formData, category: e.target.value})}
+                      className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none bg-white"
+                    >
+                      <option>Engrenagens</option>
+                      <option>Conectores</option>
+                      <option>Caixas</option>
+                      <option>Acabamentos</option>
+                      <option>Componentes Precisão</option>
+                      <option>Outros</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="micro-label">Indústria / Setor</label>
+                    <select 
+                      value={formData.industry}
+                      onChange={(e) => setFormData({...formData, industry: e.target.value})}
                       className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none bg-white"
                     >
                       <option>Automóvel</option>
@@ -293,6 +311,7 @@ export default function Admin() {
                             {product.id}
                           </span>
                           <span className="micro-label text-bfi-red">{product.category}</span>
+                          <span className="micro-label opacity-40 ml-2">| {product.industry}</span>
                         </div>
                         <h3 className="font-black uppercase tracking-tighter text-lg">{product.name}</h3>
                         <p className="text-sm text-industrial-black/50 line-clamp-1">{product.description}</p>

@@ -7,13 +7,12 @@ import { useState, useMemo, useEffect } from "react";
 import { subscribeToProducts, Product } from "../services/productService";
 
 const staticProducts: Product[] = [
-  // ... existing mock data for fallback ...
-  { id: "PB-001", name: "Conjunto de Engrenagens de Precisão", category: "Automóvel", description: "Engrenagens POM de alta durabilidade para sistemas de transmissão.", image: "https://picsum.photos/seed/gear/600/600" },
-  { id: "PB-002", name: "Caixa Estéril", category: "Médico", description: "Caixa de policarbonato de grau médico para dispositivos de diagnóstico.", image: "https://picsum.photos/seed/medical/600/600" },
-  { id: "PB-003", name: "Hub de Conectores", category: "Eletrónica", description: "Conectores PA66 retardadores de chama para uso industrial.", image: "https://picsum.photos/seed/connector/600/600" },
-  { id: "PB-004", name: "Acabamento de Painel", category: "Automóvel", description: "Acabamento estético ABS/PC com acabamento soft-touch.", image: "https://picsum.photos/seed/trim/600/600" },
-  { id: "PB-005", name: "Êmbolo de Seringa", category: "Médico", description: "Êmbolos de PP de alta precisão para seringas médicas.", image: "https://picsum.photos/seed/syringe/600/600" },
-  { id: "PB-006", name: "Caixa de Proteção", category: "Bens de Consumo", description: "Caixas de ABS resistentes ao impacto para dispositivos domésticos inteligentes.", image: "https://picsum.photos/seed/case/600/600" },
+  { id: "PB-001", name: "Conjunto de Engrenagens de Precisão", category: "Engrenagens", industry: "Automóvel", description: "Engrenagens POM de alta durabilidade para sistemas de transmissão.", image: "https://picsum.photos/seed/gear/600/600" },
+  { id: "PB-002", name: "Caixa Estéril", category: "Caixas", industry: "Médico", description: "Caixa de policarbonato de grau médico para dispositivos de diagnóstico.", image: "https://picsum.photos/seed/medical/600/600" },
+  { id: "PB-003", name: "Hub de Conectores", category: "Conectores", industry: "Eletrónica", description: "Conectores PA66 retardadores de chama para uso industrial.", image: "https://picsum.photos/seed/connector/600/600" },
+  { id: "PB-004", name: "Acabamento de Painel", category: "Acabamentos", industry: "Automóvel", description: "Acabamento estético ABS/PC com acabamento soft-touch.", image: "https://picsum.photos/seed/trim/600/600" },
+  { id: "PB-005", name: "Êmbolo de Seringa", category: "Componentes Precisão", industry: "Médico", description: "Êmbolos de PP de alta precisão para seringas médicas.", image: "https://picsum.photos/seed/syringe/600/600" },
+  { id: "PB-006", name: "Caixa de Proteção", category: "Caixas", industry: "Bens de Consumo", description: "Caixas de ABS resistentes ao impacto para dispositivos domésticos inteligentes.", image: "https://picsum.photos/seed/case/600/600" },
 ];
 
 export default function Catalog() {
@@ -22,6 +21,9 @@ export default function Catalog() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
   const itemsPerPage = 6;
 
   useEffect(() => {
@@ -37,40 +39,86 @@ export default function Catalog() {
     const handleEsc = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setSelectedProduct(null);
+        setIsFilterSidebarOpen(false);
       }
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-  // Prevent scroll when modal is open
+  // Prevent scroll when modal or sidebar is open
   useEffect(() => {
-    if (selectedProduct) {
+    if (selectedProduct || isFilterSidebarOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
     }
-  }, [selectedProduct]);
+  }, [selectedProduct, isFilterSidebarOpen]);
 
   const displayProducts = useMemo(() => {
     return dbProducts.length > 0 ? dbProducts : staticProducts;
   }, [dbProducts]);
 
-  const filteredProducts = useMemo(() => {
-    const query = searchQuery.toLowerCase().trim();
-    if (!query) return displayProducts;
-    
-    return displayProducts.filter(product => 
-      product.name.toLowerCase().includes(query) || 
-      product.description.toLowerCase().includes(query) ||
-      product.category.toLowerCase().includes(query) ||
-      product.id.toLowerCase().includes(query)
+  // Extract unique categories and industries for filters
+  const categories = useMemo(() => {
+    const cats = Array.from(new Set(displayProducts.map(p => p.category))).filter(Boolean);
+    return cats.sort();
+  }, [displayProducts]);
+
+  const industries = useMemo(() => {
+    const inds = Array.from(new Set(displayProducts.map(p => p.industry))).filter(Boolean);
+    return inds.sort();
+  }, [displayProducts]);
+
+  const toggleCategory = (cat: string) => {
+    setSelectedCategories(prev => 
+      prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
     );
-  }, [displayProducts, searchQuery]);
+  };
+
+  const toggleIndustry = (ind: string) => {
+    setSelectedIndustries(prev => 
+      prev.includes(ind) ? prev.filter(i => i !== ind) : [...prev, ind]
+    );
+  };
+
+  const clearFilters = () => {
+    setSelectedCategories([]);
+    setSelectedIndustries([]);
+    setSearchQuery("");
+  };
+
+  const filteredProducts = useMemo(() => {
+    let result = displayProducts;
+
+    // Search query filter
+    const query = searchQuery.toLowerCase().trim();
+    if (query) {
+      result = result.filter(product => 
+        product.name.toLowerCase().includes(query) || 
+        product.description.toLowerCase().includes(query) ||
+        product.category.toLowerCase().includes(query) ||
+        (product.industry && product.industry.toLowerCase().includes(query)) ||
+        product.id.toLowerCase().includes(query)
+      );
+    }
+
+    // Category filter
+    if (selectedCategories.length > 0) {
+      result = result.filter(product => selectedCategories.includes(product.category));
+    }
+
+    // Industry filter
+    if (selectedIndustries.length > 0) {
+      result = result.filter(product => selectedIndustries.includes(product.industry));
+    }
+    
+    return result;
+  }, [displayProducts, searchQuery, selectedCategories, selectedIndustries]);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery]);
+  }, [searchQuery, selectedCategories, selectedIndustries]);
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
@@ -110,12 +158,152 @@ export default function Catalog() {
                   className="w-full pl-12 pr-4 py-4 border border-industrial-black/10 focus:border-bfi-red outline-none micro-label"
                 />
               </div>
-              <button className="p-4 border border-industrial-black/10 hover:bg-industrial-gray transition-colors">
+              <button 
+                onClick={() => setIsFilterSidebarOpen(true)}
+                className={`p-4 border transition-colors flex items-center justify-center relative ${
+                  selectedCategories.length > 0 || selectedIndustries.length > 0 
+                    ? 'bg-bfi-red border-bfi-red text-white' 
+                    : 'border-industrial-black/10 hover:bg-industrial-gray'
+                }`}
+              >
                 <Filter size={20} />
+                {(selectedCategories.length > 0 || selectedIndustries.length > 0) && (
+                  <div className="absolute -top-2 -right-2 w-5 h-5 bg-industrial-black text-white text-[10px] font-black flex items-center justify-center rounded-full">
+                    {selectedCategories.length + selectedIndustries.length}
+                  </div>
+                )}
               </button>
             </div>
           </div>
+
+          {(selectedCategories.length > 0 || selectedIndustries.length > 0) && (
+            <div className="mt-8 flex flex-wrap gap-2 items-center">
+              <span className="micro-label mr-2 opacity-40">Filtros Ativos:</span>
+              {selectedCategories.map(cat => (
+                <button 
+                  key={cat} 
+                  onClick={() => toggleCategory(cat)}
+                  className="bg-industrial-gray px-3 py-1 micro-label !text-[10px] flex items-center gap-2 hover:bg-bfi-red hover:text-white transition-colors"
+                >
+                  {cat} <X size={12} />
+                </button>
+              ))}
+              {selectedIndustries.map(ind => (
+                <button 
+                  key={ind} 
+                  onClick={() => toggleIndustry(ind)}
+                  className="bg-industrial-black text-white px-3 py-1 micro-label !text-[10px] flex items-center gap-2 hover:bg-bfi-red transition-colors"
+                >
+                  {ind} <X size={12} />
+                </button>
+              ))}
+              <button 
+                onClick={clearFilters}
+                className="micro-label !text-[10px] underline hover:text-bfi-red transition-colors px-2"
+              >
+                Limpar Tudo
+              </button>
+            </div>
+          )}
         </header>
+
+        {/* Filter Sidebar overlay */}
+        <AnimatePresence>
+          {isFilterSidebarOpen && (
+            <div className="fixed inset-0 z-[110] flex justify-end">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsFilterSidebarOpen(false)}
+                className="absolute inset-0 bg-industrial-black/80 backdrop-blur-sm"
+              />
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="relative bg-white w-full max-w-sm h-full shadow-2xl flex flex-col"
+              >
+                <div className="p-8 border-b border-industrial-black/10 flex justify-between items-center">
+                  <div className="flex items-center gap-3">
+                    <Filter className="text-bfi-red" size={20} />
+                    <h3 className="font-black uppercase tracking-widest text-sm">Filtros Técnicos</h3>
+                  </div>
+                  <button 
+                    onClick={() => setIsFilterSidebarOpen(false)}
+                    className="hover:text-bfi-red transition-colors"
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+
+                <div className="flex-1 overflow-y-auto p-8 space-y-12 custom-scrollbar">
+                  {/* Category Filter */}
+                  <section>
+                    <h4 className="micro-label mb-6 opacity-40">Categorias de Produto</h4>
+                    <div className="space-y-4">
+                      {categories.map(category => (
+                        <label key={category} className="flex items-center gap-3 group cursor-pointer">
+                          <div className="relative flex items-center justify-center">
+                            <input 
+                              type="checkbox" 
+                              className="appearance-none w-6 h-6 border-2 border-industrial-black/10 checked:bg-bfi-red checked:border-bfi-red transition-all cursor-pointer"
+                              checked={selectedCategories.includes(category)}
+                              onChange={() => toggleCategory(category)}
+                            />
+                            {selectedCategories.includes(category) && <X className="absolute text-white pointer-events-none" size={14} />}
+                          </div>
+                          <span className={`micro-label transition-colors ${selectedCategories.includes(category) ? 'font-black text-bfi-red' : 'group-hover:text-bfi-red'}`}>
+                            {category}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </section>
+
+                  {/* Industry Filter */}
+                  <section>
+                    <h4 className="micro-label mb-6 opacity-40">Setores Industriais</h4>
+                    <div className="space-y-4">
+                      {industries.map(industry => (
+                        <label key={industry} className="flex items-center gap-3 group cursor-pointer">
+                          <div className="relative flex items-center justify-center">
+                            <input 
+                              type="checkbox" 
+                              className="appearance-none w-6 h-6 border-2 border-industrial-black/10 checked:bg-industrial-black checked:border-industrial-black transition-all cursor-pointer"
+                              checked={selectedIndustries.includes(industry)}
+                              onChange={() => toggleIndustry(industry)}
+                            />
+                            {selectedIndustries.includes(industry) && <X className="absolute text-white pointer-events-none" size={14} />}
+                          </div>
+                          <span className={`micro-label transition-colors ${selectedIndustries.includes(industry) ? 'font-black' : 'group-hover:text-bfi-red'}`}>
+                            {industry}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </section>
+                </div>
+
+                <div className="p-8 border-t border-industrial-black/10 bg-industrial-gray/30 grid grid-cols-2 gap-4">
+                  <button 
+                    onClick={clearFilters}
+                    className="py-4 micro-label !text-[10px] text-center border border-industrial-black/10 hover:bg-industrial-black hover:text-white transition-all uppercase font-black"
+                  >
+                    Repor
+                  </button>
+                  <button 
+                    onClick={() => setIsFilterSidebarOpen(false)}
+                    className="py-4 micro-label !text-[10px] text-center bg-bfi-red text-white hover:bg-industrial-black transition-all uppercase font-black"
+                  >
+                    Aplicar
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
 
         {/* Catalog Grid with Animation */}
         <div className="bfi-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 min-h-[800px]">

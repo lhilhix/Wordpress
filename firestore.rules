@@ -19,12 +19,15 @@ service cloud.firestore {
 
     // Pillar 2: Validation Blueprints
     function isValidProduct(data) {
-      return data.keys().hasAll(['id', 'name', 'category', 'description', 'image']) &&
+      return data.keys().hasAll(['id', 'name', 'category', 'industry', 'description', 'image']) &&
              data.id is string && data.id.size() <= 64 &&
              data.name is string && data.name.size() <= 200 &&
              data.category is string && data.category.size() <= 100 &&
+             data.industry is string && data.industry.size() <= 100 &&
              data.description is string && data.description.size() <= 2000 &&
-             data.image is string && data.image.size() <= 1000;
+             data.image is string && data.image.size() <= 1000 &&
+             (!data.has('detailedDescription') || (data.detailedDescription is string && data.detailedDescription.size() <= 5000)) &&
+             (!data.has('specifications') || (data.specifications is string && data.specifications.size() <= 2000));
     }
 
     function isValidSiteSettings(data) {
@@ -49,6 +52,22 @@ service cloud.firestore {
       
       // Restricted write access to admins
       allow write: if isAdmin() && isValidSiteSettings(incoming());
+    }
+
+    // 3. Chat Sessions
+    function isValidChatMessage(data) {
+      return data.keys().hasAll(['role', 'content', 'timestamp']) &&
+             data.role in ['user', 'model', 'system'] &&
+             data.content is string && data.content.size() <= 4000;
+    }
+
+    match /chatSessions/{sessionId} {
+      allow read, create, update: if isValidId(sessionId);
+      
+      match /messages/{messageId} {
+        allow read: if isValidId(sessionId);
+        allow create: if isValidId(sessionId) && isValidChatMessage(incoming());
+      }
     }
   }
 }
