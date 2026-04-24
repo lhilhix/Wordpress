@@ -13,6 +13,8 @@ const staticProducts: Product[] = [
   { id: "PB-004", name: "Acabamento de Painel", category: "Acabamentos", industry: "Automóvel", description: "Acabamento estético ABS/PC com acabamento soft-touch.", image: "https://picsum.photos/seed/trim/600/600" },
   { id: "PB-005", name: "Êmbolo de Seringa", category: "Componentes Precisão", industry: "Médico", description: "Êmbolos de PP de alta precisão para seringas médicas.", image: "https://picsum.photos/seed/syringe/600/600" },
   { id: "PB-006", name: "Caixa de Proteção", category: "Caixas", industry: "Bens de Consumo", description: "Caixas de ABS resistentes ao impacto para dispositivos domésticos inteligentes.", image: "https://picsum.photos/seed/case/600/600" },
+  { id: "PB-007", name: "Vedante de Silicone", category: "Vedantes", industry: "Culinário", description: "Vedantes de silicone de grau alimentador para recipientes.", image: "https://picsum.photos/seed/silicone/600/600" },
+  { id: "PB-008", name: "Válvula de Retenção", category: "Válvulas", industry: "Industrial", description: "Válvulas anti-retorno para sistemas de fluídos.", image: "https://picsum.photos/seed/valve/600/600" },
 ];
 
 export default function Catalog() {
@@ -25,7 +27,7 @@ export default function Catalog() {
   const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
-  const itemsPerPage = 6;
+  const itemsPerPage = 4;
 
   useEffect(() => {
     const unsubscribe = subscribeToProducts((data) => {

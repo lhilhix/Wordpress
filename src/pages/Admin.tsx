@@ -184,6 +184,34 @@ export default function Admin() {
     }
   };
 
+  const [uploadingHero, setUploadingHero] = useState(false);
+  const [uploadingAbout, setUploadingAbout] = useState(false);
+
+  const handleSettingsImageUpload = (e: React.ChangeEvent<HTMLInputElement>, field: 'heroImage' | 'aboutImage') => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const setUploading = field === 'heroImage' ? setUploadingHero : setUploadingAbout;
+      setUploading(true);
+      const storageRef = ref(storage, `settings/${field}_${Date.now()}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        null,
+        (error) => {
+          console.error("Upload error:", error);
+          setUploading(false);
+          alert("Erro no upload.");
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setSettings(prev => ({ ...prev, [field]: downloadURL }));
+          setUploading(false);
+        }
+      );
+    }
+  };
+
   const handleEdit = (product: Product) => {
     setIsEditing(product.firestoreId!);
     setFormData({
@@ -477,14 +505,39 @@ export default function Admin() {
               
               <form onSubmit={handleSettingsSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <label className="micro-label">URL da Imagem Hero (Início)</label>
-                  <input 
-                    type="text" 
-                    value={settings.heroImage || ""}
-                    onChange={(e) => setSettings({...settings, heroImage: e.target.value})}
-                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
-                    placeholder="https://images.unsplash.com/..."
-                  />
+                  <label className="micro-label">Imagem Hero (Início)</label>
+                  <div className="flex items-center gap-4">
+                    <div className="flex-1 relative">
+                      <input 
+                        type="text" 
+                        value={settings.heroImage || ""}
+                        onChange={(e) => setSettings({...settings, heroImage: e.target.value})}
+                        className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                        placeholder="https://images.unsplash.com/..."
+                      />
+                    </div>
+                    <div className="relative">
+                      <input 
+                        type="file" 
+                        accept="image/*"
+                        onChange={(e) => handleSettingsImageUpload(e, 'heroImage')}
+                        className="hidden"
+                        id="hero-upload"
+                      />
+                      <label 
+                        htmlFor="hero-upload"
+                        className="p-3 bg-industrial-gray text-industrial-black cursor-pointer hover:bg-industrial-black hover:text-white transition-all block"
+                      >
+                        <ImageIcon size={18} />
+                      </label>
+                    </div>
+                  </div>
+                  {uploadingHero && <span className="text-xs text-bfi-red animate-pulse">A carregar...</span>}
+                  {settings.heroImage && (
+                    <div className="mt-2 w-full aspect-video bg-industrial-gray overflow-hidden">
+                      <img src={settings.heroImage} alt="Hero Preview" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                    </div>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label className="micro-label">URL do Logótipo (Navbar/Footer)</label>
@@ -549,13 +602,39 @@ export default function Admin() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="micro-label">URL Imagem "Sobre Nós"</label>
-                  <input 
-                    type="text" 
-                    value={settings.aboutImage || ""}
-                    onChange={(e) => setSettings({...settings, aboutImage: e.target.value})}
-                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
-                  />
+                  <label className="micro-label">Imagem "Sobre Nós"</label>
+                  <div className="flex items-center gap-4">
+                    <div className="flex-1 relative">
+                      <input 
+                        type="text" 
+                        value={settings.aboutImage || ""}
+                        onChange={(e) => setSettings({...settings, aboutImage: e.target.value})}
+                        className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                        placeholder="https://..."
+                      />
+                    </div>
+                    <div className="relative">
+                      <input 
+                        type="file" 
+                        accept="image/*"
+                        onChange={(e) => handleSettingsImageUpload(e, 'aboutImage')}
+                        className="hidden"
+                        id="about-upload"
+                      />
+                      <label 
+                        htmlFor="about-upload"
+                        className="p-3 bg-industrial-gray text-industrial-black cursor-pointer hover:bg-industrial-black hover:text-white transition-all block"
+                      >
+                        <ImageIcon size={18} />
+                      </label>
+                    </div>
+                  </div>
+                  {uploadingAbout && <span className="text-xs text-bfi-red animate-pulse">A carregar...</span>}
+                  {settings.aboutImage && (
+                    <div className="mt-2 w-full aspect-square max-w-[200px] bg-industrial-gray overflow-hidden">
+                      <img src={settings.aboutImage} alt="About Preview" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                    </div>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label className="micro-label">Texto Introdução Serviços</label>
