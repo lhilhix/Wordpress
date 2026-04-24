@@ -82,19 +82,31 @@ export default function Navbar() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden"
+            className="md:hidden relative z-50 text-industrial-black hover:text-bfi-red transition-colors"
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? <X /> : <Menu />}
+            {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
 
-        {/* Mobile Nav */}
+        {/* Mobile Nav Overlay */}
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 bg-industrial-black/50 z-40 md:hidden backdrop-blur-sm"
+          />
+        )}
+
+        {/* Mobile Nav Menu */}
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="md:hidden absolute top-20 left-0 w-full bg-white border-b border-industrial-black/10 p-6 flex flex-col gap-6"
+            exit={{ opacity: 0, y: -20 }}
+            className="md:hidden absolute top-20 left-0 w-full bg-white border-b border-industrial-black/10 p-6 flex flex-col gap-6 shadow-2xl z-50"
           >
             {navLinks.map((link) => (
               <Link

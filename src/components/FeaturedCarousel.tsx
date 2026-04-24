@@ -144,6 +144,7 @@ export default function FeaturedCarousel() {
                     alt={products[currentIndex].name}
                     className="w-full h-full object-cover"
                     referrerPolicy="no-referrer"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-bfi-red/5 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <div className="absolute top-10 left-10 bg-industrial-black text-white p-6 font-black tracking-widest text-[10px] uppercase z-10 transition-transform group-hover:scale-105">
