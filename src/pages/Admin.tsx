@@ -49,6 +49,8 @@ export default function Admin() {
     isFeatured: false,
   });
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const PRODUCTS_PER_PAGE = 10;
 
   const navigate = useNavigate();
 
@@ -186,11 +188,16 @@ export default function Admin() {
 
   const [uploadingHero, setUploadingHero] = useState(false);
   const [uploadingAbout, setUploadingAbout] = useState(false);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
 
-  const handleSettingsImageUpload = (e: React.ChangeEvent<HTMLInputElement>, field: 'heroImage' | 'aboutImage') => {
+  const handleSettingsImageUpload = (e: React.ChangeEvent<HTMLInputElement>, field: 'heroImage' | 'aboutImage' | 'logoUrl') => {
     const file = e.target.files?.[0];
     if (file) {
-      const setUploading = field === 'heroImage' ? setUploadingHero : setUploadingAbout;
+      let setUploading;
+      if (field === 'heroImage') setUploading = setUploadingHero;
+      else if (field === 'aboutImage') setUploading = setUploadingAbout;
+      else setUploading = setUploadingLogo;
+      
       setUploading(true);
       const storageRef = ref(storage, `settings/${field}_${Date.now()}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
@@ -479,40 +486,78 @@ export default function Admin() {
                   {products.length === 0 && (
                     <p className="py-12 text-center text-industrial-black/30 micro-label">Nenhum produto encontrado.</p>
                   )}
-                  {products.map((product) => (
-                    <div key={product.firestoreId} className="py-6 flex gap-6 items-center group">
-                      <div className="w-20 h-20 bg-industrial-gray overflow-hidden grayscale group-hover:grayscale-0 transition-all">
-                        <img src={product.image} alt={product.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                      </div>
-                      <div className="flex-grow">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="bg-industrial-black text-white text-[8px] font-black px-2 py-0.5 uppercase tracking-tighter">
-                            {product.id}
-                          </span>
-                          <span className="micro-label text-bfi-red">{product.category}</span>
-                          <span className="micro-label opacity-40 ml-2">| {product.industry}</span>
-                        </div>
-                        <h3 className="font-black uppercase tracking-tighter text-lg">{product.name}</h3>
-                        <p className="text-sm text-industrial-black/50 line-clamp-1">{product.description}</p>
-                      </div>
-                      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button 
-                          onClick={() => handleEdit(product)}
-                          className="p-3 border border-industrial-black/10 hover:bg-industrial-gray text-industrial-black transition-colors"
-                          title="Editar"
-                        >
-                          <Edit2 size={16} />
-                        </button>
-                        <button 
-                          onClick={() => setIsDeleting(product.firestoreId!)}
-                          className="p-3 border border-industrial-black/10 hover:bg-bfi-red hover:text-white text-industrial-black transition-colors"
-                          title="Eliminar"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                  {(() => {
+                    const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
+                    const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
+                    const paginatedProducts = products.slice(startIndex, startIndex + PRODUCTS_PER_PAGE);
+
+                    return (
+                      <>
+                        {paginatedProducts.map((product) => (
+                          <div key={product.firestoreId} className="py-6 flex gap-6 items-center group">
+                            <div className="w-20 h-20 bg-industrial-gray overflow-hidden grayscale group-hover:grayscale-0 transition-all">
+                              <img src={product.image} alt={product.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                            </div>
+                            <div className="flex-grow">
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="bg-industrial-black text-white text-[8px] font-black px-2 py-0.5 uppercase tracking-tighter">
+                                  {product.id}
+                                </span>
+                                <span className="micro-label text-bfi-red">{product.category}</span>
+                                <span className="micro-label opacity-40 ml-2">| {product.industry}</span>
+                              </div>
+                              <h3 className="font-black uppercase tracking-tighter text-lg">{product.name}</h3>
+                              <p className="text-sm text-industrial-black/50 line-clamp-1">{product.description}</p>
+                            </div>
+                            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <button 
+                                onClick={() => handleEdit(product)}
+                                className="p-3 border border-industrial-black/10 hover:bg-industrial-gray text-industrial-black transition-colors"
+                                title="Editar"
+                              >
+                                <Edit2 size={16} />
+                              </button>
+                              <button 
+                                onClick={() => setIsDeleting(product.firestoreId!)}
+                                className="p-3 border border-industrial-black/10 hover:bg-bfi-red hover:text-white text-industrial-black transition-colors"
+                                title="Eliminar"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+
+                        {totalPages > 1 && (
+                          <div className="mt-8 flex justify-center items-center gap-2">
+                            <button
+                              disabled={currentPage === 1}
+                              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                              className="px-4 py-2 border border-industrial-black/10 micro-label hover:bg-industrial-black hover:text-white transition-all disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-industrial-black"
+                            >
+                              Anterior
+                            </button>
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                              <button
+                                key={page}
+                                onClick={() => setCurrentPage(page)}
+                                className={`w-10 h-10 micro-label font-bold transition-all ${currentPage === page ? 'bg-bfi-red text-white' : 'border border-industrial-black/10 hover:bg-industrial-gray'}`}
+                              >
+                                {page}
+                              </button>
+                            ))}
+                            <button
+                              disabled={currentPage === totalPages}
+                              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                              className="px-4 py-2 border border-industrial-black/10 micro-label hover:bg-industrial-black hover:text-white transition-all disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-industrial-black"
+                            >
+                              Próximo
+                            </button>
+                          </div>
+                        )}
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
             </div>
@@ -565,14 +610,39 @@ export default function Admin() {
                   )}
                 </div>
                 <div className="space-y-2">
-                  <label className="micro-label">URL do Logótipo (Navbar/Footer)</label>
-                  <input 
-                    type="text" 
-                    value={settings.logoUrl || ""}
-                    onChange={(e) => setSettings({...settings, logoUrl: e.target.value})}
-                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
-                    placeholder="https://..."
-                  />
+                  <label className="micro-label">Logótipo (Navbar/Footer)</label>
+                  <div className="flex items-center gap-4">
+                    <div className="flex-1 relative">
+                      <input 
+                        type="text" 
+                        value={settings.logoUrl || ""}
+                        onChange={(e) => setSettings({...settings, logoUrl: e.target.value})}
+                        className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                        placeholder="https://..."
+                      />
+                    </div>
+                    <div className="relative">
+                      <input 
+                        type="file" 
+                        accept="image/*"
+                        onChange={(e) => handleSettingsImageUpload(e, 'logoUrl')}
+                        className="hidden"
+                        id="logo-upload"
+                      />
+                      <label 
+                        htmlFor="logo-upload"
+                        className="p-3 bg-industrial-gray text-industrial-black cursor-pointer hover:bg-industrial-black hover:text-white transition-all block"
+                      >
+                        <ImageIcon size={18} />
+                      </label>
+                    </div>
+                  </div>
+                  {uploadingLogo && <span className="text-xs text-bfi-red animate-pulse">A carregar...</span>}
+                  {settings.logoUrl && (
+                    <div className="mt-2 h-12 bg-industrial-gray p-2 flex items-center justify-start overflow-hidden">
+                      <img src={settings.logoUrl} alt="Logo Preview" className="h-full object-contain" referrerPolicy="no-referrer" />
+                    </div>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label className="micro-label">Email de Contacto</label>
