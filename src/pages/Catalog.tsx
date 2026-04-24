@@ -27,7 +27,7 @@ export default function Catalog() {
   const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
-  const itemsPerPage = 4;
+  const itemsPerPage = 6;
 
   useEffect(() => {
     const unsubscribe = subscribeToProducts((data) => {
@@ -331,7 +331,7 @@ export default function Catalog() {
                     onClick={() => openProductModal(product)}
                   >
                     <img 
-                      src={product.image} 
+                      src={product.images && product.images.length > 0 ? product.images[0] : product.image} 
                       alt={product.name} 
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       referrerPolicy="no-referrer"

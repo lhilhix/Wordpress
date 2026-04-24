@@ -336,12 +336,37 @@ export default function Admin() {
                     <div className="flex items-center gap-4">
                       <div className="flex-1 relative">
                         <input 
+                          type="text" 
+                          value={formData.image || ""}
+                          onChange={(e) => {
+                            const url = e.target.value;
+                            setFormData(prev => ({
+                              ...prev,
+                              image: url,
+                              images: prev.images && prev.images.length > 0 
+                                ? [url, ...prev.images.slice(1)] 
+                                : [url]
+                            }));
+                          }}
+                          className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                          placeholder="https://..."
+                        />
+                      </div>
+                      <div className="relative">
+                        <input 
                           type="file" 
                           accept="image/*"
                           onChange={handleImageUpload}
                           disabled={uploadingImage}
-                          className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none text-sm file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-industrial-gray file:text-industrial-black hover:file:bg-industrial-black/10 transition-all cursor-pointer"
+                          className="hidden"
+                          id="product-image-upload"
                         />
+                        <label 
+                          htmlFor="product-image-upload"
+                          className="p-3 bg-industrial-gray text-industrial-black cursor-pointer hover:bg-industrial-black hover:text-white transition-all block"
+                        >
+                          <ImageIcon size={18} />
+                        </label>
                       </div>
                       {uploadingImage && <span className="text-sm text-bfi-red font-medium animate-pulse whitespace-nowrap">A carregar...</span>}
                     </div>
