@@ -69,7 +69,13 @@ export const sendMessage = async (sessionId: string, content: string) => {
     const settings = await getSiteSettings();
     const products = await getProducts();
     
-    const productInfo = products.map(p => `- ${p.name} (${p.category}): ${p.description}`).join('\n');
+    const productInfo = products.map(p => `
+- Produto: ${p.name}
+  Categoria: ${p.category} | Indústria: ${p.industry}
+  Descrição: ${p.description}
+  Detalhes: ${p.detailedDescription || 'N/A'}
+  Especificações: ${p.specifications ? p.specifications.replace(/\n/g, ', ') : 'N/A'}
+`).join('\n');
     
     const systemInstruction = `
       Você é o Assistente Virtual da Plásticos Bueso, uma empresa líder em moldagem por injeção de precisão em Braga, Portugal.
