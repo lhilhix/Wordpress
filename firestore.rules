@@ -24,6 +24,7 @@ service cloud.firestore {
              data.industry is string && data.industry.size() <= 100 &&
              data.description is string && data.description.size() <= 2000 &&
              data.image is string && data.image.size() <= 1000 &&
+             (!data.has('images') || (data.images is list && data.images.size() <= 20)) &&
              (!data.has('detailedDescription') || (data.detailedDescription is string && data.detailedDescription.size() <= 5000)) &&
              (!data.has('specifications') || (data.specifications is string && data.specifications.size() <= 2000)) &&
              (!data.has('isFeatured') || data.isFeatured is bool) &&
@@ -32,7 +33,11 @@ service cloud.firestore {
     }
 
     function isValidSiteSettings(data) {
-      return data.keys().size() <= 20; 
+      return data.keys().size() <= 30 &&
+             (!data.has('chatProvider') || data.chatProvider is string) &&
+             (!data.has('chatModel') || data.chatModel is string) &&
+             (!data.has('chatApiKey') || data.chatApiKey is string) &&
+             (!data.has('chatEndpoint') || data.chatEndpoint is string);
     }
 
     // 1. Products Collection

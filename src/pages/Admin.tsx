@@ -169,7 +169,8 @@ export default function Admin() {
         isFeatured: false,
       });
     } catch (err) {
-      alert("Erro ao guardar produto.");
+      console.error("Error saving product:", err);
+      alert("Erro ao guardar produto: " + (err as Error).message);
     }
   };
 

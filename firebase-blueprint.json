@@ -11,6 +11,7 @@
         "industry": { "type": "string", "description": "Industrial sector (e.g., Automotive, Medical)" },
         "description": { "type": "string", "description": "Brief description of the product" },
         "image": { "type": "string", "description": "URL of the product image" },
+        "images": { "type": "array", "items": { "type": "string" }, "description": "List of URLs for product gallery" },
         "detailedDescription": { "type": "string", "description": "In-depth details for the product modal" },
         "specifications": { "type": "string", "description": "Technical specifications" },
         "isFeatured": { "type": "boolean", "description": "Whether the product is featured in the carousel" },
@@ -32,7 +33,11 @@
         "aboutText": { "type": "string" },
         "aboutImage": { "type": "string" },
         "servicesIntro": { "type": "string" },
-        "techCatalogUrl": { "type": "string" }
+        "techCatalogUrl": { "type": "string" },
+        "chatProvider": { "type": "string" },
+        "chatModel": { "type": "string" },
+        "chatApiKey": { "type": "string" },
+        "chatEndpoint": { "type": "string" }
       }
     },
     "ChatMessage": {
