@@ -106,25 +106,64 @@ export const sendMessage = async (sessionId: string, content: string) => {
       orderBy('timestamp', 'desc')
     ));
     
-    // Convert to Gemini format (reverse because we got desc)
-    const history = messagesSnapshot.docs.reverse().map(doc => ({
-      role: doc.data().role === 'user' ? 'user' : 'model',
-      parts: [{ text: doc.data().content }]
-    }));
-
-    // For simplicity with generateContent (not sendMessage streamline as histories can be complex to manage with Firestore sync)
-    // We use generateContent with the whole transcript as context or just the last few
+    let aiContent = "";
+    const provider = settings?.chatProvider || "google";
+    const apiKey = settings?.chatApiKey || (typeof process !== 'undefined' ? process.env.GEMINI_API_KEY : "") || "";
     
-    const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: history,
-      config: {
-        systemInstruction
+    if (provider === "openai") {
+      const endpoint = settings?.chatEndpoint || "https://api.openai.com/v1/chat/completions";
+      const model = settings?.chatModel || "gpt-4o-mini";
+      
+      const payloadMessages = [
+        { role: "system", content: systemInstruction },
+        ...messagesSnapshot.docs.reverse().map(doc => ({
+          role: doc.data().role === 'user' ? 'user' : 'assistant',
+          content: doc.data().content
+        }))
+      ];
+      
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: model,
+          messages: payloadMessages
+        })
+      });
+      
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error("OpenAI Endpoint error:", errText);
+        throw new Error(`OpenAI API error: ${res.statusText}`);
       }
-    });
+      
+      const data = await res.json();
+      aiContent = data.choices?.[0]?.message?.content || "Desculpe, não consegui obter uma resposta.";
+      
+    } else {
+      // Default to Google Gemini (GenAI SDK)
+      const customAi = new GoogleGenAI({ apiKey });
+      const model = settings?.chatModel || "gemini-3-flash-preview";
 
-    const aiContent = response.text || "Desculpe, ocorreu um erro ao processar sua resposta.";
-    
+      const history = messagesSnapshot.docs.reverse().map(doc => ({
+        role: doc.data().role === 'user' ? 'user' : 'model',
+        parts: [{ text: doc.data().content }]
+      }));
+      
+      const response = await customAi.models.generateContent({
+        model: model,
+        contents: history,
+        config: {
+          systemInstruction
+        }
+      });
+      
+      aiContent = response.text || "Desculpe, ocorreu um erro ao processar sua resposta.";
+    }
+
     // 3. Save AI response to Firestore
     await addDoc(collection(db, CHAT_SESSIONS_COLLECTION, sessionId, 'messages'), {
       role: 'model',

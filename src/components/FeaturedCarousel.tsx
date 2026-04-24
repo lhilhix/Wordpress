@@ -35,6 +35,7 @@ const Hotspot = ({ top, left, title, description }: { top: string, left: string,
 export default function FeaturedCarousel() {
   const [products, setProducts] = useState<Product[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const touchStart = useRef<number | null>(null);
 
@@ -50,10 +51,12 @@ export default function FeaturedCarousel() {
 
   const next = () => {
     setCurrentIndex((prev) => (prev + 1) % products.length);
+    setCurrentImageIndex(0);
   };
 
   const prev = () => {
     setCurrentIndex((prev) => (prev - 1 + products.length) % products.length);
+    setCurrentImageIndex(0);
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -135,17 +138,22 @@ export default function FeaturedCarousel() {
               </div>
 
               {/* Product Image */}
-              <div className="lg:col-span-7 h-full order-1 lg:order-2">
+              <div className="lg:col-span-7 h-full order-1 lg:order-2 flex flex-col gap-4">
                 <div className="relative h-full w-full bg-industrial-gray grayscale hover:grayscale-0 transition-all duration-700 overflow-hidden group">
-                  <motion.img 
-                    initial={{ scale: 1.1 }}
-                    animate={{ scale: 1 }}
-                    src={products[currentIndex].image} 
-                    alt={products[currentIndex].name}
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                    loading="lazy"
-                  />
+                  <AnimatePresence mode="wait">
+                    <motion.img 
+                      key={currentImageIndex}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      src={products[currentIndex].images && products[currentIndex].images.length > 0 ? products[currentIndex].images[currentImageIndex] : products[currentIndex].image} 
+                      alt={products[currentIndex].name}
+                      className="w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                      loading="lazy"
+                    />
+                  </AnimatePresence>
                   <div className="absolute inset-0 bg-bfi-red/5 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <div className="absolute top-10 left-10 bg-industrial-black text-white p-6 font-black tracking-widest text-[10px] uppercase z-10 transition-transform group-hover:scale-105">
                     Ref: {products[currentIndex].id}
@@ -175,6 +183,21 @@ export default function FeaturedCarousel() {
                     </div>
                   </div>
                 </div>
+
+                {/* Optional Image Gallery Thumbnails */}
+                {products[currentIndex].images && products[currentIndex].images.length > 1 && (
+                  <div className="flex gap-4 overflow-x-auto custom-scrollbar pb-2">
+                    {products[currentIndex].images.map((img, idx) => (
+                      <button
+                        key={idx}
+                        onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(idx); }}
+                        className={`flex-shrink-0 w-24 h-24 relative overflow-hidden transition-all ${currentImageIndex === idx ? 'border-2 border-bfi-red' : 'opacity-50 hover:opacity-100 grayscale hover:grayscale-0'}`}
+                      >
+                        <img src={img} alt={`Thumb ${idx}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" loading="lazy" />
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </motion.div>
           </AnimatePresence>

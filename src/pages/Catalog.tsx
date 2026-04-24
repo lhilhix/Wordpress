@@ -21,6 +21,7 @@ export default function Catalog() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
@@ -45,6 +46,11 @@ export default function Catalog() {
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
+
+  const openProductModal = (product: Product) => {
+    setSelectedProduct(product);
+    setSelectedImageIndex(0);
+  };
 
   // Prevent scroll when modal or sidebar is open
   useEffect(() => {
@@ -320,7 +326,7 @@ export default function Catalog() {
                 >
                   <div 
                     className="relative aspect-square mb-8 overflow-hidden bg-industrial-gray grayscale group-hover:grayscale-0 transition-all duration-700 cursor-pointer"
-                    onClick={() => setSelectedProduct(product)}
+                    onClick={() => openProductModal(product)}
                   >
                     <img 
                       src={product.image} 
@@ -346,7 +352,7 @@ export default function Catalog() {
                       {product.description}
                     </p>
                     <button 
-                      onClick={() => setSelectedProduct(product)}
+                      onClick={() => openProductModal(product)}
                       className="flex items-center gap-2 micro-label font-black group-hover:text-bfi-red transition-colors"
                     >
                       Especificações Técnicas <ArrowRight size={14} />
@@ -425,17 +431,40 @@ export default function Catalog() {
                   <X size={32} />
                 </button>
 
-                {/* Left: Product Image */}
-                <div className="md:w-1/2 bg-industrial-gray relative">
-                  <img 
-                    src={selectedProduct.image} 
-                    alt={selectedProduct.name} 
-                    className="w-full h-full object-cover grayscale"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute top-8 left-8 bg-bfi-red text-white p-4 font-black tracking-widest text-[10px] uppercase">
-                    Ref: {selectedProduct.id}
+                {/* Left: Product Images */}
+                <div className="md:w-1/2 bg-industrial-gray relative flex flex-col">
+                  <div className="relative flex-grow h-[60vh] md:h-auto overflow-hidden">
+                    <AnimatePresence mode="wait">
+                      <motion.img 
+                        key={selectedImageIndex}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        src={selectedProduct.images && selectedProduct.images.length > 0 ? selectedProduct.images[selectedImageIndex] : selectedProduct.image} 
+                        alt={selectedProduct.name} 
+                        className="w-full h-full object-cover"
+                        referrerPolicy="no-referrer"
+                      />
+                    </AnimatePresence>
+                    <div className="absolute top-8 left-8 z-10 bg-bfi-red text-white p-4 font-black tracking-widest text-[10px] uppercase">
+                      Ref: {selectedProduct.id}
+                    </div>
                   </div>
+                  {/* Thumbnails */}
+                  {selectedProduct.images && selectedProduct.images.length > 1 && (
+                    <div className="bg-industrial-black/5 p-4 flex gap-4 overflow-x-auto custom-scrollbar">
+                      {selectedProduct.images.map((img, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setSelectedImageIndex(idx)}
+                          className={`flex-shrink-0 w-20 h-20 relative overflow-hidden transition-all ${selectedImageIndex === idx ? 'border-2 border-bfi-red scale-105' : 'opacity-50 hover:opacity-100 grayscale hover:grayscale-0'}`}
+                        >
+                          <img src={img} alt={`Thumb ${idx}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Right: Info */}

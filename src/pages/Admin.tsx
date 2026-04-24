@@ -13,7 +13,7 @@ import {
   updateSiteSettings,
   SiteSettings
 } from "../services/productService";
-import { Plus, Edit2, Trash2, LogOut, Package, Settings, Layout, Info, Image as ImageIcon } from "lucide-react";
+import { Plus, Edit2, Trash2, LogOut, Package, Settings, Layout, Info, Image as ImageIcon, X } from "lucide-react";
 import Navbar from "../components/Navbar";
 import ConfirmationModal from "../components/ConfirmationModal";
 
@@ -43,6 +43,7 @@ export default function Admin() {
     industry: "Automóvel",
     description: "",
     image: "https://picsum.photos/seed/default/600/600",
+    images: [],
     detailedDescription: "",
     specifications: "",
     isFeatured: false,
@@ -101,7 +102,11 @@ export default function Admin() {
         },
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          setFormData(prev => ({ ...prev, image: downloadURL }));
+          setFormData(prev => ({ 
+            ...prev, 
+            image: prev.image.includes('picsum') ? downloadURL : prev.image,
+            images: [...(prev.images || []), downloadURL] 
+          }));
           setUploadingImage(false);
         }
       );
@@ -109,6 +114,17 @@ export default function Admin() {
       console.error("Error setting up upload", error);
       setUploadingImage(false);
     }
+  };
+
+  const removeImage = (indexToRemove: number) => {
+    setFormData(prev => {
+      const newImages = (prev.images || []).filter((_, index) => index !== indexToRemove);
+      return {
+        ...prev,
+        images: newImages,
+        image: newImages.length > 0 ? newImages[0] : "https://picsum.photos/seed/default/600/600"
+      };
+    });
   };
 
   const handleSeedProducts = async () => {
@@ -147,6 +163,7 @@ export default function Admin() {
         industry: "Automóvel",
         description: "",
         image: "https://picsum.photos/seed/" + Math.random() + "/600/600",
+        images: [],
         detailedDescription: "",
         specifications: "",
         isFeatured: false,
@@ -174,7 +191,8 @@ export default function Admin() {
       category: product.category,
       industry: product.industry,
       description: product.description,
-      image: product.image,
+      image: product.images && product.images.length > 0 ? product.images[0] : product.image,
+      images: product.images || (product.image ? [product.image] : []),
       detailedDescription: product.detailedDescription || "",
       specifications: product.specifications || "",
       isFeatured: product.isFeatured || false,
@@ -285,7 +303,7 @@ export default function Admin() {
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="micro-label">Imagem do Produto</label>
+                    <label className="micro-label">Imagens do Produto (Pode adicionar várias)</label>
                     <div className="flex items-center gap-4">
                       <div className="flex-1 relative">
                         <input 
@@ -298,10 +316,28 @@ export default function Admin() {
                       </div>
                       {uploadingImage && <span className="text-sm text-bfi-red font-medium animate-pulse whitespace-nowrap">A carregar...</span>}
                     </div>
-                    {formData.image && formData.image.startsWith('http') && !formData.image.includes('picsum') && (
-                       <div className="mt-2 text-xs text-industrial-black/50 overflow-hidden text-ellipsis whitespace-nowrap">
-                         URL: {formData.image}
-                       </div>
+                    {/* Image Gallery Preview */}
+                    {formData.images && formData.images.length > 0 ? (
+                      <div className="grid grid-cols-4 gap-2 mt-4">
+                        {formData.images.map((img, idx) => (
+                          <div key={idx} className="relative group w-full aspect-square bg-industrial-gray">
+                            <img src={img} alt={`Preview ${idx}`} className="w-full h-full object-cover" />
+                            <button 
+                              type="button" 
+                              onClick={() => removeImage(idx)}
+                              className="absolute top-1 right-1 bg-bfi-red text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X size={12} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      formData.image && formData.image.startsWith('http') && !formData.image.includes('picsum') && (
+                         <div className="mt-2 text-xs text-industrial-black/50 overflow-hidden text-ellipsis whitespace-nowrap">
+                           URL: {formData.image}
+                         </div>
+                      )
                     )}
                   </div>
                   <div className="space-y-2">
@@ -531,6 +567,65 @@ export default function Admin() {
                 <button type="submit" className="w-full bg-industrial-black text-white py-4 font-black uppercase tracking-widest hover:bg-bfi-red transition-all mt-4">
                   Guardar Conteúdo
                 </button>
+              </form>
+            </div>
+
+            {/* AI AppSettings */}
+            <div className="bg-white p-8 shadow-xl lg:col-span-2">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-10 h-10 bg-industrial-black text-white flex items-center justify-center">
+                  <span className="font-black">AI</span>
+                </div>
+                <h2 className="text-xl font-black uppercase">Configurações Chat IA</h2>
+              </div>
+              
+              <form onSubmit={handleSettingsSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="micro-label">Fornecedor (Provider)*</label>
+                  <select 
+                    value={settings.chatProvider || "google"}
+                    onChange={(e) => setSettings({...settings, chatProvider: e.target.value})}
+                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none bg-transparent"
+                  >
+                    <option value="google">Google Gemini (GenAI SDK)</option>
+                    <option value="openai">OpenAI Compatível (Fetch)</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="micro-label">Modelo</label>
+                  <input 
+                    type="text" 
+                    value={settings.chatModel || ""}
+                    onChange={(e) => setSettings({...settings, chatModel: e.target.value})}
+                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                    placeholder="Ex: gemini-3-flash-preview ou gpt-4o-mini"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="micro-label">Chave API (Opcional se usar Env)</label>
+                  <input 
+                    type="password" 
+                    value={settings.chatApiKey || ""}
+                    onChange={(e) => setSettings({...settings, chatApiKey: e.target.value})}
+                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                    placeholder="sk-..."
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="micro-label">Endpoint (Para OpenAI Compatível)</label>
+                  <input 
+                    type="text" 
+                    value={settings.chatEndpoint || ""}
+                    onChange={(e) => setSettings({...settings, chatEndpoint: e.target.value})}
+                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                    placeholder="https://api.openai.com/v1/chat/completions"
+                  />
+                </div>
+                <div className="md:col-span-2 mt-4">
+                  <button type="submit" className="w-full bg-industrial-black text-white py-4 font-black uppercase tracking-widest hover:bg-bfi-red transition-all">
+                    Guardar Configurações IA
+                  </button>
+                </div>
               </form>
             </div>
           </div>

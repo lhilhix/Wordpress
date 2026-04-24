@@ -20,6 +20,7 @@ export interface Product {
   industry: string;
   description: string;
   image: string;
+  images?: string[]; // Array of image URLs
   isFeatured?: boolean;
   detailedDescription?: string;
   specifications?: string;
@@ -86,6 +87,10 @@ export interface SiteSettings {
   aboutImage?: string;
   servicesIntro?: string;
   techCatalogUrl?: string;
+  chatProvider?: string;
+  chatModel?: string;
+  chatApiKey?: string;
+  chatEndpoint?: string;
 }
 
 export const getSiteSettings = async (): Promise<SiteSettings | null> => {
