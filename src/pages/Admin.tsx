@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../lib/firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { auth, storage } from "../lib/firebase";
 import { useNavigate } from "react-router-dom";
 import { 
   subscribeToProducts, 
@@ -23,11 +24,14 @@ export default function Admin() {
   const [activeTab, setActiveTab] = useState<AdminTab>("products");
   const [products, setProducts] = useState<Product[]>([]);
   const [settings, setSettings] = useState<SiteSettings>({
-    heroImage: "",
+    heroImage: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070",
     logoUrl: "",
-    aboutText: "",
+    contactEmail: "geral@bueso.pt",
+    contactPhone: "+351 253 695 164",
+    address: "R. António Alberto de Sousa 38 Pav.2, 4705-132 Braga, Portugal",
+    aboutText: "Fundada com a missão de transformar materiais, a Plásticos Bueso é sinónimo de inovação na indústria de plásticos. Com anos de experiência, a nossa jornada é marcada pela qualidade e pela procura constante por soluções eficientes. O nosso compromisso com a sustentabilidade e a resiliência reflete-se em cada etapa do nosso processo produtivo.",
     aboutImage: "",
-    servicesIntro: "",
+    servicesIntro: "Especializamo-nos em soluções inovadoras para a indústria de transformação de plásticos. Os nossos serviços abrangem injeção, cromagem e metalização a vácuo, respondendo aos mais altos padrões de exigência do setor automóvel, médico e eletrónico.",
   });
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState<string | null>(null);
@@ -41,7 +45,9 @@ export default function Admin() {
     image: "https://picsum.photos/seed/default/600/600",
     detailedDescription: "",
     specifications: "",
+    isFeatured: false,
   });
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const navigate = useNavigate();
 
@@ -75,6 +81,56 @@ export default function Admin() {
     navigate("/login");
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploadingImage(true);
+      const storageRef = ref(storage, 'products/' + Date.now() + '_' + file.name);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+           // Can monitor progress here if needed
+        },
+        (error) => {
+          console.error("Upload error", error);
+          setUploadingImage(false);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setFormData(prev => ({ ...prev, image: downloadURL }));
+          setUploadingImage(false);
+        }
+      );
+    } catch (error) {
+      console.error("Error setting up upload", error);
+      setUploadingImage(false);
+    }
+  };
+
+  const handleSeedProducts = async () => {
+    try {
+      const staticProducts: Omit<Product, 'firestoreId'>[] = [
+        { id: "PB-001", name: "Conjunto de Engrenagens de Precisão", category: "Engrenagens", industry: "Automóvel", description: "Engrenagens POM de alta durabilidade para sistemas de transmissão.", image: "https://picsum.photos/seed/gear/600/600", detailedDescription: "Produzidas com alta precisão e baixo atrito para máxima eficiência energética.", specifications: "Material: POM (Poliacetal)\nTolerância: ±0.01mm", isFeatured: true },
+        { id: "PB-002", name: "Caixa Estéril", category: "Caixas", industry: "Médico", description: "Caixa de policarbonato de grau médico para dispositivos de diagnóstico.", image: "https://picsum.photos/seed/medical/600/600", detailedDescription: "Desenhado especificamente para aplicações médicas críticas e de diagnóstico rápido.", specifications: "Material: PC de Grau Médico\nEsterilizável: Sim (Autoclave, EtO)", isFeatured: true },
+        { id: "PB-003", name: "Hub de Conectores", category: "Conectores", industry: "Eletrónica", description: "Conectores PA66 retardadores de chama para uso industrial.", image: "https://picsum.photos/seed/connector/600/600", detailedDescription: "Alta resistência a temperaturas exigentes em ambientes industriais de eletrónica de potência.", specifications: "Material: PA66\nÍndice de Retardamento: V-0 (UL94)", isFeatured: false },
+        { id: "PB-004", name: "Acabamento de Painel", category: "Acabamentos", industry: "Automóvel", description: "Acabamento estético ABS/PC com acabamento soft-touch.", image: "https://picsum.photos/seed/trim/600/600", detailedDescription: "Moldagem de dois componentes de topo para viaturas elétricas do segmento premium.", specifications: "Material: ABS/PC\nRevestimento: TPE Soft-touch", isFeatured: true },
+        { id: "PB-005", name: "Êmbolo de Seringa", category: "Componentes Precisão", industry: "Médico", description: "Êmbolos de PP de alta precisão para seringas médicas.", image: "https://picsum.photos/seed/syringe/600/600", detailedDescription: "Elevada reprodutibilidade num ambiente de sala limpa (ISO 7).", specifications: "Material: Polipropileno (PP)\nAmbiente: Sala Limpa Classe 10000", isFeatured: false },
+        { id: "PB-006", name: "Caixa de Proteção", category: "Caixas", industry: "Bens de Consumo", description: "Caixas de ABS resistentes ao impacto para dispositivos domésticos inteligentes.", image: "https://picsum.photos/seed/case/600/600", detailedDescription: "Invólucro otimizado contra impactos mecânicos para eletrónica de consumo, garantindo durabilidade.", specifications: "Material: ABS Resistente ao Impacto\nResistência: IK08", isFeatured: false },
+      ];
+      for (const product of staticProducts) {
+        await addProduct(product);
+      }
+      alert("Produtos adicionados com sucesso!");
+    } catch (e) {
+      console.error(e);
+      alert("Erro ao adicionar: " + (e as Error).message);
+    }
+  };
+
   const handleProductSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -93,6 +149,7 @@ export default function Admin() {
         image: "https://picsum.photos/seed/" + Math.random() + "/600/600",
         detailedDescription: "",
         specifications: "",
+        isFeatured: false,
       });
     } catch (err) {
       alert("Erro ao guardar produto.");
@@ -120,6 +177,7 @@ export default function Admin() {
       image: product.image,
       detailedDescription: product.detailedDescription || "",
       specifications: product.specifications || "",
+      isFeatured: product.isFeatured || false,
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -227,14 +285,24 @@ export default function Admin() {
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="micro-label">URL da Imagem</label>
-                    <input 
-                      required
-                      type="text" 
-                      value={formData.image}
-                      onChange={(e) => setFormData({...formData, image: e.target.value})}
-                      className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
-                    />
+                    <label className="micro-label">Imagem do Produto</label>
+                    <div className="flex items-center gap-4">
+                      <div className="flex-1 relative">
+                        <input 
+                          type="file" 
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          disabled={uploadingImage}
+                          className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none text-sm file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-industrial-gray file:text-industrial-black hover:file:bg-industrial-black/10 transition-all cursor-pointer"
+                        />
+                      </div>
+                      {uploadingImage && <span className="text-sm text-bfi-red font-medium animate-pulse whitespace-nowrap">A carregar...</span>}
+                    </div>
+                    {formData.image && formData.image.startsWith('http') && !formData.image.includes('picsum') && (
+                       <div className="mt-2 text-xs text-industrial-black/50 overflow-hidden text-ellipsis whitespace-nowrap">
+                         URL: {formData.image}
+                       </div>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <label className="micro-label">Descrição Curta</label>
@@ -247,6 +315,19 @@ export default function Admin() {
                   </div>
 
                   <div className="space-y-4 pt-4 border-t border-industrial-black/5">
+                    <div className="flex items-center gap-3">
+                      <input 
+                        type="checkbox"
+                        id="isFeatured"
+                        checked={formData.isFeatured || false}
+                        onChange={(e) => setFormData({...formData, isFeatured: e.target.checked})}
+                        className="w-5 h-5 accent-bfi-red"
+                      />
+                      <label htmlFor="isFeatured" className="micro-label cursor-pointer text-industrial-black">
+                        Destaque na Página Inicial (Aparece no Carrossel)
+                      </label>
+                    </div>
+
                     <div className="space-y-2">
                       <label className="micro-label">Descrição Detalhada (Aparece no Modal)</label>
                       <textarea 
@@ -292,9 +373,17 @@ export default function Admin() {
             {/* List Column */}
             <div className="lg:col-span-2">
               <div className="bg-white p-8 shadow-xl">
-                <h2 className="text-xl font-black uppercase mb-6 flex items-center gap-2">
-                  <Package size={20} /> Produtos Existentes ({products.length})
-                </h2>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-black uppercase flex items-center gap-2">
+                    <Package size={20} /> Produtos Existentes ({products.length})
+                  </h2>
+                  <button 
+                    onClick={handleSeedProducts}
+                    className="micro-label text-bfi-red border border-bfi-red/20 px-3 py-1 hover:bg-bfi-red hover:text-white transition-colors"
+                  >
+                    Carregar Exemplos
+                  </button>
+                </div>
                 
                 <div className="divide-y divide-industrial-black/5">
                   {products.length === 0 && (

@@ -18,9 +18,9 @@ export default function ContactSection() {
               </div>
               <div>
                 <div className="micro-label mb-1">Localização</div>
-                <p className="text-lg font-bold mb-2">Rua Industrial de Braga, 4700-000 Braga, Portugal</p>
+                <p className="text-lg font-bold mb-2">{settings?.address || "R. António Alberto de Sousa 38 Pav.2, 4705-132 Braga, Portugal"}</p>
                 <a 
-                  href="https://www.google.com/maps/search/?api=1&query=Rua+Industrial+de+Braga+Portugal" 
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings?.address || "R. António Alberto de Sousa 38, Braga, Portugal")}`} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-bfi-red font-black text-xs uppercase tracking-widest hover:text-industrial-black transition-colors"
@@ -47,7 +47,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <div className="micro-label mb-1">Email</div>
-                <p className="text-lg font-bold">{settings?.contactEmail || "contacto@plasticosbueso.pt"}</p>
+                <p className="text-lg font-bold">{settings?.contactEmail || "geral@bueso.pt"}</p>
                 <p className="text-sm text-industrial-black/60">Geral e Orçamentos</p>
               </div>
             </div>

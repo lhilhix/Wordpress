@@ -40,7 +40,8 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 bg-white border-b border-industrial-black/10">
+      <header className="h-20">
+        <nav className="fixed w-full top-0 z-50 bg-white border-b border-industrial-black/10">
         <div className="max-w-screen-2xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 group">
             {settings?.logoUrl ? (
@@ -117,6 +118,7 @@ export default function Navbar() {
           </motion.div>
         )}
       </nav>
+      </header>
 
       <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
     </>

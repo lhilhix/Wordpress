@@ -10,9 +10,7 @@ service cloud.firestore {
     function isSignedIn() { return request.auth != null; }
     function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
     function isAdmin() { 
-      // Auth tokens contain email and email_verified
-      return isSignedIn() && 
-             (request.auth.token.email == 'davidmbueso@gmail.com' && request.auth.token.email_verified == true);
+      return isSignedIn() && request.auth.token.email == 'davidmbueso@gmail.com';
     }
     function incoming() { return request.resource.data; }
     function existing() { return resource.data; }
@@ -27,7 +25,10 @@ service cloud.firestore {
              data.description is string && data.description.size() <= 2000 &&
              data.image is string && data.image.size() <= 1000 &&
              (!data.has('detailedDescription') || (data.detailedDescription is string && data.detailedDescription.size() <= 5000)) &&
-             (!data.has('specifications') || (data.specifications is string && data.specifications.size() <= 2000));
+             (!data.has('specifications') || (data.specifications is string && data.specifications.size() <= 2000)) &&
+             (!data.has('isFeatured') || data.isFeatured is bool) &&
+             (!data.has('createdAt') || data.createdAt is timestamp) &&
+             (!data.has('updatedAt') || data.updatedAt is timestamp);
     }
 
     function isValidSiteSettings(data) {

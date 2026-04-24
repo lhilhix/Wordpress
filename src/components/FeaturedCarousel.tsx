@@ -12,8 +12,9 @@ export default function FeaturedCarousel() {
 
   useEffect(() => {
     const unsubscribe = subscribeToProducts((data) => {
-      // Pick the last 5 products as "featured" for now, or just the whole list if short
-      setProducts(data.slice(-5).reverse());
+      // Filter for featured products
+      const featured = data.filter(product => product.isFeatured === true);
+      setProducts(featured);
       setLoading(false);
     });
     return () => unsubscribe();

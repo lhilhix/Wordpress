@@ -13,6 +13,7 @@
         "image": { "type": "string", "description": "URL of the product image" },
         "detailedDescription": { "type": "string", "description": "In-depth details for the product modal" },
         "specifications": { "type": "string", "description": "Technical specifications" },
+        "isFeatured": { "type": "boolean", "description": "Whether the product is featured in the carousel" },
         "createdAt": { "type": "string", "format": "date-time" },
         "updatedAt": { "type": "string", "format": "date-time" }
       },

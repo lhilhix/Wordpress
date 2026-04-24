@@ -59,6 +59,60 @@ export default function About() {
           </div>
         </div>
 
+        {/* Certifications and Partnerships Section */}
+        <section className="mb-32">
+          <div className="micro-label mb-12 text-bfi-red">Certificações e Parcerias</div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="border border-industrial-black/10 p-10 hover:border-bfi-red transition-colors group relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                <Award size={100} />
+              </div>
+              <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">Certificação ISO 9001:2015</h3>
+              <p className="text-sm text-industrial-black/60 leading-relaxed">
+                Sistema de Gestão da Qualidade implementado em todas as nossas linhas operacionais, garantindo uma resposta eficiente, melhoria contínua e foco integral na satisfação do cliente.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="border border-industrial-black/10 p-10 hover:border-bfi-red transition-colors group relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                <Award size={100} />
+              </div>
+              <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">PME Excelência</h3>
+              <p className="text-sm text-industrial-black/60 leading-relaxed">
+                Reconhecimento oficial do IAPMEI pelas nossas robustas condições financeiras, estratégias de desenvolvimento contínuo e papel de destaque no tecido empresarial nacional.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="border border-industrial-black/10 p-10 hover:border-bfi-red transition-colors group relative overflow-hidden bg-industrial-black text-white"
+            >
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <Globe size={100} />
+              </div>
+              <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">Parcerias Estratégicas</h3>
+              <p className="text-sm text-white/70 leading-relaxed">
+                Colaboração contínua com entidades tecnológicas e académicas locais como a <strong>Universidade do Minho (PIEP)</strong> na inovação e desenvolvimento de novos polímeros sustentáveis e eco-componentes avançados.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
         {/* Timeline Section */}
         <section className="mb-32">
           <div className="micro-label mb-12 text-bfi-red">O Nosso Percurso</div>
