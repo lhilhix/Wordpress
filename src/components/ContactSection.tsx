@@ -95,6 +95,30 @@ export default function ContactSection() {
           </button>
         </motion.form>
       </div>
+
+      <motion.div 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mt-24 w-full h-[500px] bg-industrial-gray grayscale hover:grayscale-0 transition-all duration-1000 overflow-hidden shadow-2xl relative group"
+      >
+        <div className="absolute inset-0 border-8 border-white pointer-events-none z-10"></div>
+        <iframe 
+          src={`https://maps.google.com/maps?q=${encodeURIComponent(settings?.address || "R. António Alberto de Sousa 38, Braga, Portugal")}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+          width="100%" 
+          height="100%" 
+          style={{ border: 0 }} 
+          allowFullScreen={true} 
+          loading="lazy" 
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Localização Plásticos Bueso"
+          className="w-full h-full"
+        />
+        <div className="absolute bottom-12 right-12 bg-bfi-red text-white p-6 z-20 pointer-events-none transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+          <p className="micro-label text-white/80 mb-1">Fábrica e Escritórios</p>
+          <p className="font-bold uppercase tracking-tighter">Plásticos Bueso lda.</p>
+        </div>
+      </motion.div>
     </section>
   );
 }
