@@ -256,6 +256,9 @@ export default function Catalog() {
                 exit={{ x: "100%" }}
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
                 className="relative bg-white w-full max-w-sm h-full shadow-2xl flex flex-col"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Filtros Técnicos"
               >
                 <div className="p-8 border-b border-industrial-black/10 flex justify-between items-center">
                   <div className="flex items-center gap-3">
@@ -265,6 +268,7 @@ export default function Catalog() {
                   <button 
                     onClick={() => setIsFilterSidebarOpen(false)}
                     className="hover:text-bfi-red transition-colors"
+                    aria-label="Fechar filtros"
                   >
                     <X size={24} />
                   </button>
@@ -381,6 +385,7 @@ export default function Catalog() {
                     <button 
                       onClick={() => openProductModal(product)}
                       className="flex items-center gap-2 micro-label font-black group-hover:text-bfi-red transition-colors mt-auto pt-2"
+                      aria-label={`Ver especificações técnicas para ${product.name}`}
                     >
                       Especificações Técnicas <ArrowRight size={14} className="shrink-0" />
                     </button>
@@ -407,16 +412,19 @@ export default function Catalog() {
               onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
               className={`p-4 border border-industrial-black/10 transition-all ${currentPage === 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-industrial-black hover:text-white'}`}
+              aria-label="Página anterior"
             >
               <ChevronLeft size={20} />
             </button>
             
-            <div className="flex gap-2">
+            <div className="flex gap-2" role="group" aria-label="Paginação">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                 <button
                   key={page}
                   onClick={() => handlePageChange(page)}
                   className={`w-12 h-12 micro-label flex items-center justify-center transition-all ${currentPage === page ? 'bg-bfi-red text-white' : 'border border-industrial-black/10 hover:bg-industrial-gray'}`}
+                  aria-label={`Ir para a página ${page}`}
+                  aria-current={currentPage === page ? "page" : undefined}
                 >
                   {page}
                 </button>
@@ -427,6 +435,7 @@ export default function Catalog() {
               onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
               className={`p-4 border border-industrial-black/10 transition-all ${currentPage === totalPages ? 'opacity-30 cursor-not-allowed' : 'hover:bg-industrial-black hover:text-white'}`}
+              aria-label="Página seguinte"
             >
               <ChevronRight size={20} />
             </button>
@@ -450,10 +459,14 @@ export default function Catalog() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 className="relative bg-white w-full max-w-5xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh] rounded-none"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="product-modal-title"
               >
                 <button 
                   onClick={() => setSelectedProduct(null)}
                   className="absolute top-6 right-6 text-industrial-black/20 hover:text-bfi-red transition-all z-10"
+                  aria-label="Fechar modal"
                 >
                   <X size={32} />
                 </button>
@@ -487,8 +500,10 @@ export default function Catalog() {
                           key={idx}
                           onClick={() => setSelectedImageIndex(idx)}
                           className={`flex-shrink-0 w-20 h-20 relative overflow-hidden transition-all ${selectedImageIndex === idx ? 'border-2 border-bfi-red scale-105' : 'opacity-50 hover:opacity-100 grayscale hover:grayscale-0'}`}
+                          aria-label={`Ver imagem ${idx + 1} de ${selectedProduct.name}`}
+                          aria-pressed={selectedImageIndex === idx}
                         >
-                          <LazyImage src={img} alt={`Thumb ${idx}`} className="w-full h-full" referrerPolicy="no-referrer" />
+                          <LazyImage src={img} alt={`Miniatura ${idx + 1} de ${selectedProduct.name}`} className="w-full h-full" referrerPolicy="no-referrer" />
                         </button>
                       ))}
                     </div>
@@ -502,11 +517,12 @@ export default function Catalog() {
                     <button 
                       onClick={() => setSelectedProduct(null)}
                       className="md:hidden text-industrial-black/40 hover:text-bfi-red"
+                      aria-label="Fechar modal"
                     >
                       <X size={24} />
                     </button>
                   </div>
-                  <h2 className="display-medium mb-8">{selectedProduct.name}</h2>
+                  <h2 id="product-modal-title" className="display-medium mb-8">{selectedProduct.name}</h2>
                   
                   <div className="space-y-10">
                     <section>
