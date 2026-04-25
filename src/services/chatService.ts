@@ -9,7 +9,7 @@ import {
   setDoc,
   getDocs
 } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { db } from '../firebase';
 import { GoogleGenAI } from "@google/genai";
 import { getSiteSettings, getProducts } from './productService';
 

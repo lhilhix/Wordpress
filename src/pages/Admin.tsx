@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { auth, storage } from "../lib/firebase";
+import { auth, storage } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { 
   subscribeToProducts, 
@@ -94,7 +94,7 @@ export default function Admin() {
     try {
       setUploadingImage(true);
       const uploadPromises = Array.from(files).map(async (file: File) => {
-        const storageRef = ref(storage, 'imagens/prodrucimages/' + Date.now() + '_' + file.name);
+        const storageRef = ref(storage, 'images/products/' + Date.now() + '_' + file.name);
         const uploadTask = uploadBytesResumable(storageRef, file);
 
         return new Promise<string>((resolve, reject) => {
@@ -210,7 +210,7 @@ export default function Admin() {
       else setUploading = setUploadingLogo;
       
       setUploading(true);
-      const storageRef = ref(storage, `imagens/${field}_${Date.now()}`);
+      const storageRef = ref(storage, `images/${field}_${Date.now()}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on(
