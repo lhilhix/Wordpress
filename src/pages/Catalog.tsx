@@ -444,7 +444,8 @@ export default function Catalog() {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
                         src={selectedProduct.images && selectedProduct.images.length > 0 ? selectedProduct.images[selectedImageIndex] : selectedProduct.image} 
-                        alt={selectedProduct.name} 
+                        alt={selectedProduct.name}
+                        title={selectedProduct.name}
                         className="w-full h-full object-cover"
                         referrerPolicy="no-referrer"
                       />

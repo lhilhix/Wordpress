@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -43,7 +43,7 @@ export default function Navbar() {
       <header className="h-20">
         <nav className="fixed w-full top-0 z-50 bg-white border-b border-industrial-black/10">
         <div className="max-w-screen-2xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 group">
+          <Link to="/" className="flex items-center gap-2 group relative z-50">
             {settings?.logoUrl ? (
               <img src={settings.logoUrl} alt="Plásticos Bueso" className="h-8 w-auto object-contain" referrerPolicy="no-referrer" />
             ) : (
@@ -51,8 +51,11 @@ export default function Navbar() {
                 <div className="w-8 h-8 bg-bfi-red flex items-center justify-center text-white font-black text-xl group-hover:bg-industrial-black transition-colors">
                   B
                 </div>
-                <span className="font-black text-2xl tracking-tighter uppercase">
+                <span className="font-black text-2xl tracking-tighter uppercase hidden sm:block">
                   Plásticos Bueso
+                </span>
+                <span className="font-black text-xl tracking-tighter uppercase sm:hidden">
+                  P. Bueso
                 </span>
               </>
             )}
@@ -82,7 +85,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden relative z-50 text-industrial-black hover:text-bfi-red transition-colors"
+            className="md:hidden relative z-[60] text-industrial-black hover:text-bfi-red transition-colors"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -90,45 +93,49 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Nav Overlay */}
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-industrial-black/50 z-40 md:hidden backdrop-blur-sm"
-          />
-        )}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 bg-industrial-black/50 z-40 md:hidden backdrop-blur-sm"
+            />
+          )}
+        </AnimatePresence>
 
-        {/* Mobile Nav Menu */}
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="md:hidden absolute top-20 left-0 w-full bg-white border-b border-industrial-black/10 p-6 flex flex-col gap-6 shadow-2xl z-50"
-          >
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.href}
-                className={`micro-label text-lg ${isActive(link.href) ? "text-bfi-red" : ""}`}
-                onClick={() => handleLinkClick(link.href)}
-              >
-                {link.name}
-              </Link>
-            ))}
-            <button 
-              onClick={() => {
-                setIsOpen(false);
-                setIsQuoteOpen(true);
-              }}
-              className="bg-bfi-red text-white px-6 py-4 font-bold text-sm uppercase tracking-widest"
+        {/* Mobile Nav Menu (Dropdown) */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="md:hidden absolute top-20 left-0 w-full bg-white border-b border-industrial-black/10 p-6 flex flex-col gap-6 shadow-2xl z-50"
             >
-              Get a Quote
-            </button>
-          </motion.div>
-        )}
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className={`micro-label text-lg ${isActive(link.href) ? "text-bfi-red" : ""}`}
+                  onClick={() => handleLinkClick(link.href)}
+                >
+                  {link.name}
+                </Link>
+              ))}
+              <button 
+                onClick={() => {
+                  setIsOpen(false);
+                  setIsQuoteOpen(true);
+                }}
+                className="bg-bfi-red text-white px-6 py-4 font-bold text-sm uppercase tracking-widest"
+              >
+                Get a Quote
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
       </header>
 
