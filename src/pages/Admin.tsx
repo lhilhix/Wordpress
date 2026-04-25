@@ -32,6 +32,9 @@ export default function Admin() {
     aboutText: "Fundada com a missão de transformar materiais, a Plásticos Bueso é sinónimo de inovação na indústria de plásticos. Com anos de experiência, a nossa jornada é marcada pela qualidade e pela procura constante por soluções eficientes. O nosso compromisso com a sustentabilidade e a resiliência reflete-se em cada etapa do nosso processo produtivo.",
     aboutImage: "",
     servicesIntro: "Especializamo-nos em soluções inovadoras para a indústria de transformação de plásticos. Os nossos serviços abrangem injeção, cromagem e metalização a vácuo, respondendo aos mais altos padrões de exigência do setor automóvel, médico e eletrónico.",
+    metaTitle: "Plásticos Bueso | Inovação em Moldagem por Injeção",
+    metaDescription: "Especialistas em injeção de plásticos, cromagem e metalização a vácuo para as indústrias automóvel, médica e eletrónica.",
+    metaKeywords: "injeção de plásticos, moldagem, metalização vácuo, braga, portugal",
   });
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState<string | null>(null);
@@ -85,35 +88,43 @@ export default function Admin() {
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
     try {
       setUploadingImage(true);
-      const storageRef = ref(storage, 'products/' + Date.now() + '_' + file.name);
-      const uploadTask = uploadBytesResumable(storageRef, file);
+      const uploadPromises = Array.from(files).map(async (file: File) => {
+        const storageRef = ref(storage, 'products/' + Date.now() + '_' + file.name);
+        const uploadTask = uploadBytesResumable(storageRef, file);
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-           // Can monitor progress here if needed
-        },
-        (error) => {
-          console.error("Upload error", error);
-          setUploadingImage(false);
-        },
-        async () => {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          setFormData(prev => ({ 
-            ...prev, 
-            image: prev.image.includes('picsum') ? downloadURL : prev.image,
-            images: [...(prev.images || []), downloadURL] 
-          }));
-          setUploadingImage(false);
-        }
-      );
+        return new Promise<string>((resolve, reject) => {
+          uploadTask.on(
+            "state_changed",
+            null,
+            (error) => reject(error),
+            async () => {
+              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+              resolve(downloadURL);
+            }
+          );
+        });
+      });
+
+      const uploadedUrls = await Promise.all(uploadPromises);
+      
+      setFormData(prev => {
+        const currentImages = prev.images || [];
+        const newImages = [...currentImages, ...uploadedUrls];
+        return { 
+          ...prev, 
+          image: prev.image.includes('picsum') && newImages.length > 0 ? newImages[0] : prev.image,
+          images: newImages 
+        };
+      });
+      setUploadingImage(false);
     } catch (error) {
-      console.error("Error setting up upload", error);
+      console.error("Error during multiple upload", error);
+      alert("Erro ao carregar algumas imagens.");
       setUploadingImage(false);
     }
   };
@@ -363,6 +374,7 @@ export default function Admin() {
                         <input 
                           type="file" 
                           accept="image/*"
+                          multiple
                           onChange={handleImageUpload}
                           disabled={uploadingImage}
                           className="hidden"
@@ -679,70 +691,116 @@ export default function Admin() {
             </div>
 
             {/* Content Settings */}
-            <div className="bg-white p-8 shadow-xl">
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 bg-industrial-black text-white flex items-center justify-center">
-                  <Info size={20} />
-                </div>
-                <h2 className="text-xl font-black uppercase">Sobre Nós & Serviços</h2>
-              </div>
-              
-              <form onSubmit={handleSettingsSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <label className="micro-label">Texto "Sobre Nós"</label>
-                  <textarea 
-                    value={settings.aboutText || ""}
-                    onChange={(e) => setSettings({...settings, aboutText: e.target.value})}
-                    className="w-full border border-industrial-black/10 p-3 focus:border-bfi-red outline-none min-h-[120px] resize-none"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="micro-label">Imagem "Sobre Nós"</label>
-                  <div className="flex items-center gap-4">
-                    <div className="flex-1 relative">
-                      <input 
-                        type="text" 
-                        value={settings.aboutImage || ""}
-                        onChange={(e) => setSettings({...settings, aboutImage: e.target.value})}
-                        className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
-                        placeholder="https://..."
-                      />
-                    </div>
-                    <div className="relative">
-                      <input 
-                        type="file" 
-                        accept="image/*"
-                        onChange={(e) => handleSettingsImageUpload(e, 'aboutImage')}
-                        className="hidden"
-                        id="about-upload"
-                      />
-                      <label 
-                        htmlFor="about-upload"
-                        className="p-3 bg-industrial-gray text-industrial-black cursor-pointer hover:bg-industrial-black hover:text-white transition-all block"
-                      >
-                        <ImageIcon size={18} />
-                      </label>
-                    </div>
+            <div className="space-y-12">
+              <div className="bg-white p-8 shadow-xl">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-10 h-10 bg-industrial-black text-white flex items-center justify-center">
+                    <Info size={20} />
                   </div>
-                  {uploadingAbout && <span className="text-xs text-bfi-red animate-pulse">A carregar...</span>}
-                  {settings.aboutImage && (
-                    <div className="mt-2 w-full aspect-square max-w-[200px] bg-industrial-gray overflow-hidden">
-                      <img src={settings.aboutImage} alt="About Preview" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  <h2 className="text-xl font-black uppercase">Sobre Nós & Serviços</h2>
+                </div>
+                
+                <form onSubmit={handleSettingsSubmit} className="space-y-6">
+                  {/* ... same as before but wrapped ... */}
+                  <div className="space-y-2">
+                    <label className="micro-label">Texto "Sobre Nós"</label>
+                    <textarea 
+                      value={settings.aboutText || ""}
+                      onChange={(e) => setSettings({...settings, aboutText: e.target.value})}
+                      className="w-full border border-industrial-black/10 p-3 focus:border-bfi-red outline-none min-h-[120px] resize-none"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="micro-label">Imagem "Sobre Nós"</label>
+                    <div className="flex items-center gap-4">
+                      <div className="flex-1 relative">
+                        <input 
+                          type="text" 
+                          value={settings.aboutImage || ""}
+                          onChange={(e) => setSettings({...settings, aboutImage: e.target.value})}
+                          className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                          placeholder="https://..."
+                        />
+                      </div>
+                      <div className="relative">
+                        <input 
+                          type="file" 
+                          accept="image/*"
+                          onChange={(e) => handleSettingsImageUpload(e, 'aboutImage')}
+                          className="hidden"
+                          id="about-upload"
+                        />
+                        <label 
+                          htmlFor="about-upload"
+                          className="p-3 bg-industrial-gray text-industrial-black cursor-pointer hover:bg-industrial-black hover:text-white transition-all block"
+                        >
+                          <ImageIcon size={18} />
+                        </label>
+                      </div>
                     </div>
-                  )}
+                    {uploadingAbout && <span className="text-xs text-bfi-red animate-pulse">A carregar...</span>}
+                    {settings.aboutImage && (
+                      <div className="mt-2 w-full aspect-square max-w-[200px] bg-industrial-gray overflow-hidden">
+                        <img src={settings.aboutImage} alt="About Preview" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <label className="micro-label">Texto Introdução Serviços</label>
+                    <textarea 
+                      value={settings.servicesIntro || ""}
+                      onChange={(e) => setSettings({...settings, servicesIntro: e.target.value})}
+                      className="w-full border border-industrial-black/10 p-3 focus:border-bfi-red outline-none min-h-[80px] resize-none"
+                    />
+                  </div>
+                  <button type="submit" className="w-full bg-industrial-black text-white py-4 font-black uppercase tracking-widest hover:bg-bfi-red transition-all mt-4">
+                    Guardar Conteúdo
+                  </button>
+                </form>
+              </div>
+
+              {/* SEO Settings */}
+              <div className="bg-white p-8 shadow-xl">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-10 h-10 bg-industrial-black text-white flex items-center justify-center text-xs font-black">
+                    SEO
+                  </div>
+                  <h2 className="text-xl font-black uppercase">Otimização (SEO)</h2>
                 </div>
-                <div className="space-y-2">
-                  <label className="micro-label">Texto Introdução Serviços</label>
-                  <textarea 
-                    value={settings.servicesIntro || ""}
-                    onChange={(e) => setSettings({...settings, servicesIntro: e.target.value})}
-                    className="w-full border border-industrial-black/10 p-3 focus:border-bfi-red outline-none min-h-[80px] resize-none"
-                  />
-                </div>
-                <button type="submit" className="w-full bg-industrial-black text-white py-4 font-black uppercase tracking-widest hover:bg-bfi-red transition-all mt-4">
-                  Guardar Conteúdo
-                </button>
-              </form>
+                
+                <form onSubmit={handleSettingsSubmit} className="space-y-6">
+                  <div className="space-y-2">
+                    <label className="micro-label">Título do Site (Meta Title)</label>
+                    <input 
+                      type="text" 
+                      value={settings.metaTitle || ""}
+                      onChange={(e) => setSettings({...settings, metaTitle: e.target.value})}
+                      className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="micro-label">Descrição (Meta Description)</label>
+                    <textarea 
+                      value={settings.metaDescription || ""}
+                      onChange={(e) => setSettings({...settings, metaDescription: e.target.value})}
+                      className="w-full border border-industrial-black/10 p-3 focus:border-bfi-red outline-none min-h-[80px] resize-none"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="micro-label">Palavras-Chave (Meta Keywords)</label>
+                    <input 
+                      type="text" 
+                      value={settings.metaKeywords || ""}
+                      onChange={(e) => setSettings({...settings, metaKeywords: e.target.value})}
+                      className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                      placeholder="injecção, plásticos, moldes..."
+                    />
+                  </div>
+                  <button type="submit" className="w-full bg-industrial-black text-white py-4 font-black uppercase tracking-widest hover:bg-bfi-red transition-all">
+                    Guardar SEO
+                  </button>
+                </form>
+              </div>
             </div>
 
             {/* AI AppSettings */}

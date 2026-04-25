@@ -6,10 +6,12 @@ import Services from "./pages/Services";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import ChatWidget from "./components/ChatWidget";
+import SEORunner from "./components/SEORunner";
 
 export default function App() {
   return (
     <BrowserRouter>
+      <SEORunner />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/catalogo" element={<Catalog />} />

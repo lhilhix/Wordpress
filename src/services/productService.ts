@@ -91,6 +91,9 @@ export interface SiteSettings {
   chatModel?: string;
   chatApiKey?: string;
   chatEndpoint?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  metaKeywords?: string;
 }
 
 export const getSiteSettings = async (): Promise<SiteSettings | null> => {
