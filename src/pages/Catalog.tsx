@@ -519,13 +519,13 @@ export default function Catalog() {
                           setSelectedProduct(null);
                           window.dispatchEvent(new CustomEvent('openQuote'));
                         }}
-                        className="flex-1 bg-bfi-red text-white py-5 font-black uppercase tracking-widest hover:bg-industrial-black transition-all"
+                        className="flex-1 bg-bfi-red text-white py-4 md:py-5 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-industrial-black transition-all"
                       >
                         Solicitar Orçamento
                       </button>
                       <button 
                         onClick={() => setSelectedProduct(null)}
-                        className="flex-1 border border-industrial-black py-5 font-black uppercase tracking-widest hover:bg-industrial-gray transition-all"
+                        className="flex-1 border border-industrial-black py-4 md:py-5 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-industrial-gray transition-all"
                       >
                         Fechar
                       </button>

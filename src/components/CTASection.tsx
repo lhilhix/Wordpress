@@ -24,10 +24,10 @@ export default function CTASection() {
             Pronto para <br /> Iniciar o seu Projeto?
           </h2>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
+          <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center mb-20">
             <button 
               onClick={() => window.dispatchEvent(new CustomEvent('openQuote'))}
-              className="bg-bfi-red text-white px-12 py-6 font-black uppercase tracking-widest hover:bg-industrial-black transition-all shadow-xl shadow-bfi-red/10"
+              className="bg-bfi-red text-white w-full sm:w-auto px-8 py-5 md:px-12 md:py-6 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-industrial-black transition-all shadow-xl shadow-bfi-red/10"
             >
               Solicitar Orçamento
             </button>
@@ -36,12 +36,12 @@ export default function CTASection() {
                 href={settings.techCatalogUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border-2 border-industrial-black px-12 py-6 font-black uppercase tracking-widest hover:bg-industrial-black hover:text-white transition-all flex items-center justify-center"
+                className="border-2 border-industrial-black w-full sm:w-auto px-8 py-5 md:px-12 md:py-6 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-industrial-black hover:text-white transition-all flex items-center justify-center"
               >
                 Baixar Catálogo Técnico
               </a>
             ) : (
-              <button className="border-2 border-industrial-black px-12 py-6 font-black uppercase tracking-widest hover:bg-industrial-black hover:text-white transition-all">
+              <button className="border-2 border-industrial-black w-full sm:w-auto px-8 py-5 md:px-12 md:py-6 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-industrial-black hover:text-white transition-all flex items-center justify-center">
                 Baixar Catálogo Técnico
               </button>
             )}

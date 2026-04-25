@@ -90,7 +90,7 @@ export default function ContactSection() {
             <label className="micro-label">Mensagem</label>
             <textarea className="w-full border-b-2 border-industrial-black/10 py-3 focus:border-bfi-red outline-none transition-colors min-h-[150px] resize-none" placeholder="Fale-nos sobre o seu projeto..."></textarea>
           </div>
-          <button className="w-full bg-bfi-red text-white py-6 font-black text-sm uppercase tracking-widest hover:bg-industrial-black transition-all">
+          <button className="w-full bg-bfi-red text-white py-4 md:py-6 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-industrial-black transition-all">
             Enviar Mensagem
           </button>
         </motion.form>

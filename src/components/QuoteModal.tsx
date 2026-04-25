@@ -59,7 +59,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                 <label className="micro-label">Mensagem / Especificações</label>
                 <textarea required className="w-full border-b-2 border-industrial-black/10 py-3 focus:border-bfi-red outline-none transition-colors min-h-[100px] resize-none" placeholder="Descreva brevemente o seu projeto..."></textarea>
               </div>
-              <button type="submit" className="w-full bg-industrial-black text-white py-6 font-black text-sm uppercase tracking-widest hover:bg-bfi-red transition-all">
+              <button type="submit" className="w-full bg-industrial-black text-white py-4 md:py-6 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-bfi-red transition-all">
                 Enviar Pedido de Orçamento
               </button>
             </form>

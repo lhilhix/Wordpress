@@ -24,20 +24,20 @@ service cloud.firestore {
              data.industry is string && data.industry.size() <= 100 &&
              data.description is string && data.description.size() <= 2000 &&
              data.image is string && data.image.size() <= 1000 &&
-             (!data.has('images') || (data.images is list && data.images.size() <= 20)) &&
-             (!data.has('detailedDescription') || (data.detailedDescription is string && data.detailedDescription.size() <= 5000)) &&
-             (!data.has('specifications') || (data.specifications is string && data.specifications.size() <= 2000)) &&
-             (!data.has('isFeatured') || data.isFeatured is bool) &&
-             (!data.has('createdAt') || data.createdAt is timestamp) &&
-             (!data.has('updatedAt') || data.updatedAt is timestamp);
+             (!('images' in data) || (data.images is list && data.images.size() <= 20)) &&
+             (!('detailedDescription' in data) || (data.detailedDescription is string && data.detailedDescription.size() <= 5000)) &&
+             (!('specifications' in data) || (data.specifications is string && data.specifications.size() <= 2000)) &&
+             (!('isFeatured' in data) || data.isFeatured is bool) &&
+             (!('createdAt' in data) || data.createdAt is timestamp) &&
+             (!('updatedAt' in data) || data.updatedAt is timestamp);
     }
 
     function isValidSiteSettings(data) {
       return data.keys().size() <= 30 &&
-             (!data.has('chatProvider') || data.chatProvider is string) &&
-             (!data.has('chatModel') || data.chatModel is string) &&
-             (!data.has('chatApiKey') || data.chatApiKey is string) &&
-             (!data.has('chatEndpoint') || data.chatEndpoint is string);
+             (!('chatProvider' in data) || data.chatProvider is string) &&
+             (!('chatModel' in data) || data.chatModel is string) &&
+             (!('chatApiKey' in data) || data.chatApiKey is string) &&
+             (!('chatEndpoint' in data) || data.chatEndpoint is string);
     }
 
     // 1. Products Collection

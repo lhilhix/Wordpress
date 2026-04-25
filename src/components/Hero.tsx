@@ -30,16 +30,16 @@ export default function Hero() {
           <p className="text-xl max-w-lg mb-10 text-industrial-black/70 leading-relaxed">
             Entregamos componentes plásticos de alto desempenho para as indústrias automóvel, médica e eletrónica de consumo em todo o mundo.
           </p>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <button 
               onClick={scrollToServices}
-              className="bg-industrial-black text-white px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-bfi-red transition-all flex items-center gap-3"
+              className="bg-industrial-black text-white w-full sm:w-auto px-6 py-4 md:px-10 md:py-5 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-bfi-red transition-all flex items-center justify-center gap-3"
             >
               Explorar Serviços <ArrowRight size={18} />
             </button>
             <Link 
               to="/about"
-              className="border-2 border-industrial-black px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-industrial-black hover:text-white transition-all text-center"
+              className="border-2 border-industrial-black w-full sm:w-auto px-6 py-4 md:px-10 md:py-5 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-industrial-black hover:text-white transition-all text-center"
             >
               Nossa Fábrica
             </Link>
