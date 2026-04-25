@@ -112,13 +112,13 @@ export default function Navbar() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="md:hidden absolute top-20 left-0 w-full bg-white border-b border-industrial-black/10 p-6 flex flex-col gap-6 shadow-2xl z-50"
+              className="md:hidden absolute top-20 left-0 w-full bg-white border-b border-industrial-black/10 p-6 flex flex-col gap-2 shadow-2xl z-50 overflow-y-auto max-h-[calc(100vh-5rem)]"
             >
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
-                  className={`micro-label text-lg ${isActive(link.href) ? "text-bfi-red" : ""}`}
+                  className={`micro-label text-lg block py-4 ${isActive(link.href) ? "text-bfi-red" : "text-industrial-black/80 hover:text-industrial-black"}`}
                   onClick={() => handleLinkClick(link.href)}
                 >
                   {link.name}

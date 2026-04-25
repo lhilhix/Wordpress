@@ -22,17 +22,17 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative bg-white w-full max-w-2xl shadow-2xl overflow-hidden"
+            className="relative bg-white w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
           >
-            <div className="bg-bfi-red p-8 flex justify-between items-center text-white">
-              <h2 className="text-2xl font-black uppercase tracking-tighter">Solicitar Orçamento</h2>
+            <div className="bg-bfi-red p-6 md:p-8 flex justify-between items-center text-white shrink-0">
+              <h2 className="text-xl md:text-2xl font-black uppercase tracking-tighter">Solicitar Orçamento</h2>
               <button onClick={onClose} className="hover:rotate-90 transition-transform">
                 <X size={24} />
               </button>
             </div>
             
-            <form className="p-8 md:p-12" onSubmit={(e) => { e.preventDefault(); onClose(); alert('Obrigado! Entraremos em contacto brevemente.'); }}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <form className="p-6 md:p-8 lg:p-12 overflow-y-auto custom-scrollbar" onSubmit={(e) => { e.preventDefault(); onClose(); alert('Obrigado! Entraremos em contacto brevemente.'); }}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8">
                 <div className="space-y-2">
                   <label className="micro-label">Nome</label>
                   <input required type="text" className="w-full border-b-2 border-industrial-black/10 py-3 focus:border-bfi-red outline-none transition-colors" placeholder="João" />
