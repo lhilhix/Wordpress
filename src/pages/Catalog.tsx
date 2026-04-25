@@ -324,10 +324,10 @@ export default function Catalog() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className="bfi-grid-item group"
+                  className="bfi-grid-item group flex flex-col h-full"
                 >
                   <div 
-                    className="relative aspect-square mb-8 overflow-hidden bg-industrial-gray grayscale group-hover:grayscale-0 transition-all duration-700 cursor-pointer"
+                    className="relative aspect-square shrink-0 mb-6 md:mb-8 overflow-hidden bg-industrial-gray grayscale group-hover:grayscale-0 transition-all duration-700 cursor-pointer"
                     onClick={() => openProductModal(product)}
                   >
                     <img 
@@ -336,28 +336,28 @@ export default function Catalog() {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute top-4 left-4 bg-industrial-black text-white px-3 py-1 micro-label text-[8px]">
+                    <div className="absolute top-4 left-4 bg-industrial-black text-white px-3 py-1 micro-label text-[8px] sm:text-[10px]">
                       {product.id}
                     </div>
                     <div className="absolute inset-0 bg-bfi-red/10 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                    <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-industrial-black/80 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500 flex items-center justify-center">
+                    <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 bg-gradient-to-t from-industrial-black/80 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500 flex items-center justify-center">
                        <span className="micro-label text-white !text-opacity-100">Ver Detalhes Técnicos</span>
                     </div>
                   </div>
                   
-                  <div className="flex flex-col h-full">
-                    <div className="micro-label text-bfi-red mb-2">{product.category}</div>
-                    <h3 className="text-3xl font-black uppercase tracking-tighter mb-4 leading-none">
+                  <div className="flex flex-col flex-1">
+                    <div className="micro-label text-bfi-red mb-2 line-clamp-1">{product.category}</div>
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-black uppercase tracking-tighter mb-3 md:mb-4 leading-tight line-clamp-2">
                       {product.name}
                     </h3>
-                    <p className="text-industrial-black/60 text-sm mb-8 flex-grow">
+                    <p className="text-industrial-black/60 text-xs sm:text-sm mb-6 md:mb-8 flex-grow line-clamp-3">
                       {product.description}
                     </p>
                     <button 
                       onClick={() => openProductModal(product)}
-                      className="flex items-center gap-2 micro-label font-black group-hover:text-bfi-red transition-colors"
+                      className="flex items-center gap-2 micro-label font-black group-hover:text-bfi-red transition-colors mt-auto pt-2"
                     >
-                      Especificações Técnicas <ArrowRight size={14} />
+                      Especificações Técnicas <ArrowRight size={14} className="shrink-0" />
                     </button>
                   </div>
                 </motion.div>
@@ -424,7 +424,7 @@ export default function Catalog() {
                 initial={{ opacity: 0, scale: 0.9, y: 40 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative bg-white w-full max-w-5xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
+                className="relative bg-white w-full max-w-5xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh] rounded-none"
               >
                 <button 
                   onClick={() => setSelectedProduct(null)}
@@ -434,8 +434,8 @@ export default function Catalog() {
                 </button>
 
                 {/* Left: Product Images */}
-                <div className="md:w-1/2 bg-industrial-gray relative flex flex-col">
-                  <div className="relative flex-grow h-[60vh] md:h-auto overflow-hidden">
+                <div className="md:w-1/2 bg-industrial-gray relative flex flex-col shrink-0">
+                  <div className="relative flex-grow h-[35vh] md:h-auto overflow-hidden">
                     <AnimatePresence mode="wait">
                       <motion.img 
                         key={selectedImageIndex}

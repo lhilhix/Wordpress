@@ -20,7 +20,7 @@
 }
 
 .bfi-grid-item {
-  @apply border-r border-b border-industrial-black/10 p-6 transition-colors duration-300;
+  @apply border-r border-b border-industrial-black/10 p-4 sm:p-6 transition-colors duration-300;
 }
 
 .bfi-grid-item:hover {

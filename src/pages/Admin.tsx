@@ -94,7 +94,7 @@ export default function Admin() {
     try {
       setUploadingImage(true);
       const uploadPromises = Array.from(files).map(async (file: File) => {
-        const storageRef = ref(storage, 'products/' + Date.now() + '_' + file.name);
+        const storageRef = ref(storage, 'imagens/prodrucimages/' + Date.now() + '_' + file.name);
         const uploadTask = uploadBytesResumable(storageRef, file);
 
         return new Promise<string>((resolve, reject) => {
@@ -210,7 +210,7 @@ export default function Admin() {
       else setUploading = setUploadingLogo;
       
       setUploading(true);
-      const storageRef = ref(storage, `settings/${field}_${Date.now()}`);
+      const storageRef = ref(storage, `imagens/${field}_${Date.now()}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on(
