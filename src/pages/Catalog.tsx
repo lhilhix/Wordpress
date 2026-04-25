@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import { Footer } from "../components/ContactSection";
 import CTASection from "../components/CTASection";
 import { ArrowLeft, ArrowRight, Search, Filter, ChevronLeft, ChevronRight, Loader2, X, ShieldCheck, Factory } from "lucide-react";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, ImgHTMLAttributes } from "react";
 import { subscribeToProducts, Product } from "../services/productService";
 
 const staticProducts: Product[] = [
@@ -16,6 +16,30 @@ const staticProducts: Product[] = [
   { id: "PB-007", name: "Vedante de Silicone", category: "Vedantes", industry: "Culinário", description: "Vedantes de silicone de grau alimentador para recipientes.", image: "https://picsum.photos/seed/silicone/600/600" },
   { id: "PB-008", name: "Válvula de Retenção", category: "Válvulas", industry: "Industrial", description: "Válvulas anti-retorno para sistemas de fluídos.", image: "https://picsum.photos/seed/valve/600/600" },
 ];
+
+const LazyImage = ({ src, alt, className = "", imgClassName = "", ...props }: ImgHTMLAttributes<HTMLImageElement> & { imgClassName?: string }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  
+  return (
+    <div className={`relative overflow-hidden bg-industrial-gray ${className}`}>
+      {/* Optional simple pulse loader while image is loading */}
+      {!isLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-industrial-black/20" />
+        </div>
+      )}
+      <img
+        src={src}
+        alt={alt}
+        className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out ${isLoaded ? 'opacity-100' : 'opacity-0'} ${imgClassName}`}
+        onLoad={() => setIsLoaded(true)}
+        loading="lazy"
+        decoding="async"
+        {...props}
+      />
+    </div>
+  );
+};
 
 export default function Catalog() {
   const [dbProducts, setDbProducts] = useState<Product[]>([]);
@@ -330,10 +354,11 @@ export default function Catalog() {
                     className="relative aspect-square shrink-0 mb-6 md:mb-8 overflow-hidden bg-industrial-gray grayscale group-hover:grayscale-0 transition-all duration-700 cursor-pointer"
                     onClick={() => openProductModal(product)}
                   >
-                    <img 
+                    <LazyImage 
                       src={product.images && product.images.length > 0 ? product.images[0] : product.image} 
                       alt={product.name} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="w-full h-full"
+                      imgClassName="transition-transform duration-700 group-hover:scale-110"
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute top-4 left-4 bg-industrial-black text-white px-3 py-1 micro-label text-[8px] sm:text-[10px]">
@@ -463,7 +488,7 @@ export default function Catalog() {
                           onClick={() => setSelectedImageIndex(idx)}
                           className={`flex-shrink-0 w-20 h-20 relative overflow-hidden transition-all ${selectedImageIndex === idx ? 'border-2 border-bfi-red scale-105' : 'opacity-50 hover:opacity-100 grayscale hover:grayscale-0'}`}
                         >
-                          <img src={img} alt={`Thumb ${idx}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                          <LazyImage src={img} alt={`Thumb ${idx}`} className="w-full h-full" referrerPolicy="no-referrer" />
                         </button>
                       ))}
                     </div>
