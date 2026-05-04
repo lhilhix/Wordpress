@@ -236,19 +236,29 @@ export default function Catalog() {
             </p>
             
             <div className="flex items-center gap-4 w-full md:w-auto">
-              <div className="relative flex-1 md:w-64">
+              <div className="relative flex-1 md:w-80">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-industrial-black/30" size={18} />
                 <input 
                   type="text" 
-                  placeholder="Pesquisar peças..." 
+                  placeholder="Pesquisar por nome, categoria ou descrição..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 border border-industrial-black/10 focus:border-bfi-red outline-none micro-label"
+                  className="w-full pl-12 pr-12 py-4 border border-industrial-black/10 focus:border-bfi-red outline-none micro-label transition-all"
+                  aria-label="Pesquisar produtos"
                 />
+                {searchQuery && (
+                  <button 
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-industrial-black/30 hover:text-bfi-red transition-colors"
+                    aria-label="Limpar pesquisa"
+                  >
+                    <X size={18} />
+                  </button>
+                )}
               </div>
               <button 
                 onClick={() => setIsFilterSidebarOpen(true)}
-                className={`p-4 border transition-colors flex items-center justify-center relative ${
+                className={`p-4 border transition-colors flex items-center justify-center relative min-w-[56px] ${
                   selectedCategories.length > 0 || selectedIndustries.length > 0 
                     ? 'bg-bfi-red border-bfi-red text-white' 
                     : 'border-industrial-black/10 hover:bg-industrial-gray'
