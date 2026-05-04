@@ -7,14 +7,70 @@ import { useState, useMemo, useEffect, ImgHTMLAttributes } from "react";
 import { subscribeToProducts, Product } from "../services/productService";
 
 const staticProducts: Product[] = [
-  { id: "PB-001", name: "Conjunto de Engrenagens de Precisão", category: "Engrenagens", industry: "Automóvel", description: "Engrenagens POM de alta durabilidade para sistemas de transmissão.", image: "https://picsum.photos/seed/gear/600/600" },
-  { id: "PB-002", name: "Caixa Estéril", category: "Caixas", industry: "Médico", description: "Caixa de policarbonato de grau médico para dispositivos de diagnóstico.", image: "https://picsum.photos/seed/medical/600/600" },
-  { id: "PB-003", name: "Hub de Conectores", category: "Conectores", industry: "Eletrónica", description: "Conectores PA66 retardadores de chama para uso industrial.", image: "https://picsum.photos/seed/connector/600/600" },
-  { id: "PB-004", name: "Acabamento de Painel", category: "Acabamentos", industry: "Automóvel", description: "Acabamento estético ABS/PC com acabamento soft-touch.", image: "https://picsum.photos/seed/trim/600/600" },
-  { id: "PB-005", name: "Êmbolo de Seringa", category: "Componentes Precisão", industry: "Médico", description: "Êmbolos de PP de alta precisão para seringas médicas.", image: "https://picsum.photos/seed/syringe/600/600" },
-  { id: "PB-006", name: "Caixa de Proteção", category: "Caixas", industry: "Bens de Consumo", description: "Caixas de ABS resistentes ao impacto para dispositivos domésticos inteligentes.", image: "https://picsum.photos/seed/case/600/600" },
-  { id: "PB-007", name: "Vedante de Silicone", category: "Vedantes", industry: "Culinário", description: "Vedantes de silicone de grau alimentador para recipientes.", image: "https://picsum.photos/seed/silicone/600/600" },
-  { id: "PB-008", name: "Válvula de Retenção", category: "Válvulas", industry: "Industrial", description: "Válvulas anti-retorno para sistemas de fluídos.", image: "https://picsum.photos/seed/valve/600/600" },
+  { 
+    id: "PB-001", 
+    name: "Conjunto de Engrenagens de Precisão", 
+    category: "Engrenagens", 
+    industry: "Automóvel", 
+    description: "Engrenagens POM de alta durabilidade para sistemas de transmissão.", 
+    image: "https://picsum.photos/seed/gear1/600/600",
+    images: [
+      "https://picsum.photos/seed/gear1/600/600",
+      "https://picsum.photos/seed/gear2/600/600",
+      "https://picsum.photos/seed/gear3/600/600"
+    ],
+    detailedDescription: "Este conjunto de engrenagens é fabricado com técnicas avançadas de injeção de precisão, utilizando polímeros de alto desempenho como POM (Polioximetileno). Ideal para transmissões que exigem baixo atrito e alta resistência mecânica.",
+    specifications: "Material: POM Virgem\nTolerância: +/- 0.05mm\nDureza: 80 Shore D\nResistência Térmica: Até 120°C"
+  },
+  { 
+    id: "PB-002", 
+    name: "Caixa Estéril", 
+    category: "Caixas", 
+    industry: "Médico", 
+    description: "Caixa de policarbonato de grau médico para dispositivos de diagnóstico.", 
+    image: "https://picsum.photos/seed/medical1/600/600",
+    images: [
+      "https://picsum.photos/seed/medical1/600/600",
+      "https://picsum.photos/seed/medical2/600/600",
+      "https://picsum.photos/seed/medical3/600/600"
+    ],
+    detailedDescription: "Desenvolvida para ambientes hospitalares, esta caixa estéril é injetada em Policarbonato de grau médico. Oferece transparência total, resistência a autoclaves e proteção contra contaminantes externos.",
+    specifications: "Material: PC Medical Grade\nCertificação: ISO 13485\nEsterilização: Autoclave/Gama\nTransparência: 92%"
+  },
+  { 
+    id: "PB-003", 
+    name: "Hub de Conectores", 
+    category: "Conectores", 
+    industry: "Eletrónica", 
+    description: "Conectores PA66 retardadores de chama para uso industrial.", 
+    image: "https://picsum.photos/seed/connector1/600/600",
+    images: [
+      "https://picsum.photos/seed/connector1/600/600",
+      "https://picsum.photos/seed/connector2/600/600",
+      "https://picsum.photos/seed/connector3/600/600"
+    ],
+    detailedDescription: "Hub de conectores de alta densidade projetado para integração em sistemas eletrónicos industriais. O material PA66 com fibra de vidro garante estabilidade dimensional e resistência ao fogo (UL94 V-0).",
+    specifications: "Material: PA66 GF30\nClasse de Inflamabilidade: UL94 V-0\nTemperatura de Operação: -40°C a 150°C\nCor: Preto Industrial"
+  },
+  { 
+    id: "PB-004", 
+    name: "Acabamento de Painel", 
+    category: "Acabamentos", 
+    industry: "Automóvel", 
+    description: "Acabamento estético ABS/PC com acabamento soft-touch.", 
+    image: "https://picsum.photos/seed/trim1/600/600",
+    images: [
+      "https://picsum.photos/seed/trim1/600/600",
+      "https://picsum.photos/seed/trim2/600/600",
+      "https://picsum.photos/seed/trim3/600/600"
+    ],
+    detailedDescription: "Peça de acabamento interior para a indústria automóvel. Produzida em blend de ABS/PC para maximizar a resistência ao impacto e permitir acabamentos superficiais de alta qualidade, incluindo pintura e metalização.",
+    specifications: "Material: ABS/PC Blend\nAcabamento: Texturado/Soft-touch\nResistência UV: Alta\nCor: Cinza Antracite"
+  },
+  { id: "PB-005", name: "Êmbolo de Seringa", category: "Componentes Precisão", industry: "Médico", description: "Êmbolos de PP de alta precisão para seringas médicas.", image: "https://picsum.photos/seed/syringe/600/600", images: ["https://picsum.photos/seed/syringe1/600/600", "https://picsum.photos/seed/syringe2/600/600"] },
+  { id: "PB-006", name: "Caixa de Proteção", category: "Caixas", industry: "Bens de Consumo", description: "Caixas de ABS resistentes ao impacto para dispositivos domésticos inteligentes.", image: "https://picsum.photos/seed/case/600/600", images: ["https://picsum.photos/seed/case1/600/600", "https://picsum.photos/seed/case2/600/600"] },
+  { id: "PB-007", name: "Vedante de Silicone", category: "Vedantes", industry: "Culinário", description: "Vedantes de silicone de grau alimentador para recipientes.", image: "https://picsum.photos/seed/silicone/600/600", images: ["https://picsum.photos/seed/silicone1/600/600", "https://picsum.photos/seed/silicone2/600/600"] },
+  { id: "PB-008", name: "Válvula de Retenção", category: "Válvulas", industry: "Industrial", description: "Válvulas anti-retorno para sistemas de fluídos.", image: "https://picsum.photos/seed/valve/600/600", images: ["https://picsum.photos/seed/valve1/600/600", "https://picsum.photos/seed/valve2/600/600"] },
 ];
 
 const LazyImage = ({ src, alt, className = "", imgClassName = "", ...props }: ImgHTMLAttributes<HTMLImageElement> & { imgClassName?: string }) => {

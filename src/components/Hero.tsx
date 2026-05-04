@@ -53,8 +53,8 @@ export default function Hero() {
           className="relative aspect-square lg:aspect-video overflow-hidden grayscale hover:grayscale-0 transition-all duration-700"
         >
           <img
-            src={settings?.heroImage || "https://picsum.photos/seed/injection-molding/1200/800"}
-            alt="Industrial plastic injection molding machine"
+            src={settings?.heroImage || "https://lh3.googleusercontent.com/p/AF1QipPETker8YN4D0i2yF4-4VqQlzmWLNS2Zu7GcmIK=s680-w680-h510-rwfabricabueso.png"}
+            alt="Instalações industriais da BFI"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />

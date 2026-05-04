@@ -110,7 +110,7 @@ export const subscribeToSiteSettings = (callback: (settings: SiteSettings) => vo
         callback(doc.data() as SiteSettings);
       } else {
         const defaultSettings: SiteSettings = {
-          heroImage: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070",
+          heroImage: "/fabricabueso.png",
           contactEmail: "geral@bueso.pt",
           contactPhone: "+351 253 695 164",
           address: "R. António Alberto de Sousa 38 Pav.2, 4705-132 Braga, Portugal",
