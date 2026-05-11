@@ -14,6 +14,7 @@ const staticProducts: Product[] = [
     industry: "Automóvel", 
     description: "Engrenagens POM de alta durabilidade para sistemas de transmissão.", 
     image: "https://picsum.photos/seed/gear1/600/600",
+    isFeatured: true,
     images: [
       "https://picsum.photos/seed/gear1/600/600",
       "https://picsum.photos/seed/gear2/600/600",
@@ -29,6 +30,7 @@ const staticProducts: Product[] = [
     industry: "Médico", 
     description: "Caixa de policarbonato de grau médico para dispositivos de diagnóstico.", 
     image: "https://picsum.photos/seed/medical1/600/600",
+    isFeatured: true,
     images: [
       "https://picsum.photos/seed/medical1/600/600",
       "https://picsum.photos/seed/medical2/600/600",
@@ -434,6 +436,11 @@ export default function Catalog() {
                     <div className="absolute top-4 left-4 bg-industrial-black text-white px-3 py-1 micro-label text-[8px] sm:text-[10px]">
                       {product.id}
                     </div>
+                    {product.isFeatured && (
+                      <div className="absolute top-4 right-4 bg-bfi-red text-white px-3 py-1 micro-label text-[8px] sm:text-[10px] font-black uppercase tracking-widest shadow-lg flex items-center gap-1.5 backdrop-blur-sm bg-opacity-90">
+                        <ShieldCheck size={10} className="sm:size-3" /> Destaque
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-bfi-red/10 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
                     <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 bg-gradient-to-t from-industrial-black/80 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500 flex items-center justify-center">
                        <span className="micro-label text-white !text-opacity-100">Ver Detalhes Técnicos</span>
@@ -540,23 +547,30 @@ export default function Catalog() {
                 {/* Left: Product Images */}
                 <div className="md:w-1/2 bg-industrial-gray relative flex flex-col shrink-0">
                   <div className="relative flex-grow h-[35vh] md:h-auto overflow-hidden">
-                    <AnimatePresence mode="wait">
+                    <AnimatePresence initial={false}>
                       <motion.img 
                         key={selectedImageIndex}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
                         src={selectedProduct.images && selectedProduct.images.length > 0 ? selectedProduct.images[selectedImageIndex] : selectedProduct.image} 
                         alt={selectedProduct.name}
                         title={selectedProduct.name}
-                        className="w-full h-full object-cover"
+                        className="absolute inset-0 w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                         referrerPolicy="no-referrer"
                       />
                     </AnimatePresence>
                     <div className="absolute top-8 left-8 z-10 bg-bfi-red text-white p-4 font-black tracking-widest text-[10px] uppercase">
                       Ref: {selectedProduct.id}
                     </div>
+                    {selectedProduct.isFeatured && (
+                      <div className="absolute top-8 right-16 z-10 bg-bfi-red text-white px-4 py-2 micro-label text-[10px] font-black uppercase tracking-widest shadow-xl flex items-center gap-2 backdrop-blur-md bg-opacity-90 border border-white/10">
+                        <ShieldCheck size={14} className="text-white" /> Produto em Destaque
+                      </div>
+                    )}
                   </div>
                   {/* Thumbnails */}
                   {selectedProduct.images && selectedProduct.images.length > 1 && (
@@ -606,16 +620,16 @@ export default function Catalog() {
                           <ShieldCheck size={16} /> Especificações Técnicas
                         </div>
                         <div className="space-y-4">
-                          {selectedProduct.specifications.split('\n').map((spec, i) => (
-                            <div key={i} className="flex justify-between items-center border-b border-industrial-black/5 pb-2">
-                              <span className="text-xs font-mono text-industrial-black/40 uppercase tracking-widest">
-                                {spec.split(':')[0]}
-                              </span>
-                              <span className="text-sm font-black uppercase tracking-tight">
-                                {spec.split(':')[1] || spec}
-                              </span>
-                            </div>
-                          ))}
+                            {selectedProduct.specifications.split('\n').filter(line => line.includes(':')).map((spec, i) => (
+                              <div key={i} className="flex justify-between items-center border-b border-industrial-black/5 pb-2">
+                                <span className="text-xs font-mono text-industrial-black/40 uppercase tracking-widest">
+                                  {spec.split(':')[0].trim()}
+                                </span>
+                                <span className="text-sm font-black uppercase tracking-tight">
+                                  {spec.split(':').slice(1).join(':').trim()}
+                                </span>
+                              </div>
+                            ))}
                         </div>
                       </section>
                     )}

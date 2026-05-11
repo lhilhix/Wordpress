@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/ContactSection";
 import CTASection from "../components/CTASection";
+import HistorySection from "../components/HistorySection";
 import { Award, Users, History, Globe } from "lucide-react";
 import { useSiteSettings } from "../hooks/useSiteSettings";
 
@@ -34,6 +35,8 @@ export default function About() {
             )}
           </div>
         </header>
+
+        <HistorySection />
 
         {/* Vision & Values Grid */}
         <div className="bfi-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-32">

@@ -50,10 +50,14 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-          className="relative aspect-square lg:aspect-video overflow-hidden grayscale hover:grayscale-0 transition-all duration-700"
+          className="relative aspect-square lg:aspect-video overflow-hidden transition-all duration-700"
         >
           <img
-            src={settings?.heroImage || "https://lh3.googleusercontent.com/p/AF1QipPETker8YN4D0i2yF4-4VqQlzmWLNS2Zu7GcmIK=s680-w680-h510-rwfabricabueso.png"}
+            src={
+              settings?.heroImage 
+                ? settings.heroImage.replace('public/', '/') 
+                : "/fabricabueso.png"
+            }
             alt="Instalações industriais da BFI"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"

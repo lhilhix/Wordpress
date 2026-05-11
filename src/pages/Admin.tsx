@@ -141,22 +141,129 @@ export default function Admin() {
   };
 
   const handleSeedProducts = async () => {
+    if (!window.confirm("Deseja carregar um lote de 10 produtos de exemplo no catálogo? Isso não removerá os produtos existentes.")) return;
+    
     try {
-      const staticProducts: Omit<Product, 'firestoreId'>[] = [
-        { id: "PB-001", name: "Conjunto de Engrenagens de Precisão", category: "Engrenagens", industry: "Automóvel", description: "Engrenagens POM de alta durabilidade para sistemas de transmissão.", image: "https://picsum.photos/seed/gear/600/600", detailedDescription: "Produzidas com alta precisão e baixo atrito para máxima eficiência energética.", specifications: "Material: POM (Poliacetal)\nTolerância: ±0.01mm", isFeatured: true },
-        { id: "PB-002", name: "Caixa Estéril", category: "Caixas", industry: "Médico", description: "Caixa de policarbonato de grau médico para dispositivos de diagnóstico.", image: "https://picsum.photos/seed/medical/600/600", detailedDescription: "Desenhado especificamente para aplicações médicas críticas e de diagnóstico rápido.", specifications: "Material: PC de Grau Médico\nEsterilizável: Sim (Autoclave, EtO)", isFeatured: true },
-        { id: "PB-003", name: "Hub de Conectores", category: "Conectores", industry: "Eletrónica", description: "Conectores PA66 retardadores de chama para uso industrial.", image: "https://picsum.photos/seed/connector/600/600", detailedDescription: "Alta resistência a temperaturas exigentes em ambientes industriais de eletrónica de potência.", specifications: "Material: PA66\nÍndice de Retardamento: V-0 (UL94)", isFeatured: false },
-        { id: "PB-004", name: "Acabamento de Painel", category: "Acabamentos", industry: "Automóvel", description: "Acabamento estético ABS/PC com acabamento soft-touch.", image: "https://picsum.photos/seed/trim/600/600", detailedDescription: "Moldagem de dois componentes de topo para viaturas elétricas do segmento premium.", specifications: "Material: ABS/PC\nRevestimento: TPE Soft-touch", isFeatured: true },
-        { id: "PB-005", name: "Êmbolo de Seringa", category: "Componentes Precisão", industry: "Médico", description: "Êmbolos de PP de alta precisão para seringas médicas.", image: "https://picsum.photos/seed/syringe/600/600", detailedDescription: "Elevada reprodutibilidade num ambiente de sala limpa (ISO 7).", specifications: "Material: Polipropileno (PP)\nAmbiente: Sala Limpa Classe 10000", isFeatured: false },
-        { id: "PB-006", name: "Caixa de Proteção", category: "Caixas", industry: "Bens de Consumo", description: "Caixas de ABS resistentes ao impacto para dispositivos domésticos inteligentes.", image: "https://picsum.photos/seed/case/600/600", detailedDescription: "Invólucro otimizado contra impactos mecânicos para eletrónica de consumo, garantindo durabilidade.", specifications: "Material: ABS Resistente ao Impacto\nResistência: IK08", isFeatured: false },
+      const batchProducts: Omit<Product, 'firestoreId'>[] = [
+        { 
+          id: "PB-001", 
+          name: "Conjunto de Engrenagens de Precisão", 
+          category: "Engrenagens", 
+          industry: "Automóvel", 
+          description: "Engrenagens POM de alta durabilidade para sistemas de transmissão.", 
+          image: "https://picsum.photos/seed/gear/600/600", 
+          detailedDescription: "Produzidas com alta precisão e baixo atrito para máxima eficiência energética em transmissões compactas.", 
+          specifications: "Material: POM (Poliacetal)\nTolerância: ±0.01mm\nTemp. Operação: -40°C a 120°C\nDureza: 80 Shore D", 
+          isFeatured: true 
+        },
+        { 
+          id: "PB-002", 
+          name: "Caixa Estéril de Diagnóstico", 
+          category: "Caixas", 
+          industry: "Médico", 
+          description: "Caixa de policarbonato de grau médico para dispositivos de diagnóstico.", 
+          image: "https://picsum.photos/seed/medical/600/600", 
+          detailedDescription: "Desenhado especificamente para aplicações médicas críticas e de diagnóstico rápido em ambiente hospitalar.", 
+          specifications: "Material: PC de Grau Médico\nEsterilizável: Sim (Autoclave)\nTemp. Operação: Máx 135°C\nTransparência: 92%", 
+          isFeatured: true 
+        },
+        { 
+          id: "PB-003", 
+          name: "Hub de Conectores Industriais", 
+          category: "Conectores", 
+          industry: "Eletrónica", 
+          description: "Conectores PA66 retardadores de chama para uso industrial intensivo.", 
+          image: "https://picsum.photos/seed/connector/600/600", 
+          detailedDescription: "Alta resistência a temperaturas exigentes em ambientes industriais de eletrónica de potência e automação.", 
+          specifications: "Material: PA66 GF30\nRetardante: V-0 (UL94)\nTemp. Operação: -40°C a 150°C\nCor: Preto Industrial", 
+          isFeatured: false 
+        },
+        { 
+          id: "PB-004", 
+          name: "Acabamento de Painel Premium", 
+          category: "Acabamentos", 
+          industry: "Automóvel", 
+          description: "Acabamento estético ABS/PC com acabamento soft-touch texturado.", 
+          image: "https://picsum.photos/seed/trim/600/600", 
+          detailedDescription: "Moldagem de dois componentes de topo para viaturas elétricas do segmento premium com alta resistência UV.", 
+          specifications: "Material: ABS/PC Blend\nRevestimento: TPE Soft-touch\nAcabamento: Texturado\nResistência UV: Alta", 
+          isFeatured: true 
+        },
+        { 
+          id: "PB-007", 
+          name: "Vedante de Silicone Alimentar", 
+          category: "Componentes Precisão", 
+          industry: "Industrial", 
+          description: "Vedantes de alta performance para a indústria de processamento alimentar.", 
+          image: "https://picsum.photos/seed/silicone/600/600", 
+          detailedDescription: "Vedantes flexíveis produzidos com silicone de grau alimentar, resistentes a variações térmicas extremas.", 
+          specifications: "Material: Silicone Food Grade\nCertificação: FDA Compliance\nFlexibilidade: Alta\nTemp. Operação: -60°C a 200°C", 
+          isFeatured: false 
+        },
+        { 
+          id: "PB-008", 
+          name: "Válvula de Retenção Hidráulica", 
+          category: "Outros", 
+          industry: "Industrial", 
+          description: "Válvula anti-retorno para sistemas de fluídos de alta pressão.", 
+          image: "https://picsum.photos/seed/valve/600/600", 
+          detailedDescription: "Válvula técnica injetada com polímeros reforçados para garantir estanqueidade total em circuitos hidráulicos.", 
+          specifications: "Material: PPS GF40\nPressão Máx: 10 Bar\nEstanqueidade: 100%\nDiâmetro: 12mm", 
+          isFeatured: false 
+        },
+        { 
+          id: "PB-009", 
+          name: "Adaptador de Tubo Quick-Fit", 
+          category: "Conectores", 
+          industry: "Bens de Consumo", 
+          description: "Adaptador universal para sistemas de rega e jardinagem doméstica.", 
+          image: "https://picsum.photos/seed/adapter/600/600", 
+          detailedDescription: "Conetor de engate rápido otimizado para ergonomia e durabilidade em ambientes exteriores.", 
+          specifications: "Material: PP/TPE\nSistema: Quick-Click\nResistência Impacto: Alta\nCor: Cinza/Vermelho", 
+          isFeatured: false 
+        },
+        { 
+          id: "PB-010", 
+          name: "Tampa de Proteção Eletrónica", 
+          category: "Caixas", 
+          industry: "Eletrónica", 
+          description: "Tampa protetora contra poeiras e humidade para motherboards.", 
+          image: "https://picsum.photos/seed/cover/600/600", 
+          detailedDescription: "Proteção leve e estática para componentes eletrónicos sensíveis durante o transporte e montagem.", 
+          specifications: "Material: PS Anti-estático\nEspessura: 0.8mm\nProteção: ESD Safe\nCor: Transparente", 
+          isFeatured: false 
+        },
+        { 
+          id: "PB-011", 
+          name: "Carcaça de Sensor IoT", 
+          category: "Caixas", 
+          industry: "Bens de Consumo", 
+          description: "Invólucro miniatura para sensores inteligentes de domótica.", 
+          image: "https://picsum.photos/seed/sensor/600/600", 
+          detailedDescription: "Caixa compacta com tolerâncias apertadas para integração perfeita de sensores e baterias.", 
+          specifications: "Material: ABS\nDimensões: 40x40x15mm\nTolerância: ±0.05mm", 
+          isFeatured: true 
+        },
+        { 
+          id: "PB-012", 
+          name: "Isolador Térmico para Motor", 
+          category: "Componentes Precisão", 
+          industry: "Automóvel", 
+          description: "Espaçador técnico para isolamento térmico em compartimentos de motor.", 
+          image: "https://picsum.photos/seed/insulator/600/600", 
+          detailedDescription: "Peça técnica moldada com PPA para resistir a temperaturas contínuas elevadas e fluidos químicos.", 
+          specifications: "Material: PPA GF50\nTemp. Pico: 280°C\nResistência Química: Alta", 
+          isFeatured: false 
+        }
       ];
-      for (const product of staticProducts) {
+      
+      for (const product of batchProducts) {
         await addProduct(product);
       }
-      alert("Produtos adicionados com sucesso!");
+      alert("Lote de 10 produtos de exemplo adicionado com sucesso!");
     } catch (e) {
       console.error(e);
-      alert("Erro ao adicionar: " + (e as Error).message);
+      alert("Erro ao semear produtos: " + (e as Error).message);
     }
   };
 
@@ -447,14 +554,20 @@ export default function Admin() {
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <label className="micro-label">Especificações Técnicas (Lista)</label>
+                    <div className="space-y-3">
+                      <label className="micro-label flex justify-between">
+                        Especificações Técnicas
+                        <span className="opacity-40 font-normal">Uma por linha (Chave: Valor)</span>
+                      </label>
                       <textarea 
                         value={formData.specifications || ""}
                         onChange={(e) => setFormData({...formData, specifications: e.target.value})}
-                        className="w-full border border-industrial-black/10 p-4 focus:border-bfi-red outline-none min-h-[100px] resize-none text-sm font-mono"
-                        placeholder="Material: POM&#10;Tolerância: +/- 0.01mm&#10;Ciclo: 12s"
+                        className="w-full border border-industrial-black/10 p-4 focus:border-bfi-red outline-none min-h-[120px] resize-none text-sm font-mono leading-relaxed"
+                        placeholder="Material: POM&#10;Tolerância: +/- 0.01mm&#10;Temperatura: -40°C a 120°C"
                       />
+                      <p className="text-[10px] text-industrial-black/40 italic">
+                        Insira detalhes técnicos como material, tolerâncias e temperaturas. Use o formato "Chave: Valor".
+                      </p>
                     </div>
                   </div>
                   
