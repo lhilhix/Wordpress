@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSiteSettings } from "../hooks/useSiteSettings";
+import heroFactoryDefault from "../assets/images/hero_factory_bfi_1787969073522.jpg";
 
 export default function Hero() {
   const { settings } = useSiteSettings();
@@ -13,7 +14,9 @@ export default function Hero() {
   };
 
   const getHeroImageSrc = (imgUrl?: string) => {
-    if (!imgUrl) return "/fabricabueso.png";
+    if (!imgUrl || imgUrl === "/fabricabueso.png" || imgUrl === "fabricabueso.png" || imgUrl === "public/fabricabueso.png") {
+      return heroFactoryDefault;
+    }
     if (imgUrl.startsWith("http://") || imgUrl.startsWith("https://") || imgUrl.startsWith("data:")) {
       return imgUrl;
     }

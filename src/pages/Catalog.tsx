@@ -238,20 +238,22 @@ export default function Catalog() {
             </p>
             
             <div className="flex items-center gap-4 w-full md:w-auto">
-              <div className="relative flex-1 md:w-80">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-industrial-black/30" size={18} />
+              <div className="relative flex-1 md:w-96">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-industrial-black/40" size={18} />
                 <input 
+                  id="catalog-search-input"
                   type="text" 
-                  placeholder="Pesquisar por nome, categoria ou descrição..." 
+                  placeholder="Pesquisar por nome ou categoria..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-12 py-4 border border-industrial-black/10 focus:border-bfi-red outline-none micro-label transition-all"
-                  aria-label="Pesquisar produtos"
+                  className="w-full pl-12 pr-12 py-4 border border-industrial-black/10 focus:border-bfi-red outline-none text-sm transition-all placeholder:text-industrial-black/40"
+                  aria-label="Pesquisar produtos por nome ou categoria"
                 />
                 {searchQuery && (
                   <button 
+                    id="clear-search-btn"
                     onClick={() => setSearchQuery("")}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-industrial-black/30 hover:text-bfi-red transition-colors"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-industrial-black/40 hover:text-bfi-red transition-colors p-1"
                     aria-label="Limpar pesquisa"
                   >
                     <X size={18} />
@@ -259,12 +261,14 @@ export default function Catalog() {
                 )}
               </div>
               <button 
+                id="filter-sidebar-toggle-btn"
                 onClick={() => setIsFilterSidebarOpen(true)}
                 className={`p-4 border transition-colors flex items-center justify-center relative min-w-[56px] ${
                   selectedCategories.length > 0 || selectedIndustries.length > 0 
                     ? 'bg-bfi-red border-bfi-red text-white' 
                     : 'border-industrial-black/10 hover:bg-industrial-gray'
                 }`}
+                aria-label="Abrir filtros"
               >
                 <Filter size={20} />
                 {(selectedCategories.length > 0 || selectedIndustries.length > 0) && (
@@ -276,14 +280,24 @@ export default function Catalog() {
             </div>
           </div>
 
-          {(selectedCategories.length > 0 || selectedIndustries.length > 0) && (
+          {(selectedCategories.length > 0 || selectedIndustries.length > 0 || searchQuery.trim()) && (
             <div className="mt-8 flex flex-wrap gap-2 items-center">
               <span className="micro-label mr-2 opacity-40">Filtros Ativos:</span>
+              {searchQuery.trim() && (
+                <button 
+                  id="active-filter-search"
+                  onClick={() => setSearchQuery("")}
+                  className="bg-bfi-red/10 text-bfi-red border border-bfi-red/20 px-3 py-1.5 micro-label !text-[10px] flex items-center gap-2 hover:bg-bfi-red hover:text-white transition-colors"
+                >
+                  Pesquisa: "{searchQuery.trim()}" <X size={12} />
+                </button>
+              )}
               {selectedCategories.map(cat => (
                 <button 
                   key={cat} 
+                  id={`active-filter-cat-${cat.toLowerCase().replace(/\s+/g, '-')}`}
                   onClick={() => toggleCategory(cat)}
-                  className="bg-industrial-gray px-3 py-1 micro-label !text-[10px] flex items-center gap-2 hover:bg-bfi-red hover:text-white transition-colors"
+                  className="bg-industrial-gray px-3 py-1.5 micro-label !text-[10px] flex items-center gap-2 hover:bg-bfi-red hover:text-white transition-colors"
                 >
                   {cat} <X size={12} />
                 </button>
@@ -291,13 +305,15 @@ export default function Catalog() {
               {selectedIndustries.map(ind => (
                 <button 
                   key={ind} 
+                  id={`active-filter-ind-${ind.toLowerCase().replace(/\s+/g, '-')}`}
                   onClick={() => toggleIndustry(ind)}
-                  className="bg-industrial-black text-white px-3 py-1 micro-label !text-[10px] flex items-center gap-2 hover:bg-bfi-red transition-colors"
+                  className="bg-industrial-black text-white px-3 py-1.5 micro-label !text-[10px] flex items-center gap-2 hover:bg-bfi-red transition-colors"
                 >
                   {ind} <X size={12} />
                 </button>
               ))}
               <button 
+                id="clear-all-filters-btn"
                 onClick={clearFilters}
                 className="micro-label !text-[10px] underline hover:text-bfi-red transition-colors px-2"
               >
@@ -467,12 +483,26 @@ export default function Catalog() {
               ))
             ) : (
               <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="col-span-full flex flex-col items-center justify-center py-20 text-industrial-black/30"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="col-span-full flex flex-col items-center justify-center py-24 text-center"
               >
-                <Search size={48} className="mb-4 opacity-20" />
-                <p className="micro-label text-lg uppercase tracking-widest font-black">Nenhum produto encontrado</p>
+                <div className="w-16 h-16 rounded-full bg-industrial-gray flex items-center justify-center mb-4 text-industrial-black/40">
+                  <Search size={28} />
+                </div>
+                <h3 className="font-bold text-industrial-black text-lg mb-2">Nenhum produto encontrado</h3>
+                <p className="text-sm max-w-md text-industrial-black/60 mb-6">
+                  {searchQuery.trim()
+                    ? `Não foram encontrados produtos correspondentes à pesquisa "${searchQuery.trim()}". Tente pesquisar por outro nome ou categoria.`
+                    : "Não foram encontrados produtos com os filtros selecionados."}
+                </p>
+                <button 
+                  id="empty-state-reset-btn"
+                  onClick={clearFilters}
+                  className="px-6 py-3 bg-industrial-black text-white micro-label text-xs hover:bg-bfi-red transition-colors uppercase font-black"
+                >
+                  Limpar Pesquisa e Filtros
+                </button>
               </motion.div>
             )}
           </AnimatePresence>
