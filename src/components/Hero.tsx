@@ -12,6 +12,25 @@ export default function Hero() {
     }
   };
 
+  const getHeroImageSrc = (imgUrl?: string) => {
+    if (!imgUrl) return "/fabricabueso.png";
+    if (imgUrl.startsWith("http://") || imgUrl.startsWith("https://") || imgUrl.startsWith("data:")) {
+      return imgUrl;
+    }
+    // It's a local path. Strip any leading slashes or "public" prefix
+    let path = imgUrl.trim();
+    while (path.startsWith("/")) {
+      path = path.slice(1);
+    }
+    if (path.startsWith("public/")) {
+      path = path.replace("public/", "");
+    }
+    while (path.startsWith("/")) {
+      path = path.slice(1);
+    }
+    return "/" + path;
+  };
+
   return (
     <section className="relative min-h-[80vh] flex flex-col justify-center px-6 py-20 overflow-hidden">
       <div className="max-w-screen-2xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -53,11 +72,7 @@ export default function Hero() {
           className="relative aspect-square lg:aspect-video overflow-hidden transition-all duration-700"
         >
           <img
-            src={
-              settings?.heroImage 
-                ? settings.heroImage.replace('public/', '/') 
-                : "/fabricabueso.png"
-            }
+            src={getHeroImageSrc(settings?.heroImage)}
             alt="Instalações industriais da BFI"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
