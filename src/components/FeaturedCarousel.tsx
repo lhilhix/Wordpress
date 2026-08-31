@@ -78,12 +78,12 @@ export default function FeaturedCarousel() {
   if (loading || products.length === 0) return null;
 
   return (
-    <section className="py-32 bg-white overflow-hidden">
+    <section className="py-32 bg-white dark:bg-[#0D0F12] transition-colors duration-200 overflow-hidden">
       <div className="max-w-screen-2xl mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
           <div>
             <div className="micro-label text-bfi-red mb-4">Peças em Destaque</div>
-            <h2 className="display-medium tracking-tighter uppercase font-black leading-none">
+            <h2 className="display-medium tracking-tighter uppercase font-black leading-none text-industrial-black dark:text-white">
               Inovação em <br /> Cada Detalhe
             </h2>
           </div>
@@ -91,13 +91,13 @@ export default function FeaturedCarousel() {
           <div className="flex gap-4">
             <button 
               onClick={prev}
-              className="w-16 h-16 border border-industrial-black/10 flex items-center justify-center hover:bg-industrial-black hover:text-white transition-all group"
+              className="w-16 h-16 border border-industrial-black/10 dark:border-white/10 flex items-center justify-center text-industrial-black dark:text-white hover:bg-industrial-black hover:text-white dark:hover:bg-white dark:hover:text-industrial-black transition-all group"
             >
               <ArrowLeft size={24} className="group-active:scale-90 transition-transform" />
             </button>
             <button 
               onClick={next}
-              className="w-16 h-16 border border-industrial-black/10 flex items-center justify-center hover:bg-industrial-black hover:text-white transition-all group"
+              className="w-16 h-16 border border-industrial-black/10 dark:border-white/10 flex items-center justify-center text-industrial-black dark:text-white hover:bg-industrial-black hover:text-white dark:hover:bg-white dark:hover:text-industrial-black transition-all group"
             >
               <ArrowRight size={24} className="group-active:scale-90 transition-transform" />
             </button>
@@ -123,15 +123,15 @@ export default function FeaturedCarousel() {
                 <div className="flex items-center gap-2 micro-label text-bfi-red mb-6">
                   <Package size={14} /> {products[currentIndex].category}
                 </div>
-                <h3 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-8 leading-tight">
+                <h3 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-8 leading-tight text-industrial-black dark:text-white">
                   {products[currentIndex].name}
                 </h3>
-                <p className="text-xl text-industrial-black/60 mb-12 max-w-lg leading-relaxed">
+                <p className="text-xl text-industrial-black/60 dark:text-white/70 mb-12 max-w-lg leading-relaxed">
                   {products[currentIndex].description}
                 </p>
                 <Link 
                   to="/catalogo"
-                  className="inline-flex items-center gap-4 bg-industrial-black text-white px-10 py-5 font-black text-xs uppercase tracking-widest hover:bg-bfi-red transition-all"
+                  className="inline-flex items-center gap-4 bg-industrial-black text-white dark:bg-white dark:text-industrial-black px-10 py-5 font-black text-xs uppercase tracking-widest hover:bg-bfi-red dark:hover:bg-bfi-red dark:hover:text-white transition-all"
                 >
                   Ver no Catálogo <ArrowRight size={16} />
                 </Link>
@@ -139,7 +139,7 @@ export default function FeaturedCarousel() {
 
               {/* Product Image */}
               <div className="lg:col-span-7 h-full order-1 lg:order-2 flex flex-col gap-4">
-                <div className="relative h-full w-full bg-industrial-gray grayscale hover:grayscale-0 transition-all duration-700 overflow-hidden group">
+                <div className="relative h-full w-full bg-industrial-gray dark:bg-[#14171D] border border-transparent dark:border-white/10 grayscale hover:grayscale-0 transition-all duration-700 overflow-hidden group">
                   <AnimatePresence mode="wait">
                     <motion.img 
                       key={currentImageIndex}
@@ -155,7 +155,7 @@ export default function FeaturedCarousel() {
                     />
                   </AnimatePresence>
                   <div className="absolute inset-0 bg-bfi-red/5 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <div className="absolute top-10 left-10 bg-industrial-black text-white p-6 font-black tracking-widest text-[10px] uppercase z-10 transition-transform group-hover:scale-105">
+                  <div className="absolute top-10 left-10 bg-industrial-black dark:bg-[#0D0F12] text-white border dark:border-white/20 p-6 font-black tracking-widest text-[10px] uppercase z-10 transition-transform group-hover:scale-105">
                     Ref: {products[currentIndex].id}
                   </div>
 
@@ -191,7 +191,7 @@ export default function FeaturedCarousel() {
                       <button
                         key={idx}
                         onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(idx); }}
-                        className={`flex-shrink-0 w-24 h-24 relative overflow-hidden transition-all ${currentImageIndex === idx ? 'border-2 border-bfi-red' : 'opacity-50 hover:opacity-100 grayscale hover:grayscale-0'}`}
+                        className={`flex-shrink-0 w-24 h-24 relative overflow-hidden transition-all ${currentImageIndex === idx ? 'border-2 border-bfi-red' : 'opacity-50 hover:opacity-100 grayscale hover:grayscale-0 border border-transparent dark:border-white/10'}`}
                       >
                         <img src={img} alt={`Thumb ${idx}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" loading="lazy" />
                       </button>
@@ -206,9 +206,9 @@ export default function FeaturedCarousel() {
         {/* Carousel Indicators */}
         <div className="mt-12 flex items-center gap-12">
            <div className="micro-label font-black text-bfi-red">
-             0{currentIndex + 1} <span className="text-industrial-black/20 mx-2">—</span> 0{products.length}
+             0{currentIndex + 1} <span className="text-industrial-black/20 dark:text-white/20 mx-2">—</span> 0{products.length}
            </div>
-           <div className="flex-grow h-[1px] bg-industrial-black/10 relative">
+           <div className="flex-grow h-[1px] bg-industrial-black/10 dark:bg-white/10 relative">
              <motion.div 
                className="absolute top-0 left-0 h-full bg-bfi-red"
                initial={false}

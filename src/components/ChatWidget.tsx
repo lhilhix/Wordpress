@@ -49,10 +49,10 @@ export default function ChatWidget() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="mb-4 w-[400px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[80vh] bg-white shadow-2xl overflow-hidden flex flex-col border border-industrial-black/10"
+            className="mb-4 w-[400px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[80vh] bg-white dark:bg-[#14171D] shadow-2xl overflow-hidden flex flex-col border border-industrial-black/10 dark:border-white/10"
           >
             {/* Header */}
-            <div className="bg-industrial-black p-6 text-white flex justify-between items-center bg-gradient-to-r from-industrial-black to-industrial-black/90">
+            <div className="bg-industrial-black dark:bg-[#0D0F12] p-6 text-white flex justify-between items-center bg-gradient-to-r from-industrial-black to-industrial-black/90 dark:from-[#0D0F12] dark:to-[#14171D] border-b dark:border-white/10">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-bfi-red flex items-center justify-center font-black">B</div>
                 <div>
@@ -62,14 +62,14 @@ export default function ChatWidget() {
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="hover:text-bfi-red transition-colors"
+                className="hover:text-bfi-red transition-colors p-1"
               >
                 <X size={20} />
               </button>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-industrial-gray/30 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-industrial-gray/30 dark:bg-[#0D0F12]/50 custom-scrollbar">
               {messages.length === 0 && (
                 <div className="text-center py-10 space-y-4">
                   <div className="w-12 h-12 bg-bfi-red/10 text-bfi-red rounded-full flex items-center justify-center mx-auto mb-4">
@@ -85,14 +85,14 @@ export default function ChatWidget() {
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div className={`flex gap-3 max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <div className={`w-8 h-8 shrink-0 flex items-center justify-center ${msg.role === 'user' ? 'bg-industrial-black text-white' : 'bg-bfi-red text-white'}`}>
+                    <div className={`w-8 h-8 shrink-0 flex items-center justify-center ${msg.role === 'user' ? 'bg-industrial-black dark:bg-white dark:text-industrial-black text-white' : 'bg-bfi-red text-white'}`}>
                       {msg.role === 'user' ? <User size={14} /> : <Bot size={14} />}
                     </div>
                     <div>
                       <div className={`p-4 text-sm leading-relaxed ${
                         msg.role === 'user' 
-                          ? 'bg-industrial-black text-white' 
-                          : 'bg-white border border-industrial-black/10 text-industrial-black'
+                          ? 'bg-industrial-black dark:bg-[#1B1F27] text-white border dark:border-white/10' 
+                          : 'bg-white dark:bg-[#14171D] border border-industrial-black/10 dark:border-white/10 text-industrial-black dark:text-white'
                       }`}>
                         {msg.content}
                       </div>
@@ -109,7 +109,7 @@ export default function ChatWidget() {
                     <div className="w-8 h-8 bg-bfi-red text-white flex items-center justify-center">
                       <Bot size={14} />
                     </div>
-                    <div className="p-4 bg-white border border-industrial-black/10 flex items-center gap-2">
+                    <div className="p-4 bg-white dark:bg-[#14171D] border border-industrial-black/10 dark:border-white/10 flex items-center gap-2">
                        <Loader2 size={16} className="animate-spin text-bfi-red" />
                        <span className="text-[10px] uppercase font-bold tracking-widest opacity-40">Engenheiro está a escrever...</span>
                     </div>
@@ -120,13 +120,13 @@ export default function ChatWidget() {
             </div>
 
             {/* Input */}
-            <form onSubmit={handleSend} className="p-6 bg-white border-t border-industrial-black/10 flex gap-3">
+            <form onSubmit={handleSend} className="p-6 bg-white dark:bg-[#14171D] border-t border-industrial-black/10 dark:border-white/10 flex gap-3">
               <input 
                 type="text" 
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Pergunte sobre produtos ou serviços..."
-                className="flex-1 bg-industrial-gray px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-bfi-red transition-all"
+                className="flex-1 bg-industrial-gray dark:bg-[#0D0F12] text-industrial-black dark:text-white px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-bfi-red transition-all border border-transparent dark:border-white/10 placeholder:text-industrial-black/40 dark:placeholder:text-white/40"
               />
               <button 
                 type="submit"

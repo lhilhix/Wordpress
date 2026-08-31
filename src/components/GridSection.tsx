@@ -32,7 +32,7 @@ export default function GridSection() {
       detailedDescription: "A nossa tecnologia de cromagem permite depositar camadas metálicas sobre substratos plásticos (ABS, PC/ABS), conferindo-lhes a aparência e propriedades do metal. Este processo é ideal para componentes estéticos na indústria automóvel e de bens de consumo, garantindo resistência à corrosão e um acabamento de luxo duradouro.",
       icon: <Settings size={32} />,
       largeIcon: <Settings size={64} />,
-      color: "bg-industrial-gray",
+      color: "bg-industrial-gray dark:bg-[#1B1F27] text-industrial-black dark:text-white",
     },
     {
       title: "Metalização em Vácuo",
@@ -40,7 +40,7 @@ export default function GridSection() {
       detailedDescription: "A metalização em vácuo (PVD) é um processo ecológico que permite a aplicação de uma camada ultrafina de metal sobre peças plásticas. É amplamente utilizada em refletores de faróis, embalagens de cosméticos e componentes eletrónicos, oferecendo excelentes propriedades óticas e um acabamento metálico uniforme sem comprometer a geometria da peça.",
       icon: <Monitor size={32} />,
       largeIcon: <Monitor size={64} />,
-      color: "bg-industrial-gray",
+      color: "bg-industrial-gray dark:bg-[#1B1F27] text-industrial-black dark:text-white",
     },
     {
       title: "Design de Moldes",
@@ -48,7 +48,7 @@ export default function GridSection() {
       detailedDescription: "A nossa equipa de engenharia utiliza o mais recente software CAD/CAM para projetar moldes complexos. Focamo-nos na otimização dos ciclos de arrefecimento e fluxo de material para garantir um desempenho duradouro. Desde o conceito inicial até à análise final de DFM, garantimos que o seu produto está pronto para uma produção eficiente.",
       icon: <Settings size={32} />,
       largeIcon: <Settings size={64} />,
-      color: "bg-industrial-gray",
+      color: "bg-industrial-gray dark:bg-[#1B1F27] text-industrial-black dark:text-white",
     },
     {
       title: "Montagem e Acabamento",
@@ -56,7 +56,7 @@ export default function GridSection() {
       detailedDescription: "Para além da moldagem e revestimento, fornecemos operações secundárias abrangentes. Isto inclui soldadura por ultrassons, rebitagem térmica, tampografia e montagem complexa. As nossas linhas de montagem dedicadas são projetadas para uma produção lean, garantindo que os seus produtos sejam entregues prontos para o utilizador final.",
       icon: <Package size={32} />,
       largeIcon: <Package size={64} />,
-      color: "bg-industrial-gray",
+      color: "bg-industrial-gray dark:bg-[#1B1F27] text-industrial-black dark:text-white",
     },
     {
       title: "Controlo de Qualidade",
@@ -64,7 +64,7 @@ export default function GridSection() {
       detailedDescription: "A qualidade está no centro de tudo o que fazemos. O nosso sistema de gestão de qualidade certificado pela norma ISO 9001 inclui inspeções rigorosas durante o processo, análise dimensional utilizando equipamento CMM e testes funcionais. Implementamos SPC para monitorizar a produção em tempo real.",
       icon: <ShieldCheck size={32} />,
       largeIcon: <ShieldCheck size={64} />,
-      color: "bg-industrial-gray",
+      color: "bg-industrial-gray dark:bg-[#1B1F27] text-industrial-black dark:text-white",
     },
   ];
 
@@ -96,14 +96,14 @@ export default function GridSection() {
   }, [selectedService]);
 
   return (
-    <section id="services" className="py-24 px-6 bg-industrial-gray/30">
+    <section id="services" className="py-24 px-6 bg-industrial-gray/30 dark:bg-[#0D0F12] transition-colors duration-200">
       <div className="max-w-screen-2xl mx-auto">
         <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div className="max-w-2xl">
             <div className="micro-label mb-4 text-bfi-red">Nossa Especialidade</div>
-            <h2 className="display-medium">Excelência Industrial</h2>
+            <h2 className="display-medium text-industrial-black dark:text-white">Excelência Industrial</h2>
           </div>
-          <p className="text-lg text-industrial-black/60 max-w-md">
+          <p className="text-lg text-industrial-black/60 dark:text-white/60 max-w-md">
             {settings?.servicesIntro || "Combinamos décadas de experiência com tecnologia de ponta para entregar soluções plásticas superiores."}
           </p>
         </div>
@@ -127,7 +127,7 @@ export default function GridSection() {
                 <h3 className="text-2xl font-black uppercase mb-4 tracking-tighter leading-none">
                   {service.title}
                 </h3>
-                <p className={`text-sm ${service.color.includes('text-white') ? 'text-white/80' : 'text-industrial-black/60'}`}>
+                <p className={`text-sm ${service.color.includes('text-white') ? 'text-white/80' : 'text-industrial-black/60 dark:text-white/70'}`}>
                   {service.description}
                 </p>
                 <div className="mt-6 flex items-center gap-2 micro-label font-black opacity-0 group-hover:opacity-100 transition-opacity">
@@ -153,17 +153,17 @@ export default function GridSection() {
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="relative bg-white w-full max-w-3xl overflow-hidden shadow-2xl"
+                className="relative bg-white dark:bg-[#14171D] border border-transparent dark:border-white/10 w-full max-w-3xl overflow-hidden shadow-2xl"
               >
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="absolute top-6 right-6 text-industrial-black hover:text-bfi-red transition-colors z-10"
+                  className="absolute top-6 right-6 text-industrial-black dark:text-white hover:text-bfi-red transition-colors z-10"
                 >
                   <X size={32} />
                 </button>
 
                 <div className="flex flex-col md:flex-row">
-                  <div className={`md:w-1/3 p-12 flex items-center justify-center ${selectedService.color.includes('text-white') ? 'bg-bfi-red text-white' : 'bg-industrial-gray text-bfi-red'}`}>
+                  <div className={`md:w-1/3 p-12 flex items-center justify-center ${selectedService.color.includes('bg-bfi-red') ? 'bg-bfi-red text-white' : 'bg-industrial-gray dark:bg-[#1B1F27] text-bfi-red'}`}>
                     <motion.div
                       initial={{ scale: 0.5, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
@@ -174,13 +174,13 @@ export default function GridSection() {
                   </div>
                   <div className="md:w-2/3 p-12">
                     <div className="micro-label mb-4 text-bfi-red">Detalhe do Serviço</div>
-                    <h2 className="display-medium mb-6">{selectedService.title}</h2>
-                    <p className="text-lg text-industrial-black/70 leading-relaxed mb-8">
+                    <h2 className="display-medium mb-6 text-industrial-black dark:text-white">{selectedService.title}</h2>
+                    <p className="text-lg text-industrial-black/70 dark:text-white/70 leading-relaxed mb-8">
                       {selectedService.detailedDescription}
                     </p>
                     <button 
                       onClick={() => setSelectedService(null)}
-                      className="bg-industrial-black text-white px-8 py-4 font-bold text-xs uppercase tracking-widest hover:bg-bfi-red transition-all"
+                      className="bg-industrial-black text-white dark:bg-white dark:text-industrial-black px-8 py-4 font-bold text-xs uppercase tracking-widest hover:bg-bfi-red dark:hover:bg-bfi-red dark:hover:text-white transition-all"
                     >
                       Fechar Detalhes
                     </button>
@@ -195,13 +195,13 @@ export default function GridSection() {
         <div id="about-reach" className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
           <div className="lg:col-span-1">
             <div className="micro-label mb-4 text-bfi-red">Setores que Servimos</div>
-            <h2 className="display-medium mb-6">Nosso <br /> Alcance</h2>
-            <p className="text-industrial-black/60 mb-8">
+            <h2 className="display-medium mb-6 text-industrial-black dark:text-white">Nosso <br /> Alcance</h2>
+            <p className="text-industrial-black/60 dark:text-white/60 mb-8">
               Desde componentes automóveis de alta segurança até dispositivos médicos estéreis, as nossas linhas de produção estão otimizadas para diversos padrões industriais.
             </p>
             <Link 
               to="/catalogo"
-              className="inline-block bg-industrial-black text-white px-8 py-4 font-bold text-xs uppercase tracking-widest hover:bg-bfi-red transition-all"
+              className="inline-block bg-industrial-black text-white dark:bg-white dark:text-industrial-black px-8 py-4 font-bold text-xs uppercase tracking-widest hover:bg-bfi-red dark:hover:bg-bfi-red dark:hover:text-white transition-all"
             >
               Ver Casos de Estudo
             </Link>
@@ -215,9 +215,9 @@ export default function GridSection() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="aspect-square border border-industrial-black/10 flex flex-col items-center justify-center gap-4 hover:bg-industrial-gray transition-colors group"
+                className="aspect-square border border-industrial-black/10 dark:border-white/10 dark:bg-[#14171D] flex flex-col items-center justify-center gap-4 hover:bg-industrial-gray dark:hover:bg-[#1B1F27] transition-colors group"
               >
-                <div className="text-industrial-black/40 group-hover:text-bfi-red transition-colors">
+                <div className="text-industrial-black/40 dark:text-white/40 group-hover:text-bfi-red transition-colors">
                   {industry.icon}
                 </div>
                 <span className="micro-label text-center px-4">{industry.name}</span>
@@ -237,7 +237,7 @@ export default function GridSection() {
                 <div className="text-2xl font-black uppercase tracking-tighter">Fábrica de Braga</div>
               </div>
             </div>
-            <div className="col-span-2 aspect-video bg-industrial-black flex items-center justify-center p-8">
+            <div className="col-span-2 aspect-video bg-industrial-black dark:bg-[#1B1F27] border dark:border-white/10 flex items-center justify-center p-8">
               <p className="text-white text-xl font-light italic leading-relaxed text-center">
                 "Qualidade não é um ato, é um hábito."
               </p>

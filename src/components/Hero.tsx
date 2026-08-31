@@ -15,7 +15,7 @@ export default function Hero() {
 
   const getHeroImageSrc = (imgUrl?: string) => {
     if (!imgUrl || imgUrl === "/fabricabueso.png" || imgUrl === "fabricabueso.png" || imgUrl === "public/fabricabueso.png") {
-      return heroFactoryDefault;
+      return "/fabricabueso.png";
     }
     if (imgUrl.startsWith("http://") || imgUrl.startsWith("https://") || imgUrl.startsWith("data:")) {
       return imgUrl;
@@ -44,24 +44,24 @@ export default function Hero() {
           className="z-10"
         >
           <div className="micro-label mb-4 text-bfi-red">Fundada em Braga, Portugal</div>
-          <h1 className="display-large mb-8">
+          <h1 className="display-large mb-8 text-industrial-black dark:text-white">
             Moldagem <br />
             por <span className="text-bfi-red">Injeção</span> <br />
             de Precisão
           </h1>
-          <p className="text-xl max-w-lg mb-10 text-industrial-black/70 leading-relaxed">
+          <p className="text-xl max-w-lg mb-10 text-industrial-black/70 dark:text-white/70 leading-relaxed">
             Entregamos componentes plásticos de alto desempenho para as indústrias automóvel, médica e eletrónica de consumo em todo o mundo.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <button 
               onClick={scrollToServices}
-              className="bg-industrial-black text-white w-full sm:w-auto px-6 py-4 md:px-10 md:py-5 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-bfi-red transition-all flex items-center justify-center gap-3"
+              className="bg-industrial-black text-white dark:bg-white dark:text-industrial-black w-full sm:w-auto px-6 py-4 md:px-10 md:py-5 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-bfi-red dark:hover:bg-bfi-red dark:hover:text-white transition-all flex items-center justify-center gap-3"
             >
               Explorar Serviços <ArrowRight size={18} />
             </button>
             <Link 
               to="/about"
-              className="border-2 border-industrial-black w-full sm:w-auto px-6 py-4 md:px-10 md:py-5 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-industrial-black hover:text-white transition-all text-center"
+              className="border-2 border-industrial-black dark:border-white/30 text-industrial-black dark:text-white w-full sm:w-auto px-6 py-4 md:px-10 md:py-5 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-industrial-black hover:text-white dark:hover:bg-white dark:hover:text-industrial-black transition-all text-center"
             >
               Nossa Fábrica
             </Link>
@@ -72,20 +72,26 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-          className="relative aspect-square lg:aspect-video overflow-hidden transition-all duration-700"
+          className="relative aspect-square lg:aspect-video overflow-hidden transition-all duration-700 border border-transparent dark:border-white/10"
         >
           <img
             src={getHeroImageSrc(settings?.heroImage)}
             alt="Instalações industriais da BFI"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
+            onError={(e) => {
+              const target = e.currentTarget;
+              if (target.src !== heroFactoryDefault) {
+                target.src = heroFactoryDefault;
+              }
+            }}
           />
           <div className="absolute inset-0 bg-bfi-red/10 mix-blend-multiply pointer-events-none"></div>
         </motion.div>
       </div>
 
       {/* Background Decorative Element */}
-      <div className="absolute -bottom-20 -right-20 text-[20vw] font-black text-industrial-gray opacity-20 select-none pointer-events-none uppercase">
+      <div className="absolute -bottom-20 -right-20 text-[20vw] font-black text-industrial-gray dark:text-white/5 opacity-20 select-none pointer-events-none uppercase">
         Braga
       </div>
     </section>

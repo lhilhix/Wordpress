@@ -4,7 +4,7 @@ import { History, Target, TrendingUp, MapPin } from "lucide-react";
 
 const HistorySection: React.FC = () => {
   return (
-    <section className="py-24 bg-white overflow-hidden" id="history">
+    <section className="py-24 bg-white dark:bg-[#0D0F12] transition-colors duration-200 overflow-hidden" id="history">
       <div className="max-w-screen-2xl mx-auto px-6">
         <div className="flex flex-col lg:flex-row gap-16 items-start">
           {/* Left Side: Content */}
@@ -22,10 +22,10 @@ const HistorySection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="display-medium mb-8"
+              className="display-medium mb-8 text-industrial-black dark:text-white"
             >
               Nossa História: <br />
-              <span className="text-industrial-black/40">Décadas de Precisão Industrial</span>
+              <span className="text-industrial-black/40 dark:text-white/40">Décadas de Precisão Industrial</span>
             </motion.h2>
 
             <motion.div
@@ -33,10 +33,10 @@ const HistorySection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="space-y-6 text-xl text-industrial-black/60 leading-relaxed font-light"
+              className="space-y-6 text-xl text-industrial-black/60 dark:text-white/70 leading-relaxed font-light"
             >
               <p>
-                Fundada em <strong className="text-industrial-black font-bold">1985</strong> na cidade de <strong className="text-industrial-black font-bold">Braga, Portugal</strong>, 
+                Fundada em <strong className="text-industrial-black dark:text-white font-bold">1985</strong> na cidade de <strong className="text-industrial-black dark:text-white font-bold">Braga, Portugal</strong>, 
                 a Plásticos Bueso iniciou o seu percurso como uma pequena oficina familiar dedicada à injeção de componentes técnicos simples.
               </p>
               <p>
@@ -56,13 +56,13 @@ const HistorySection: React.FC = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="p-8 bg-industrial-gray border-l-4 border-bfi-red"
+              className="p-8 bg-industrial-gray dark:bg-[#14171D] border-l-4 border-bfi-red"
             >
               <div className="flex items-center gap-3 mb-4">
                 <History className="text-bfi-red" size={24} />
-                <h4 className="font-black uppercase tracking-tighter text-sm">Fundação</h4>
+                <h4 className="font-black uppercase tracking-tighter text-sm text-industrial-black dark:text-white">Fundação</h4>
               </div>
-              <p className="text-sm text-industrial-black/60">
+              <p className="text-sm text-industrial-black/60 dark:text-white/60">
                 Início das operações em 1985, focada na excelência técnica desde o primeiro dia.
               </p>
             </motion.div>
@@ -72,13 +72,13 @@ const HistorySection: React.FC = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="p-8 border border-industrial-black/10"
+              className="p-8 border border-industrial-black/10 dark:border-white/10 dark:bg-[#14171D]"
             >
               <div className="flex items-center gap-3 mb-4">
                 <TrendingUp className="text-bfi-red" size={24} />
-                <h4 className="font-black uppercase tracking-tighter text-sm">Crescimento</h4>
+                <h4 className="font-black uppercase tracking-tighter text-sm text-industrial-black dark:text-white">Crescimento</h4>
               </div>
-              <p className="text-sm text-industrial-black/60">
+              <p className="text-sm text-industrial-black/60 dark:text-white/60">
                 Expansão contínua das instalações e parque de máquinas, atingindo capacidade de 1000 toneladas.
               </p>
             </motion.div>
@@ -88,13 +88,13 @@ const HistorySection: React.FC = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="p-8 border border-industrial-black/10"
+              className="p-8 border border-industrial-black/10 dark:border-white/10 dark:bg-[#14171D]"
             >
               <div className="flex items-center gap-3 mb-4">
                 <Target className="text-bfi-red" size={24} />
-                <h4 className="font-black uppercase tracking-tighter text-sm">Conquistas</h4>
+                <h4 className="font-black uppercase tracking-tighter text-sm text-industrial-black dark:text-white">Conquistas</h4>
               </div>
-              <p className="text-sm text-industrial-black/60">
+              <p className="text-sm text-industrial-black/60 dark:text-white/60">
                 Certificações ISO 9001 e estatuto de PME Excelência, refletindo o nosso rigor operacional.
               </p>
             </motion.div>
@@ -104,7 +104,7 @@ const HistorySection: React.FC = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="p-8 bg-industrial-black text-white"
+              className="p-8 bg-industrial-black dark:bg-[#1B1F27] border dark:border-white/10 text-white"
             >
               <div className="flex items-center gap-3 mb-4">
                 <MapPin className="text-bfi-red" size={24} />
@@ -118,7 +118,7 @@ const HistorySection: React.FC = () => {
         </div>
 
         {/* Big Achievement Number Section */}
-        <div className="mt-24 pt-24 border-t border-industrial-black/5 grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
+        <div className="mt-24 pt-24 border-t border-industrial-black/5 dark:border-white/10 grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
           {[
             { value: "35+", label: "Anos de Experiência" },
             { value: "20+", label: "Países de Exportação" },
@@ -133,7 +133,7 @@ const HistorySection: React.FC = () => {
               transition={{ delay: i * 0.1 }}
             >
               <div className="text-5xl font-black text-bfi-red tracking-tighter mb-2">{stat.value}</div>
-              <div className="micro-label text-industrial-black/40">{stat.label}</div>
+              <div className="micro-label text-industrial-black/40 dark:text-white/50">{stat.label}</div>
             </motion.div>
           ))}
         </div>

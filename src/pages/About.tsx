@@ -16,20 +16,20 @@ export default function About() {
   ];
 
   return (
-    <div className="min-h-screen bg-white selection:bg-bfi-red selection:text-white">
+    <div className="min-h-screen bg-white dark:bg-[#0D0F12] text-industrial-black dark:text-white transition-colors duration-200 selection:bg-bfi-red selection:text-white">
       <Navbar />
       
       <main>
         <div className="max-w-screen-2xl mx-auto px-6 py-20">
           <header className="mb-24">
           <div className="micro-label mb-4 text-bfi-red">A Nossa História</div>
-          <h1 className="display-large mb-8">Sobre a <br /> Plásticos Bueso</h1>
+          <h1 className="display-large mb-8 text-industrial-black dark:text-white">Sobre a <br /> Plásticos Bueso</h1>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <p className="text-xl text-industrial-black/60 leading-relaxed">
+            <p className="text-xl text-industrial-black/60 dark:text-white/70 leading-relaxed">
               {settings?.aboutText || "Há mais de três décadas que a Plásticos Bueso está na vanguarda da indústria de moldagem por injeção de plásticos em Portugal. Sediada no coração industrial de Braga, combinamos o artesanato tradicional com tecnologia futurista."}
             </p>
             {!settings?.aboutText && (
-              <p className="text-xl text-industrial-black/60 leading-relaxed">
+              <p className="text-xl text-industrial-black/60 dark:text-white/70 leading-relaxed">
                 A nossa missão é simples: fornecer soluções de engenharia de precisão que capacitem os nossos parceiros globais a inovar e a ter sucesso. Não fabricamos apenas peças; construímos os componentes do futuro.
               </p>
             )}
@@ -39,26 +39,26 @@ export default function About() {
         <HistorySection />
 
         {/* Vision & Values Grid */}
-        <div className="bfi-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-32">
-          <div className="bfi-grid-item bg-industrial-gray">
+        <div className="bfi-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-32 border-industrial-black/10 dark:border-white/10">
+          <div className="bfi-grid-item bg-industrial-gray dark:bg-[#14171D] border-industrial-black/10 dark:border-white/10">
             <History className="text-bfi-red mb-6" size={40} />
-            <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">Herança</h3>
-            <p className="text-sm text-industrial-black/60">Construída sobre mais de 35 anos de experiência técnica e valores familiares.</p>
+            <h3 className="text-2xl font-black uppercase tracking-tighter mb-4 text-industrial-black dark:text-white">Herança</h3>
+            <p className="text-sm text-industrial-black/60 dark:text-white/60">Construída sobre mais de 35 anos de experiência técnica e valores familiares.</p>
           </div>
-          <div className="bfi-grid-item bg-white">
+          <div className="bfi-grid-item bg-white dark:bg-[#0D0F12] border-industrial-black/10 dark:border-white/10">
             <Award className="text-bfi-red mb-6" size={40} />
-            <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">Qualidade</h3>
-            <p className="text-sm text-industrial-black/60">Padrões ISO rigorosos e filosofia de fabricação com zero defeitos.</p>
+            <h3 className="text-2xl font-black uppercase tracking-tighter mb-4 text-industrial-black dark:text-white">Qualidade</h3>
+            <p className="text-sm text-industrial-black/60 dark:text-white/60">Padrões ISO rigorosos e filosofia de fabricação com zero defeitos.</p>
           </div>
-          <div className="bfi-grid-item bg-industrial-black text-white">
+          <div className="bfi-grid-item bg-industrial-black dark:bg-[#1B1F27] text-white border-industrial-black/10 dark:border-white/10">
             <Users className="text-bfi-red mb-6" size={40} />
-            <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">Equipa</h3>
+            <h3 className="text-2xl font-black uppercase tracking-tighter mb-4 text-white">Equipa</h3>
             <p className="text-sm text-white/60">Uma força de trabalho dedicada de mais de 150 engenheiros e especialistas de produção.</p>
           </div>
-          <div className="bfi-grid-item bg-white">
+          <div className="bfi-grid-item bg-white dark:bg-[#0D0F12] border-industrial-black/10 dark:border-white/10">
             <Globe className="text-bfi-red mb-6" size={40} />
-            <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">Global</h3>
-            <p className="text-sm text-industrial-black/60">Exportação de componentes de precisão para líderes automóveis e médicos em todo o mundo.</p>
+            <h3 className="text-2xl font-black uppercase tracking-tighter mb-4 text-industrial-black dark:text-white">Global</h3>
+            <p className="text-sm text-industrial-black/60 dark:text-white/60">Exportação de componentes de precisão para líderes automóveis e médicos em todo o mundo.</p>
           </div>
         </div>
 
@@ -71,13 +71,13 @@ export default function About() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="border border-industrial-black/10 p-10 hover:border-bfi-red transition-colors group relative overflow-hidden"
+              className="border border-industrial-black/10 dark:border-white/10 bg-white dark:bg-[#14171D] p-10 hover:border-bfi-red transition-colors group relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                 <Award size={100} />
               </div>
-              <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">Certificação ISO 9001:2015</h3>
-              <p className="text-sm text-industrial-black/60 leading-relaxed">
+              <h3 className="text-2xl font-black uppercase tracking-tighter mb-4 text-industrial-black dark:text-white">Certificação ISO 9001:2015</h3>
+              <p className="text-sm text-industrial-black/60 dark:text-white/70 leading-relaxed">
                 Sistema de Gestão da Qualidade implementado em todas as nossas linhas operacionais, garantindo uma resposta eficiente, melhoria contínua e foco integral na satisfação do cliente.
               </p>
             </motion.div>
@@ -87,13 +87,13 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="border border-industrial-black/10 p-10 hover:border-bfi-red transition-colors group relative overflow-hidden"
+              className="border border-industrial-black/10 dark:border-white/10 bg-white dark:bg-[#14171D] p-10 hover:border-bfi-red transition-colors group relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                 <Award size={100} />
               </div>
-              <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">PME Excelência</h3>
-              <p className="text-sm text-industrial-black/60 leading-relaxed">
+              <h3 className="text-2xl font-black uppercase tracking-tighter mb-4 text-industrial-black dark:text-white">PME Excelência</h3>
+              <p className="text-sm text-industrial-black/60 dark:text-white/70 leading-relaxed">
                 Reconhecimento oficial do IAPMEI pelas nossas robustas condições financeiras, estratégias de desenvolvimento contínuo e papel de destaque no tecido empresarial nacional.
               </p>
             </motion.div>
@@ -103,7 +103,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="border border-industrial-black/10 p-10 hover:border-bfi-red transition-colors group relative overflow-hidden bg-industrial-black text-white"
+              className="border border-industrial-black/10 dark:border-white/10 p-10 hover:border-bfi-red transition-colors group relative overflow-hidden bg-industrial-black dark:bg-[#07080a] text-white"
             >
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                 <Globe size={100} />
@@ -127,12 +127,12 @@ export default function About() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.1 }}
                 viewport={{ once: true }}
-                className="flex flex-col md:flex-row gap-8 md:items-center border-b border-industrial-black/10 pb-12"
+                className="flex flex-col md:flex-row gap-8 md:items-center border-b border-industrial-black/10 dark:border-white/10 pb-12"
               >
                 <div className="text-6xl font-black text-bfi-red tracking-tighter md:w-48 shrink-0">
                   {m.year}
                 </div>
-                <div className="text-2xl font-bold text-industrial-black/80 leading-tight">
+                <div className="text-2xl font-bold text-industrial-black/80 dark:text-white/80 leading-tight">
                   {m.event}
                 </div>
               </motion.div>
@@ -149,8 +149,8 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-xl font-black uppercase tracking-tighter mb-4 border-l-4 border-bfi-red pl-4">Quais são as vossas capacidades de produção?</h3>
-              <p className="text-industrial-black/60 leading-relaxed">
+              <h3 className="text-xl font-black uppercase tracking-tighter mb-4 border-l-4 border-bfi-red pl-4 text-industrial-black dark:text-white">Quais são as vossas capacidades de produção?</h3>
+              <p className="text-industrial-black/60 dark:text-white/70 leading-relaxed">
                 Dispomos de um parque de máquinas de moldagem por injeção com forças de fecho de 50 a 1000 toneladas, permitindo-nos produzir desde micro-componentes técnicos a grandes peças estruturais com alta precisão.
               </p>
             </motion.div>
@@ -160,8 +160,8 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
             >
-              <h3 className="text-xl font-black uppercase tracking-tighter mb-4 border-l-4 border-bfi-red pl-4">Que tipos de materiais plásticos processam?</h3>
-              <p className="text-industrial-black/60 leading-relaxed">
+              <h3 className="text-xl font-black uppercase tracking-tighter mb-4 border-l-4 border-bfi-red pl-4 text-industrial-black dark:text-white">Que tipos de materiais plásticos processam?</h3>
+              <p className="text-industrial-black/60 dark:text-white/70 leading-relaxed">
                 Processamos uma vasta gama de polímeros de engenharia (ABS, PC, PA, POM, PBT), plásticos técnicos de alto desempenho, bem como materiais bio-baseados e reciclados para soluções sustentáveis.
               </p>
             </motion.div>
@@ -171,8 +171,8 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              <h3 className="text-xl font-black uppercase tracking-tighter mb-4 border-l-4 border-bfi-red pl-4">Quais são os vossos padrões de qualidade?</h3>
-              <p className="text-industrial-black/60 leading-relaxed">
+              <h3 className="text-xl font-black uppercase tracking-tighter mb-4 border-l-4 border-bfi-red pl-4 text-industrial-black dark:text-white">Quais são os vossos padrões de qualidade?</h3>
+              <p className="text-industrial-black/60 dark:text-white/70 leading-relaxed">
                 Somos certificados ISO 9001. O nosso controlo de qualidade inclui medição CMM tridimensional, inspeção óptica automatizada e análise SPC em tempo real para garantir defeito zero em toda a produção.
               </p>
             </motion.div>
@@ -182,8 +182,8 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              <h3 className="text-xl font-black uppercase tracking-tighter mb-4 border-l-4 border-bfi-red pl-4">Oferecem serviços de acabamento e montagem?</h3>
-              <p className="text-industrial-black/60 leading-relaxed">
+              <h3 className="text-xl font-black uppercase tracking-tighter mb-4 border-l-4 border-bfi-red pl-4 text-industrial-black dark:text-white">Oferecem serviços de acabamento e montagem?</h3>
+              <p className="text-industrial-black/60 dark:text-white/70 leading-relaxed">
                 Sim, oferecemos soluções completas "chave na mão" incluindo cromagem, metalização, soldadura por ultrassons, tampografia e montagem de conjuntos técnicos complexos.
               </p>
             </motion.div>

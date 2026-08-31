@@ -224,36 +224,36 @@ export default function Catalog() {
   };
 
   return (
-    <div className="min-h-screen bg-white selection:bg-bfi-red selection:text-white">
+    <div className="min-h-screen bg-white dark:bg-[#0D0F12] text-industrial-black dark:text-white transition-colors duration-200 selection:bg-bfi-red selection:text-white">
       <Navbar />
       
       <main>
         <div className="max-w-screen-2xl mx-auto px-6 py-20">
           <header className="mb-20">
           <div className="micro-label mb-4 text-bfi-red">Catálogo de Produtos</div>
-          <h1 className="display-large mb-8">Catálogo de <br /> Componentes</h1>
+          <h1 className="display-large mb-8 text-industrial-black dark:text-white">Catálogo de <br /> Componentes</h1>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <p className="text-xl text-industrial-black/60 max-w-2xl leading-relaxed">
+            <p className="text-xl text-industrial-black/60 dark:text-white/70 max-w-2xl leading-relaxed">
               Explore a nossa gama de componentes moldados de alta precisão. Cada peça é projetada para cumprir os padrões industriais mais exigentes.
             </p>
             
             <div className="flex items-center gap-4 w-full md:w-auto">
               <div className="relative flex-1 md:w-96">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-industrial-black/40" size={18} />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-industrial-black/40 dark:text-white/40" size={18} />
                 <input 
                   id="catalog-search-input"
                   type="text" 
                   placeholder="Pesquisar por nome ou categoria..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-12 py-4 border border-industrial-black/10 focus:border-bfi-red outline-none text-sm transition-all placeholder:text-industrial-black/40"
+                  className="w-full pl-12 pr-12 py-4 bg-transparent border border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white focus:border-bfi-red outline-none text-sm transition-all placeholder:text-industrial-black/40 dark:placeholder:text-white/40"
                   aria-label="Pesquisar produtos por nome ou categoria"
                 />
                 {searchQuery && (
                   <button 
                     id="clear-search-btn"
                     onClick={() => setSearchQuery("")}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-industrial-black/40 hover:text-bfi-red transition-colors p-1"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-industrial-black/40 dark:text-white/40 hover:text-bfi-red transition-colors p-1"
                     aria-label="Limpar pesquisa"
                   >
                     <X size={18} />
@@ -266,13 +266,13 @@ export default function Catalog() {
                 className={`p-4 border transition-colors flex items-center justify-center relative min-w-[56px] ${
                   selectedCategories.length > 0 || selectedIndustries.length > 0 
                     ? 'bg-bfi-red border-bfi-red text-white' 
-                    : 'border-industrial-black/10 hover:bg-industrial-gray'
+                    : 'border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white hover:bg-industrial-gray dark:hover:bg-white/5'
                 }`}
                 aria-label="Abrir filtros"
               >
                 <Filter size={20} />
                 {(selectedCategories.length > 0 || selectedIndustries.length > 0) && (
-                  <div className="absolute -top-2 -right-2 w-5 h-5 bg-industrial-black text-white text-[10px] font-black flex items-center justify-center rounded-full">
+                  <div className="absolute -top-2 -right-2 w-5 h-5 bg-industrial-black dark:bg-white text-white dark:text-industrial-black text-[10px] font-black flex items-center justify-center rounded-full">
                     {selectedCategories.length + selectedIndustries.length}
                   </div>
                 )}
@@ -297,7 +297,7 @@ export default function Catalog() {
                   key={cat} 
                   id={`active-filter-cat-${cat.toLowerCase().replace(/\s+/g, '-')}`}
                   onClick={() => toggleCategory(cat)}
-                  className="bg-industrial-gray px-3 py-1.5 micro-label !text-[10px] flex items-center gap-2 hover:bg-bfi-red hover:text-white transition-colors"
+                  className="bg-industrial-gray dark:bg-white/10 text-industrial-black dark:text-white px-3 py-1.5 micro-label !text-[10px] flex items-center gap-2 hover:bg-bfi-red hover:text-white transition-colors"
                 >
                   {cat} <X size={12} />
                 </button>
@@ -307,7 +307,7 @@ export default function Catalog() {
                   key={ind} 
                   id={`active-filter-ind-${ind.toLowerCase().replace(/\s+/g, '-')}`}
                   onClick={() => toggleIndustry(ind)}
-                  className="bg-industrial-black text-white px-3 py-1.5 micro-label !text-[10px] flex items-center gap-2 hover:bg-bfi-red transition-colors"
+                  className="bg-industrial-black dark:bg-white text-white dark:text-industrial-black px-3 py-1.5 micro-label !text-[10px] flex items-center gap-2 hover:bg-bfi-red hover:text-white transition-colors"
                 >
                   {ind} <X size={12} />
                 </button>
@@ -339,12 +339,12 @@ export default function Catalog() {
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                className="relative bg-white w-full max-w-sm h-full shadow-2xl flex flex-col"
+                className="relative bg-white dark:bg-[#14171D] text-industrial-black dark:text-white border-l dark:border-white/10 w-full max-w-sm h-full shadow-2xl flex flex-col"
                 role="dialog"
                 aria-modal="true"
                 aria-label="Filtros Técnicos"
               >
-                <div className="p-8 border-b border-industrial-black/10 flex justify-between items-center">
+                <div className="p-8 border-b border-industrial-black/10 dark:border-white/10 flex justify-between items-center">
                   <div className="flex items-center gap-3">
                     <Filter className="text-bfi-red" size={20} />
                     <h3 className="font-black uppercase tracking-widest text-sm">Filtros Técnicos</h3>
@@ -368,13 +368,13 @@ export default function Catalog() {
                           <div className="relative flex items-center justify-center">
                             <input 
                               type="checkbox" 
-                              className="appearance-none w-6 h-6 border-2 border-industrial-black/10 checked:bg-bfi-red checked:border-bfi-red transition-all cursor-pointer"
+                              className="appearance-none w-6 h-6 border-2 border-industrial-black/10 dark:border-white/20 checked:bg-bfi-red checked:border-bfi-red transition-all cursor-pointer"
                               checked={selectedCategories.includes(category)}
                               onChange={() => toggleCategory(category)}
                             />
                             {selectedCategories.includes(category) && <X className="absolute text-white pointer-events-none" size={14} />}
                           </div>
-                          <span className={`micro-label transition-colors ${selectedCategories.includes(category) ? 'font-black text-bfi-red' : 'group-hover:text-bfi-red'}`}>
+                          <span className={`micro-label transition-colors ${selectedCategories.includes(category) ? 'font-black text-bfi-red' : 'group-hover:text-bfi-red text-industrial-black dark:text-white'}`}>
                             {category}
                           </span>
                         </label>
@@ -391,13 +391,13 @@ export default function Catalog() {
                           <div className="relative flex items-center justify-center">
                             <input 
                               type="checkbox" 
-                              className="appearance-none w-6 h-6 border-2 border-industrial-black/10 checked:bg-industrial-black checked:border-industrial-black transition-all cursor-pointer"
+                              className="appearance-none w-6 h-6 border-2 border-industrial-black/10 dark:border-white/20 checked:bg-industrial-black dark:checked:bg-white checked:border-industrial-black dark:checked:border-white transition-all cursor-pointer"
                               checked={selectedIndustries.includes(industry)}
                               onChange={() => toggleIndustry(industry)}
                             />
-                            {selectedIndustries.includes(industry) && <X className="absolute text-white pointer-events-none" size={14} />}
+                            {selectedIndustries.includes(industry) && <X className="absolute text-white dark:text-industrial-black pointer-events-none" size={14} />}
                           </div>
-                          <span className={`micro-label transition-colors ${selectedIndustries.includes(industry) ? 'font-black' : 'group-hover:text-bfi-red'}`}>
+                          <span className={`micro-label transition-colors ${selectedIndustries.includes(industry) ? 'font-black' : 'group-hover:text-bfi-red text-industrial-black dark:text-white'}`}>
                             {industry}
                           </span>
                         </label>
@@ -406,16 +406,16 @@ export default function Catalog() {
                   </section>
                 </div>
 
-                <div className="p-8 border-t border-industrial-black/10 bg-industrial-gray/30 grid grid-cols-2 gap-4">
+                <div className="p-8 border-t border-industrial-black/10 dark:border-white/10 bg-industrial-gray/30 dark:bg-white/5 grid grid-cols-2 gap-4">
                   <button 
                     onClick={clearFilters}
-                    className="py-4 micro-label !text-[10px] text-center border border-industrial-black/10 hover:bg-industrial-black hover:text-white transition-all uppercase font-black"
+                    className="py-4 micro-label !text-[10px] text-center border border-industrial-black/10 dark:border-white/20 hover:bg-industrial-black hover:text-white dark:hover:bg-white dark:hover:text-industrial-black transition-all uppercase font-black"
                   >
                     Repor
                   </button>
                   <button 
                     onClick={() => setIsFilterSidebarOpen(false)}
-                    className="py-4 micro-label !text-[10px] text-center bg-bfi-red text-white hover:bg-industrial-black transition-all uppercase font-black"
+                    className="py-4 micro-label !text-[10px] text-center bg-bfi-red text-white hover:bg-industrial-black dark:hover:bg-white dark:hover:text-industrial-black transition-all uppercase font-black"
                   >
                     Aplicar
                   </button>
@@ -436,10 +436,10 @@ export default function Catalog() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className="bfi-grid-item group flex flex-col h-full"
+                  className="bfi-grid-item group flex flex-col h-full bg-white dark:bg-[#0D0F12] border-industrial-black/10 dark:border-white/10"
                 >
                   <div 
-                    className="relative aspect-square shrink-0 mb-6 md:mb-8 overflow-hidden bg-industrial-gray grayscale group-hover:grayscale-0 transition-all duration-700 cursor-pointer"
+                    className="relative aspect-square shrink-0 mb-6 md:mb-8 overflow-hidden bg-industrial-gray dark:bg-[#14171D] grayscale group-hover:grayscale-0 transition-all duration-700 cursor-pointer border border-transparent dark:border-white/5"
                     onClick={() => openProductModal(product)}
                   >
                     <LazyImage 
@@ -449,7 +449,7 @@ export default function Catalog() {
                       imgClassName="transition-transform duration-700 group-hover:scale-110"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute top-4 left-4 bg-industrial-black text-white px-3 py-1 micro-label text-[8px] sm:text-[10px]">
+                    <div className="absolute top-4 left-4 bg-industrial-black dark:bg-[#0D0F12] text-white border dark:border-white/20 px-3 py-1 micro-label text-[8px] sm:text-[10px]">
                       {product.id}
                     </div>
                     {product.isFeatured && (
@@ -465,15 +465,15 @@ export default function Catalog() {
                   
                   <div className="flex flex-col flex-1">
                     <div className="micro-label text-bfi-red mb-2 line-clamp-1">{product.category}</div>
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-black uppercase tracking-tighter mb-3 md:mb-4 leading-tight line-clamp-2">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-black uppercase tracking-tighter mb-3 md:mb-4 leading-tight line-clamp-2 text-industrial-black dark:text-white">
                       {product.name}
                     </h3>
-                    <p className="text-industrial-black/60 text-xs sm:text-sm mb-6 md:mb-8 flex-grow line-clamp-3">
+                    <p className="text-industrial-black/60 dark:text-white/70 text-xs sm:text-sm mb-6 md:mb-8 flex-grow line-clamp-3">
                       {product.description}
                     </p>
                     <button 
                       onClick={() => openProductModal(product)}
-                      className="flex items-center gap-2 micro-label font-black group-hover:text-bfi-red transition-colors mt-auto pt-2"
+                      className="flex items-center gap-2 micro-label font-black text-industrial-black dark:text-white group-hover:text-bfi-red dark:group-hover:text-bfi-red transition-colors mt-auto pt-2"
                       aria-label={`Ver especificações técnicas para ${product.name}`}
                     >
                       Especificações Técnicas <ArrowRight size={14} className="shrink-0" />
@@ -487,11 +487,11 @@ export default function Catalog() {
                 animate={{ opacity: 1, y: 0 }}
                 className="col-span-full flex flex-col items-center justify-center py-24 text-center"
               >
-                <div className="w-16 h-16 rounded-full bg-industrial-gray flex items-center justify-center mb-4 text-industrial-black/40">
+                <div className="w-16 h-16 rounded-full bg-industrial-gray dark:bg-white/10 flex items-center justify-center mb-4 text-industrial-black/40 dark:text-white/40">
                   <Search size={28} />
                 </div>
-                <h3 className="font-bold text-industrial-black text-lg mb-2">Nenhum produto encontrado</h3>
-                <p className="text-sm max-w-md text-industrial-black/60 mb-6">
+                <h3 className="font-bold text-industrial-black dark:text-white text-lg mb-2">Nenhum produto encontrado</h3>
+                <p className="text-sm max-w-md text-industrial-black/60 dark:text-white/60 mb-6">
                   {searchQuery.trim()
                     ? `Não foram encontrados produtos correspondentes à pesquisa "${searchQuery.trim()}". Tente pesquisar por outro nome ou categoria.`
                     : "Não foram encontrados produtos com os filtros selecionados."}
@@ -499,7 +499,7 @@ export default function Catalog() {
                 <button 
                   id="empty-state-reset-btn"
                   onClick={clearFilters}
-                  className="px-6 py-3 bg-industrial-black text-white micro-label text-xs hover:bg-bfi-red transition-colors uppercase font-black"
+                  className="px-6 py-3 bg-industrial-black dark:bg-white text-white dark:text-industrial-black micro-label text-xs hover:bg-bfi-red dark:hover:bg-bfi-red dark:hover:text-white transition-colors uppercase font-black"
                 >
                   Limpar Pesquisa e Filtros
                 </button>
@@ -514,7 +514,7 @@ export default function Catalog() {
             <button 
               onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              className={`p-4 border border-industrial-black/10 transition-all ${currentPage === 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-industrial-black hover:text-white'}`}
+              className={`p-4 border border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white transition-all ${currentPage === 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-industrial-black hover:text-white dark:hover:bg-white dark:hover:text-industrial-black'}`}
               aria-label="Página anterior"
             >
               <ChevronLeft size={20} />
@@ -525,7 +525,7 @@ export default function Catalog() {
                 <button
                   key={page}
                   onClick={() => handlePageChange(page)}
-                  className={`w-12 h-12 micro-label flex items-center justify-center transition-all ${currentPage === page ? 'bg-bfi-red text-white' : 'border border-industrial-black/10 hover:bg-industrial-gray'}`}
+                  className={`w-12 h-12 micro-label flex items-center justify-center transition-all ${currentPage === page ? 'bg-bfi-red text-white' : 'border border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white hover:bg-industrial-gray dark:hover:bg-white/10'}`}
                   aria-label={`Ir para a página ${page}`}
                   aria-current={currentPage === page ? "page" : undefined}
                 >
@@ -537,7 +537,7 @@ export default function Catalog() {
             <button 
               onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
-              className={`p-4 border border-industrial-black/10 transition-all ${currentPage === totalPages ? 'opacity-30 cursor-not-allowed' : 'hover:bg-industrial-black hover:text-white'}`}
+              className={`p-4 border border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white transition-all ${currentPage === totalPages ? 'opacity-30 cursor-not-allowed' : 'hover:bg-industrial-black hover:text-white dark:hover:bg-white dark:hover:text-industrial-black'}`}
               aria-label="Página seguinte"
             >
               <ChevronRight size={20} />
@@ -561,21 +561,21 @@ export default function Catalog() {
                 initial={{ opacity: 0, scale: 0.9, y: 40 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative bg-white w-full max-w-5xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh] rounded-none"
+                className="relative bg-white dark:bg-[#14171D] border border-transparent dark:border-white/10 w-full max-w-5xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh] rounded-none"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="product-modal-title"
               >
                 <button 
                   onClick={() => setSelectedProduct(null)}
-                  className="absolute top-6 right-6 text-industrial-black/20 hover:text-bfi-red transition-all z-10"
+                  className="absolute top-6 right-6 text-industrial-black/40 dark:text-white/40 hover:text-bfi-red dark:hover:text-bfi-red transition-all z-10"
                   aria-label="Fechar modal"
                 >
                   <X size={32} />
                 </button>
 
                 {/* Left: Product Images */}
-                <div className="md:w-1/2 bg-industrial-gray relative flex flex-col shrink-0">
+                <div className="md:w-1/2 bg-industrial-gray dark:bg-[#0D0F12] relative flex flex-col shrink-0">
                   <div className="relative flex-grow h-[35vh] md:h-auto overflow-hidden">
                     <AnimatePresence initial={false}>
                       <motion.img 
@@ -604,12 +604,12 @@ export default function Catalog() {
                   </div>
                   {/* Thumbnails */}
                   {selectedProduct.images && selectedProduct.images.length > 1 && (
-                    <div className="bg-industrial-black/5 p-4 flex gap-4 overflow-x-auto custom-scrollbar">
+                    <div className="bg-industrial-black/5 dark:bg-black/40 p-4 flex gap-4 overflow-x-auto custom-scrollbar border-t dark:border-white/10">
                       {selectedProduct.images.map((img, idx) => (
                         <button
                           key={idx}
                           onClick={() => setSelectedImageIndex(idx)}
-                          className={`flex-shrink-0 w-20 h-20 relative overflow-hidden transition-all ${selectedImageIndex === idx ? 'border-2 border-bfi-red scale-105' : 'opacity-50 hover:opacity-100 grayscale hover:grayscale-0'}`}
+                          className={`flex-shrink-0 w-20 h-20 relative overflow-hidden transition-all ${selectedImageIndex === idx ? 'border-2 border-bfi-red scale-105' : 'opacity-50 hover:opacity-100 grayscale hover:grayscale-0 border border-transparent dark:border-white/10'}`}
                           aria-label={`Ver imagem ${idx + 1} de ${selectedProduct.name}`}
                           aria-pressed={selectedImageIndex === idx}
                         >
@@ -621,41 +621,41 @@ export default function Catalog() {
                 </div>
 
                 {/* Right: Info */}
-                <div className="md:w-1/2 p-8 md:p-12 overflow-y-auto custom-scrollbar bg-white">
+                <div className="md:w-1/2 p-8 md:p-12 overflow-y-auto custom-scrollbar bg-white dark:bg-[#14171D]">
                   <div className="flex justify-between items-start mb-6">
                     <div className="micro-label text-bfi-red">{selectedProduct.category}</div>
                     <button 
                       onClick={() => setSelectedProduct(null)}
-                      className="md:hidden text-industrial-black/40 hover:text-bfi-red"
+                      className="md:hidden text-industrial-black/40 dark:text-white/40 hover:text-bfi-red"
                       aria-label="Fechar modal"
                     >
                       <X size={24} />
                     </button>
                   </div>
-                  <h2 id="product-modal-title" className="display-medium mb-8">{selectedProduct.name}</h2>
+                  <h2 id="product-modal-title" className="display-medium mb-8 text-industrial-black dark:text-white">{selectedProduct.name}</h2>
                   
                   <div className="space-y-10">
                     <section>
-                      <div className="flex items-center gap-2 micro-label mb-4">
+                      <div className="flex items-center gap-2 micro-label mb-4 text-industrial-black dark:text-white">
                         <Factory size={16} /> Visão Geral do Produto
                       </div>
-                      <p className="text-xl text-industrial-black/60 leading-relaxed font-light">
+                      <p className="text-xl text-industrial-black/60 dark:text-white/70 leading-relaxed font-light">
                         {selectedProduct.detailedDescription || selectedProduct.description}
                       </p>
                     </section>
 
                     {selectedProduct.specifications && (
-                      <section className="bg-industrial-gray p-8 border-l-4 border-bfi-red">
-                        <div className="flex items-center gap-2 micro-label mb-6">
+                      <section className="bg-industrial-gray dark:bg-[#0D0F12] p-8 border-l-4 border-bfi-red border dark:border-y-white/5 dark:border-r-white/5">
+                        <div className="flex items-center gap-2 micro-label mb-6 text-industrial-black dark:text-white">
                           <ShieldCheck size={16} /> Especificações Técnicas
                         </div>
                         <div className="space-y-4">
                             {selectedProduct.specifications.split('\n').filter(line => line.includes(':')).map((spec, i) => (
-                              <div key={i} className="flex justify-between items-center border-b border-industrial-black/5 pb-2">
-                                <span className="text-xs font-mono text-industrial-black/40 uppercase tracking-widest">
+                              <div key={i} className="flex justify-between items-center border-b border-industrial-black/5 dark:border-white/10 pb-2">
+                                <span className="text-xs font-mono text-industrial-black/40 dark:text-white/40 uppercase tracking-widest">
                                   {spec.split(':')[0].trim()}
                                 </span>
-                                <span className="text-sm font-black uppercase tracking-tight">
+                                <span className="text-sm font-black uppercase tracking-tight text-industrial-black dark:text-white">
                                   {spec.split(':').slice(1).join(':').trim()}
                                 </span>
                               </div>
@@ -670,13 +670,13 @@ export default function Catalog() {
                           setSelectedProduct(null);
                           window.dispatchEvent(new CustomEvent('openQuote'));
                         }}
-                        className="flex-1 bg-bfi-red text-white py-4 md:py-5 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-industrial-black transition-all"
+                        className="flex-1 bg-bfi-red text-white py-4 md:py-5 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-industrial-black dark:hover:bg-white dark:hover:text-industrial-black transition-all"
                       >
                         Solicitar Orçamento
                       </button>
                       <button 
                         onClick={() => setSelectedProduct(null)}
-                        className="flex-1 border border-industrial-black py-4 md:py-5 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-industrial-gray transition-all"
+                        className="flex-1 border border-industrial-black dark:border-white/30 text-industrial-black dark:text-white py-4 md:py-5 font-black text-xs md:text-sm uppercase tracking-widest hover:bg-industrial-gray dark:hover:bg-white/10 transition-all"
                       >
                         Fechar
                       </button>

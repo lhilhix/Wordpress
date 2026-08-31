@@ -1,16 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --color-bfi-red: #FF0044; /* Bold, vibrant red like BFI */
   --color-industrial-black: #0A0A0A;
   --color-industrial-gray: #F5F5F5;
+  --color-dark-bg: #0D0F12;
+  --color-dark-surface: #14171D;
+  --color-dark-card: #1B1F27;
+  --color-dark-border: #282D38;
 }
 
 @layer base {
   body {
-    @apply bg-white text-industrial-black font-sans antialiased;
+    @apply bg-white text-industrial-black font-sans antialiased transition-colors duration-200;
+  }
+  
+  html.dark body {
+    background-color: #0D0F12;
+    color: #F3F4F6;
   }
 }
 
@@ -19,12 +30,24 @@
   @apply border-t border-l border-industrial-black/10;
 }
 
+html.dark .bfi-grid {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
 .bfi-grid-item {
   @apply border-r border-b border-industrial-black/10 p-4 sm:p-6 transition-colors duration-300;
 }
 
+html.dark .bfi-grid-item {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
 .bfi-grid-item:hover {
   @apply bg-industrial-gray;
+}
+
+html.dark .bfi-grid-item:hover {
+  background-color: #1B1F27;
 }
 
 /* Massive display type */
@@ -44,4 +67,26 @@
 /* Micro-labels */
 .micro-label {
   @apply text-[10px] font-bold uppercase tracking-[0.15em] text-industrial-black/50;
+}
+
+html.dark .micro-label {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+html.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
 }

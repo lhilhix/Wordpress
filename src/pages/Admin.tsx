@@ -364,32 +364,32 @@ export default function Admin() {
   if (!user && !loading) return null;
 
   return (
-    <div className="min-h-screen bg-industrial-gray flex flex-col">
+    <div className="min-h-screen bg-industrial-gray dark:bg-[#0D0F12] text-industrial-black dark:text-white transition-colors duration-200 flex flex-col">
       <Navbar />
       
       <main className="max-w-screen-2xl mx-auto px-6 py-20 w-full">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-12">
           <div>
             <div className="micro-label text-bfi-red mb-2">Painel de Controlo</div>
-            <h1 className="text-4xl font-black uppercase tracking-tighter">Administração</h1>
+            <h1 className="text-4xl font-black uppercase tracking-tighter text-industrial-black dark:text-white">Administração</h1>
           </div>
           
           <div className="flex flex-wrap gap-4">
             <button 
               onClick={() => setActiveTab("products")}
-              className={`flex items-center gap-2 px-6 py-3 micro-label transition-all ${activeTab === 'products' ? 'bg-industrial-black text-white' : 'border border-industrial-black/10 hover:bg-white'}`}
+              className={`flex items-center gap-2 px-6 py-3 micro-label transition-all ${activeTab === 'products' ? 'bg-industrial-black dark:bg-white text-white dark:text-industrial-black font-black' : 'border border-industrial-black/10 dark:border-white/20 hover:bg-white dark:hover:bg-white/5 text-industrial-black dark:text-white'}`}
             >
               <Package size={16} /> Catálogo
             </button>
             <button 
               onClick={() => setActiveTab("settings")}
-              className={`flex items-center gap-2 px-6 py-3 micro-label transition-all ${activeTab === 'settings' ? 'bg-industrial-black text-white' : 'border border-industrial-black/10 hover:bg-white'}`}
+              className={`flex items-center gap-2 px-6 py-3 micro-label transition-all ${activeTab === 'settings' ? 'bg-industrial-black dark:bg-white text-white dark:text-industrial-black font-black' : 'border border-industrial-black/10 dark:border-white/20 hover:bg-white dark:hover:bg-white/5 text-industrial-black dark:text-white'}`}
             >
               <Settings size={16} /> Definições
             </button>
             <button 
               onClick={handleLogout}
-              className="flex items-center gap-2 px-6 py-3 micro-label text-bfi-red border border-bfi-red/10 hover:bg-bfi-red hover:text-white transition-all ml-auto md:ml-0"
+              className="flex items-center gap-2 px-6 py-3 micro-label text-bfi-red border border-bfi-red/20 hover:bg-bfi-red hover:text-white transition-all ml-auto md:ml-0"
             >
               <LogOut size={16} /> Sair
             </button>
@@ -400,64 +400,64 @@ export default function Admin() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Form Column */}
             <div className="lg:col-span-1">
-              <div className="bg-white p-8 shadow-xl sticky top-24">
-                <h2 className="text-xl font-black uppercase mb-6 flex items-center gap-2">
+              <div className="bg-white dark:bg-[#14171D] p-8 shadow-xl border border-transparent dark:border-white/10 sticky top-24">
+                <h2 className="text-xl font-black uppercase mb-6 flex items-center gap-2 text-industrial-black dark:text-white">
                   {isEditing ? <Edit2 size={20} /> : <Plus size={20} />}
                   {isEditing ? "Editar Produto" : "Adicionar Produto"}
                 </h2>
                 
                 <form onSubmit={handleProductSubmit} className="space-y-6">
                   <div className="space-y-2">
-                    <label className="micro-label">Referência (Ex: PB-001)</label>
+                    <label className="micro-label text-industrial-black/80 dark:text-white/80">Referência (Ex: PB-001)</label>
                     <input 
                       required
                       type="text" 
                       value={formData.id}
                       onChange={(e) => setFormData({...formData, id: e.target.value})}
-                      className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                      className="w-full bg-transparent border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="micro-label">Nome do Produto</label>
+                    <label className="micro-label text-industrial-black/80 dark:text-white/80">Nome do Produto</label>
                     <input 
                       required
                       type="text" 
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                      className="w-full bg-transparent border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="micro-label">Categoria (Tipo de Peça)</label>
+                    <label className="micro-label text-industrial-black/80 dark:text-white/80">Categoria (Tipo de Peça)</label>
                     <select 
                       value={formData.category}
                       onChange={(e) => setFormData({...formData, category: e.target.value})}
-                      className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none bg-white"
+                      className="w-full bg-transparent dark:bg-[#14171D] border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                     >
-                      <option>Engrenagens</option>
-                      <option>Conectores</option>
-                      <option>Caixas</option>
-                      <option>Acabamentos</option>
-                      <option>Componentes Precisão</option>
-                      <option>Outros</option>
+                      <option className="dark:bg-[#14171D]">Engrenagens</option>
+                      <option className="dark:bg-[#14171D]">Conectores</option>
+                      <option className="dark:bg-[#14171D]">Caixas</option>
+                      <option className="dark:bg-[#14171D]">Acabamentos</option>
+                      <option className="dark:bg-[#14171D]">Componentes Precisão</option>
+                      <option className="dark:bg-[#14171D]">Outros</option>
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="micro-label">Indústria / Setor</label>
+                    <label className="micro-label text-industrial-black/80 dark:text-white/80">Indústria / Setor</label>
                     <select 
                       value={formData.industry}
                       onChange={(e) => setFormData({...formData, industry: e.target.value})}
-                      className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none bg-white"
+                      className="w-full bg-transparent dark:bg-[#14171D] border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                     >
-                      <option>Automóvel</option>
-                      <option>Médico</option>
-                      <option>Eletrónica</option>
-                      <option>Industrial</option>
-                      <option>Bens de Consumo</option>
+                      <option className="dark:bg-[#14171D]">Automóvel</option>
+                      <option className="dark:bg-[#14171D]">Médico</option>
+                      <option className="dark:bg-[#14171D]">Eletrónica</option>
+                      <option className="dark:bg-[#14171D]">Industrial</option>
+                      <option className="dark:bg-[#14171D]">Bens de Consumo</option>
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="micro-label">Imagens do Produto (Pode adicionar várias)</label>
+                    <label className="micro-label text-industrial-black/80 dark:text-white/80">Imagens do Produto (Pode adicionar várias)</label>
                     <div className="flex items-center gap-4">
                       <div className="flex-1 relative">
                         <input 
@@ -473,7 +473,7 @@ export default function Admin() {
                                 : [url]
                             }));
                           }}
-                          className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                          className="w-full bg-transparent border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none placeholder:text-industrial-black/30 dark:placeholder:text-white/30"
                           placeholder="https://..."
                         />
                       </div>
@@ -489,7 +489,7 @@ export default function Admin() {
                         />
                         <label 
                           htmlFor="product-image-upload"
-                          className="p-3 bg-industrial-gray text-industrial-black cursor-pointer hover:bg-industrial-black hover:text-white transition-all block"
+                          className="p-3 bg-industrial-gray dark:bg-white/10 text-industrial-black dark:text-white cursor-pointer hover:bg-industrial-black hover:text-white dark:hover:bg-white dark:hover:text-industrial-black transition-all block"
                         >
                           <ImageIcon size={18} />
                         </label>
@@ -500,7 +500,7 @@ export default function Admin() {
                     {formData.images && formData.images.length > 0 ? (
                       <div className="grid grid-cols-4 gap-2 mt-4">
                         {formData.images.map((img, idx) => (
-                          <div key={idx} className="relative group w-full aspect-square bg-industrial-gray">
+                          <div key={idx} className="relative group w-full aspect-square bg-industrial-gray dark:bg-white/5 border border-industrial-black/5 dark:border-white/10 overflow-hidden">
                             <img src={img} alt={`Preview ${idx}`} className="w-full h-full object-cover" />
                             <button 
                               type="button" 
@@ -514,23 +514,23 @@ export default function Admin() {
                       </div>
                     ) : (
                       formData.image && formData.image.startsWith('http') && !formData.image.includes('picsum') && (
-                         <div className="mt-2 text-xs text-industrial-black/50 overflow-hidden text-ellipsis whitespace-nowrap">
+                         <div className="mt-2 text-xs text-industrial-black/50 dark:text-white/50 overflow-hidden text-ellipsis whitespace-nowrap">
                            URL: {formData.image}
                          </div>
                       )
                     )}
                   </div>
                   <div className="space-y-2">
-                    <label className="micro-label">Descrição Curta</label>
+                    <label className="micro-label text-industrial-black/80 dark:text-white/80">Descrição Curta</label>
                     <textarea 
                       required
                       value={formData.description}
                       onChange={(e) => setFormData({...formData, description: e.target.value})}
-                      className="w-full border border-industrial-black/10 p-3 focus:border-bfi-red outline-none min-h-[80px] resize-none"
+                      className="w-full bg-transparent border border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white p-3 focus:border-bfi-red outline-none min-h-[80px] resize-none placeholder:text-industrial-black/30 dark:placeholder:text-white/30"
                     />
                   </div>
 
-                  <div className="space-y-4 pt-4 border-t border-industrial-black/5">
+                  <div className="space-y-4 pt-4 border-t border-industrial-black/5 dark:border-white/10">
                     <div className="flex items-center gap-3">
                       <input 
                         type="checkbox"
@@ -539,33 +539,33 @@ export default function Admin() {
                         onChange={(e) => setFormData({...formData, isFeatured: e.target.checked})}
                         className="w-5 h-5 accent-bfi-red"
                       />
-                      <label htmlFor="isFeatured" className="micro-label cursor-pointer text-industrial-black">
+                      <label htmlFor="isFeatured" className="micro-label cursor-pointer text-industrial-black dark:text-white">
                         Destaque na Página Inicial (Aparece no Carrossel)
                       </label>
                     </div>
 
                     <div className="space-y-2">
-                      <label className="micro-label">Descrição Detalhada (Aparece no Modal)</label>
+                      <label className="micro-label text-industrial-black/80 dark:text-white/80">Descrição Detalhada (Aparece no Modal)</label>
                       <textarea 
                         value={formData.detailedDescription || ""}
                         onChange={(e) => setFormData({...formData, detailedDescription: e.target.value})}
-                        className="w-full border border-industrial-black/10 p-4 focus:border-bfi-red outline-none min-h-[150px] resize-none text-sm leading-relaxed"
+                        className="w-full bg-transparent border border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white p-4 focus:border-bfi-red outline-none min-h-[150px] resize-none text-sm leading-relaxed placeholder:text-industrial-black/30 dark:placeholder:text-white/30"
                         placeholder="Descreva o processo de fabrico, tolerâncias, materiais específicos..."
                       />
                     </div>
 
                     <div className="space-y-3">
-                      <label className="micro-label flex justify-between">
+                      <label className="micro-label flex justify-between text-industrial-black/80 dark:text-white/80">
                         Especificações Técnicas
                         <span className="opacity-40 font-normal">Uma por linha (Chave: Valor)</span>
                       </label>
                       <textarea 
                         value={formData.specifications || ""}
                         onChange={(e) => setFormData({...formData, specifications: e.target.value})}
-                        className="w-full border border-industrial-black/10 p-4 focus:border-bfi-red outline-none min-h-[120px] resize-none text-sm font-mono leading-relaxed"
+                        className="w-full bg-transparent border border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white p-4 focus:border-bfi-red outline-none min-h-[120px] resize-none text-sm font-mono leading-relaxed placeholder:text-industrial-black/30 dark:placeholder:text-white/30"
                         placeholder="Material: POM&#10;Tolerância: +/- 0.01mm&#10;Temperatura: -40°C a 120°C"
                       />
-                      <p className="text-[10px] text-industrial-black/40 italic">
+                      <p className="text-[10px] text-industrial-black/40 dark:text-white/40 italic">
                         Insira detalhes técnicos como material, tolerâncias e temperaturas. Use o formato "Chave: Valor".
                       </p>
                     </div>
@@ -574,7 +574,7 @@ export default function Admin() {
                   <div className="flex gap-4 pt-4">
                     <button 
                       type="submit"
-                      className="flex-grow bg-industrial-black text-white py-4 font-black uppercase tracking-widest hover:bg-bfi-red transition-all"
+                      className="flex-grow bg-industrial-black dark:bg-white text-white dark:text-industrial-black py-4 font-black uppercase tracking-widest hover:bg-bfi-red dark:hover:bg-bfi-red dark:hover:text-white transition-all"
                     >
                       {isEditing ? "Atualizar" : "Publicar"}
                     </button>
@@ -582,7 +582,7 @@ export default function Admin() {
                       <button 
                         type="button"
                         onClick={() => setIsEditing(null)}
-                        className="px-6 border border-industrial-black font-black uppercase tracking-widest hover:bg-industrial-black hover:text-white transition-all"
+                        className="px-6 border border-industrial-black dark:border-white/30 text-industrial-black dark:text-white font-black uppercase tracking-widest hover:bg-industrial-black hover:text-white dark:hover:bg-white dark:hover:text-industrial-black transition-all"
                       >
                         Cancelar
                       </button>
@@ -594,9 +594,9 @@ export default function Admin() {
 
             {/* List Column */}
             <div className="lg:col-span-2">
-              <div className="bg-white p-8 shadow-xl">
+              <div className="bg-white dark:bg-[#14171D] p-8 shadow-xl border border-transparent dark:border-white/10">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-black uppercase flex items-center gap-2">
+                  <h2 className="text-xl font-black uppercase flex items-center gap-2 text-industrial-black dark:text-white">
                     <Package size={20} /> Produtos Existentes ({products.length})
                   </h2>
                   <button 
@@ -607,9 +607,9 @@ export default function Admin() {
                   </button>
                 </div>
                 
-                <div className="divide-y divide-industrial-black/5">
+                <div className="divide-y divide-industrial-black/5 dark:divide-white/10">
                   {products.length === 0 && (
-                    <p className="py-12 text-center text-industrial-black/30 micro-label">Nenhum produto encontrado.</p>
+                    <p className="py-12 text-center text-industrial-black/30 dark:text-white/30 micro-label">Nenhum produto encontrado.</p>
                   )}
                   {(() => {
                     const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
@@ -620,31 +620,31 @@ export default function Admin() {
                       <>
                         {paginatedProducts.map((product) => (
                           <div key={product.firestoreId} className="py-6 flex gap-6 items-center group">
-                            <div className="w-20 h-20 bg-industrial-gray overflow-hidden grayscale group-hover:grayscale-0 transition-all">
+                            <div className="w-20 h-20 bg-industrial-gray dark:bg-white/5 overflow-hidden grayscale group-hover:grayscale-0 transition-all border border-transparent dark:border-white/10">
                               <img src={product.image} alt={product.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                             </div>
                             <div className="flex-grow">
                               <div className="flex items-center gap-2 mb-1">
-                                <span className="bg-industrial-black text-white text-[8px] font-black px-2 py-0.5 uppercase tracking-tighter">
+                                <span className="bg-industrial-black dark:bg-white text-white dark:text-industrial-black text-[8px] font-black px-2 py-0.5 uppercase tracking-tighter">
                                   {product.id}
                                 </span>
                                 <span className="micro-label text-bfi-red">{product.category}</span>
                                 <span className="micro-label opacity-40 ml-2">| {product.industry}</span>
                               </div>
-                              <h3 className="font-black uppercase tracking-tighter text-lg">{product.name}</h3>
-                              <p className="text-sm text-industrial-black/50 line-clamp-1">{product.description}</p>
+                              <h3 className="font-black uppercase tracking-tighter text-lg text-industrial-black dark:text-white">{product.name}</h3>
+                              <p className="text-sm text-industrial-black/50 dark:text-white/60 line-clamp-1">{product.description}</p>
                             </div>
                             <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                               <button 
                                 onClick={() => handleEdit(product)}
-                                className="p-3 border border-industrial-black/10 hover:bg-industrial-gray text-industrial-black transition-colors"
+                                className="p-3 border border-industrial-black/10 dark:border-white/20 hover:bg-industrial-gray dark:hover:bg-white/10 text-industrial-black dark:text-white transition-colors"
                                 title="Editar"
                               >
                                 <Edit2 size={16} />
                               </button>
                               <button 
                                 onClick={() => setIsDeleting(product.firestoreId!)}
-                                className="p-3 border border-industrial-black/10 hover:bg-bfi-red hover:text-white text-industrial-black transition-colors"
+                                className="p-3 border border-industrial-black/10 dark:border-white/20 hover:bg-bfi-red hover:text-white text-industrial-black dark:text-white transition-colors"
                                 title="Eliminar"
                               >
                                 <Trash2 size={16} />
@@ -658,7 +658,7 @@ export default function Admin() {
                             <button
                               disabled={currentPage === 1}
                               onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                              className="px-4 py-2 border border-industrial-black/10 micro-label hover:bg-industrial-black hover:text-white transition-all disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-industrial-black"
+                              className="px-4 py-2 border border-industrial-black/10 dark:border-white/20 micro-label hover:bg-industrial-black hover:text-white dark:hover:bg-white dark:hover:text-industrial-black transition-all disabled:opacity-30 disabled:hover:bg-transparent text-industrial-black dark:text-white"
                             >
                               Anterior
                             </button>
@@ -666,7 +666,7 @@ export default function Admin() {
                               <button
                                 key={page}
                                 onClick={() => setCurrentPage(page)}
-                                className={`w-10 h-10 micro-label font-bold transition-all ${currentPage === page ? 'bg-bfi-red text-white' : 'border border-industrial-black/10 hover:bg-industrial-gray'}`}
+                                className={`w-10 h-10 micro-label font-bold transition-all ${currentPage === page ? 'bg-bfi-red text-white' : 'border border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white hover:bg-industrial-gray dark:hover:bg-white/10'}`}
                               >
                                 {page}
                               </button>
@@ -674,7 +674,7 @@ export default function Admin() {
                             <button
                               disabled={currentPage === totalPages}
                               onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                              className="px-4 py-2 border border-industrial-black/10 micro-label hover:bg-industrial-black hover:text-white transition-all disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-industrial-black"
+                              className="px-4 py-2 border border-industrial-black/10 dark:border-white/20 micro-label hover:bg-industrial-black hover:text-white dark:hover:bg-white dark:hover:text-industrial-black transition-all disabled:opacity-30 disabled:hover:bg-transparent text-industrial-black dark:text-white"
                             >
                               Próximo
                             </button>
@@ -690,24 +690,24 @@ export default function Admin() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Global Settings */}
-            <div className="bg-white p-8 shadow-xl">
+            <div className="bg-white dark:bg-[#14171D] p-8 shadow-xl border border-transparent dark:border-white/10">
               <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 bg-industrial-black text-white flex items-center justify-center">
+                <div className="w-10 h-10 bg-industrial-black dark:bg-white text-white dark:text-industrial-black flex items-center justify-center">
                   <Layout size={20} />
                 </div>
-                <h2 className="text-xl font-black uppercase">Geral & Header</h2>
+                <h2 className="text-xl font-black uppercase text-industrial-black dark:text-white">Geral & Header</h2>
               </div>
               
               <form onSubmit={handleSettingsSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <label className="micro-label">Imagem Hero (Início)</label>
+                  <label className="micro-label text-industrial-black/80 dark:text-white/80">Imagem Hero (Início)</label>
                   <div className="flex items-center gap-4">
                     <div className="flex-1 relative">
                       <input 
                         type="text" 
                         value={settings.heroImage || ""}
                         onChange={(e) => setSettings({...settings, heroImage: e.target.value})}
-                        className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                        className="w-full bg-transparent border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                         placeholder="https://images.unsplash.com/..."
                       />
                     </div>
@@ -721,7 +721,7 @@ export default function Admin() {
                       />
                       <label 
                         htmlFor="hero-upload"
-                        className="p-3 bg-industrial-gray text-industrial-black cursor-pointer hover:bg-industrial-black hover:text-white transition-all block"
+                        className="p-3 bg-industrial-gray dark:bg-white/10 text-industrial-black dark:text-white cursor-pointer hover:bg-industrial-black hover:text-white dark:hover:bg-white dark:hover:text-industrial-black transition-all block"
                       >
                         <ImageIcon size={18} />
                       </label>
@@ -729,20 +729,20 @@ export default function Admin() {
                   </div>
                   {uploadingHero && <span className="text-xs text-bfi-red animate-pulse">A carregar...</span>}
                   {settings.heroImage && (
-                    <div className="mt-2 w-full aspect-video bg-industrial-gray overflow-hidden">
+                    <div className="mt-2 w-full aspect-video bg-industrial-gray dark:bg-white/5 overflow-hidden">
                       <img src={settings.heroImage} alt="Hero Preview" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                     </div>
                   )}
                 </div>
                 <div className="space-y-2">
-                  <label className="micro-label">Logótipo (Navbar/Footer)</label>
+                  <label className="micro-label text-industrial-black/80 dark:text-white/80">Logótipo (Navbar/Footer)</label>
                   <div className="flex items-center gap-4">
                     <div className="flex-1 relative">
                       <input 
                         type="text" 
                         value={settings.logoUrl || ""}
                         onChange={(e) => setSettings({...settings, logoUrl: e.target.value})}
-                        className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                        className="w-full bg-transparent border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                         placeholder="https://..."
                       />
                     </div>
@@ -756,7 +756,7 @@ export default function Admin() {
                       />
                       <label 
                         htmlFor="logo-upload"
-                        className="p-3 bg-industrial-gray text-industrial-black cursor-pointer hover:bg-industrial-black hover:text-white transition-all block"
+                        className="p-3 bg-industrial-gray dark:bg-white/10 text-industrial-black dark:text-white cursor-pointer hover:bg-industrial-black hover:text-white dark:hover:bg-white dark:hover:text-industrial-black transition-all block"
                       >
                         <ImageIcon size={18} />
                       </label>
@@ -764,40 +764,40 @@ export default function Admin() {
                   </div>
                   {uploadingLogo && <span className="text-xs text-bfi-red animate-pulse">A carregar...</span>}
                   {settings.logoUrl && (
-                    <div className="mt-2 h-12 bg-industrial-gray p-2 flex items-center justify-start overflow-hidden">
+                    <div className="mt-2 h-12 bg-industrial-gray dark:bg-white/5 p-2 flex items-center justify-start overflow-hidden">
                       <img src={settings.logoUrl} alt="Logo Preview" className="h-full object-contain" referrerPolicy="no-referrer" />
                     </div>
                   )}
                 </div>
                 <div className="space-y-2">
-                  <label className="micro-label">Email de Contacto</label>
+                  <label className="micro-label text-industrial-black/80 dark:text-white/80">Email de Contacto</label>
                   <input 
                     type="email" 
                     value={settings.contactEmail || ""}
                     onChange={(e) => setSettings({...settings, contactEmail: e.target.value})}
-                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                    className="w-full bg-transparent border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="micro-label">Telefone</label>
+                  <label className="micro-label text-industrial-black/80 dark:text-white/80">Telefone</label>
                   <input 
                     type="text" 
                     value={settings.contactPhone || ""}
                     onChange={(e) => setSettings({...settings, contactPhone: e.target.value})}
-                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                    className="w-full bg-transparent border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="micro-label">URL do Catálogo Técnico (PDF)</label>
+                  <label className="micro-label text-industrial-black/80 dark:text-white/80">URL do Catálogo Técnico (PDF)</label>
                   <input 
                     type="text" 
                     value={settings.techCatalogUrl || ""}
                     onChange={(e) => setSettings({...settings, techCatalogUrl: e.target.value})}
-                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                    className="w-full bg-transparent border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                     placeholder="https://..."
                   />
                 </div>
-                <button type="submit" className="w-full bg-industrial-black text-white py-4 font-black uppercase tracking-widest hover:bg-bfi-red transition-all mt-4">
+                <button type="submit" className="w-full bg-industrial-black dark:bg-white text-white dark:text-industrial-black py-4 font-black uppercase tracking-widest hover:bg-bfi-red dark:hover:bg-bfi-red dark:hover:text-white transition-all mt-4">
                   Guardar Alterações
                 </button>
               </form>
@@ -805,33 +805,32 @@ export default function Admin() {
 
             {/* Content Settings */}
             <div className="space-y-12">
-              <div className="bg-white p-8 shadow-xl">
+              <div className="bg-white dark:bg-[#14171D] p-8 shadow-xl border border-transparent dark:border-white/10">
                 <div className="flex items-center gap-3 mb-8">
-                  <div className="w-10 h-10 bg-industrial-black text-white flex items-center justify-center">
+                  <div className="w-10 h-10 bg-industrial-black dark:bg-white text-white dark:text-industrial-black flex items-center justify-center">
                     <Info size={20} />
                   </div>
-                  <h2 className="text-xl font-black uppercase">Sobre Nós & Serviços</h2>
+                  <h2 className="text-xl font-black uppercase text-industrial-black dark:text-white">Sobre Nós & Serviços</h2>
                 </div>
                 
                 <form onSubmit={handleSettingsSubmit} className="space-y-6">
-                  {/* ... same as before but wrapped ... */}
                   <div className="space-y-2">
-                    <label className="micro-label">Texto "Sobre Nós"</label>
+                    <label className="micro-label text-industrial-black/80 dark:text-white/80">Texto "Sobre Nós"</label>
                     <textarea 
                       value={settings.aboutText || ""}
                       onChange={(e) => setSettings({...settings, aboutText: e.target.value})}
-                      className="w-full border border-industrial-black/10 p-3 focus:border-bfi-red outline-none min-h-[120px] resize-none"
+                      className="w-full bg-transparent border border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white p-3 focus:border-bfi-red outline-none min-h-[120px] resize-none"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="micro-label">Imagem "Sobre Nós"</label>
+                    <label className="micro-label text-industrial-black/80 dark:text-white/80">Imagem "Sobre Nós"</label>
                     <div className="flex items-center gap-4">
                       <div className="flex-1 relative">
                         <input 
                           type="text" 
                           value={settings.aboutImage || ""}
                           onChange={(e) => setSettings({...settings, aboutImage: e.target.value})}
-                          className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                          className="w-full bg-transparent border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                           placeholder="https://..."
                         />
                       </div>
@@ -845,7 +844,7 @@ export default function Admin() {
                         />
                         <label 
                           htmlFor="about-upload"
-                          className="p-3 bg-industrial-gray text-industrial-black cursor-pointer hover:bg-industrial-black hover:text-white transition-all block"
+                          className="p-3 bg-industrial-gray dark:bg-white/10 text-industrial-black dark:text-white cursor-pointer hover:bg-industrial-black hover:text-white dark:hover:bg-white dark:hover:text-industrial-black transition-all block"
                         >
                           <ImageIcon size={18} />
                         </label>
@@ -853,63 +852,63 @@ export default function Admin() {
                     </div>
                     {uploadingAbout && <span className="text-xs text-bfi-red animate-pulse">A carregar...</span>}
                     {settings.aboutImage && (
-                      <div className="mt-2 w-full aspect-square max-w-[200px] bg-industrial-gray overflow-hidden">
+                      <div className="mt-2 w-full aspect-square max-w-[200px] bg-industrial-gray dark:bg-white/5 overflow-hidden">
                         <img src={settings.aboutImage} alt="About Preview" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                       </div>
                     )}
                   </div>
                   <div className="space-y-2">
-                    <label className="micro-label">Texto Introdução Serviços</label>
+                    <label className="micro-label text-industrial-black/80 dark:text-white/80">Texto Introdução Serviços</label>
                     <textarea 
                       value={settings.servicesIntro || ""}
                       onChange={(e) => setSettings({...settings, servicesIntro: e.target.value})}
-                      className="w-full border border-industrial-black/10 p-3 focus:border-bfi-red outline-none min-h-[80px] resize-none"
+                      className="w-full bg-transparent border border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white p-3 focus:border-bfi-red outline-none min-h-[80px] resize-none"
                     />
                   </div>
-                  <button type="submit" className="w-full bg-industrial-black text-white py-4 font-black uppercase tracking-widest hover:bg-bfi-red transition-all mt-4">
+                  <button type="submit" className="w-full bg-industrial-black dark:bg-white text-white dark:text-industrial-black py-4 font-black uppercase tracking-widest hover:bg-bfi-red dark:hover:bg-bfi-red dark:hover:text-white transition-all mt-4">
                     Guardar Conteúdo
                   </button>
                 </form>
               </div>
 
               {/* SEO Settings */}
-              <div className="bg-white p-8 shadow-xl">
+              <div className="bg-white dark:bg-[#14171D] p-8 shadow-xl border border-transparent dark:border-white/10">
                 <div className="flex items-center gap-3 mb-8">
-                  <div className="w-10 h-10 bg-industrial-black text-white flex items-center justify-center text-xs font-black">
+                  <div className="w-10 h-10 bg-industrial-black dark:bg-white text-white dark:text-industrial-black flex items-center justify-center text-xs font-black">
                     SEO
                   </div>
-                  <h2 className="text-xl font-black uppercase">Otimização (SEO)</h2>
+                  <h2 className="text-xl font-black uppercase text-industrial-black dark:text-white">Otimização (SEO)</h2>
                 </div>
                 
                 <form onSubmit={handleSettingsSubmit} className="space-y-6">
                   <div className="space-y-2">
-                    <label className="micro-label">Título do Site (Meta Title)</label>
+                    <label className="micro-label text-industrial-black/80 dark:text-white/80">Título do Site (Meta Title)</label>
                     <input 
                       type="text" 
                       value={settings.metaTitle || ""}
                       onChange={(e) => setSettings({...settings, metaTitle: e.target.value})}
-                      className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                      className="w-full bg-transparent border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="micro-label">Descrição (Meta Description)</label>
+                    <label className="micro-label text-industrial-black/80 dark:text-white/80">Descrição (Meta Description)</label>
                     <textarea 
                       value={settings.metaDescription || ""}
                       onChange={(e) => setSettings({...settings, metaDescription: e.target.value})}
-                      className="w-full border border-industrial-black/10 p-3 focus:border-bfi-red outline-none min-h-[80px] resize-none"
+                      className="w-full bg-transparent border border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white p-3 focus:border-bfi-red outline-none min-h-[80px] resize-none"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="micro-label">Palavras-Chave (Meta Keywords)</label>
+                    <label className="micro-label text-industrial-black/80 dark:text-white/80">Palavras-Chave (Meta Keywords)</label>
                     <input 
                       type="text" 
                       value={settings.metaKeywords || ""}
                       onChange={(e) => setSettings({...settings, metaKeywords: e.target.value})}
-                      className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                      className="w-full bg-transparent border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                       placeholder="injecção, plásticos, moldes..."
                     />
                   </div>
-                  <button type="submit" className="w-full bg-industrial-black text-white py-4 font-black uppercase tracking-widest hover:bg-bfi-red transition-all">
+                  <button type="submit" className="w-full bg-industrial-black dark:bg-white text-white dark:text-industrial-black py-4 font-black uppercase tracking-widest hover:bg-bfi-red dark:hover:bg-bfi-red dark:hover:text-white transition-all">
                     Guardar SEO
                   </button>
                 </form>
@@ -917,58 +916,58 @@ export default function Admin() {
             </div>
 
             {/* AI AppSettings */}
-            <div className="bg-white p-8 shadow-xl lg:col-span-2">
+            <div className="bg-white dark:bg-[#14171D] p-8 shadow-xl lg:col-span-2 border border-transparent dark:border-white/10">
               <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 bg-industrial-black text-white flex items-center justify-center">
+                <div className="w-10 h-10 bg-industrial-black dark:bg-white text-white dark:text-industrial-black flex items-center justify-center">
                   <span className="font-black">AI</span>
                 </div>
-                <h2 className="text-xl font-black uppercase">Configurações Chat IA</h2>
+                <h2 className="text-xl font-black uppercase text-industrial-black dark:text-white">Configurações Chat IA</h2>
               </div>
               
               <form onSubmit={handleSettingsSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="micro-label">Fornecedor (Provider)*</label>
+                  <label className="micro-label text-industrial-black/80 dark:text-white/80">Fornecedor (Provider)*</label>
                   <select 
                     value={settings.chatProvider || "google"}
                     onChange={(e) => setSettings({...settings, chatProvider: e.target.value})}
-                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none bg-transparent"
+                    className="w-full bg-transparent dark:bg-[#14171D] border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                   >
-                    <option value="google">Google Gemini (GenAI SDK)</option>
-                    <option value="openai">OpenAI Compatível (Fetch)</option>
+                    <option value="google" className="dark:bg-[#14171D]">Google Gemini (GenAI SDK)</option>
+                    <option value="openai" className="dark:bg-[#14171D]">OpenAI Compatível (Fetch)</option>
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="micro-label">Modelo</label>
+                  <label className="micro-label text-industrial-black/80 dark:text-white/80">Modelo</label>
                   <input 
                     type="text" 
                     value={settings.chatModel || ""}
                     onChange={(e) => setSettings({...settings, chatModel: e.target.value})}
-                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                    className="w-full bg-transparent border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                     placeholder="Ex: gemini-3-flash-preview ou gpt-4o-mini"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="micro-label">Chave API (Opcional se usar Env)</label>
+                  <label className="micro-label text-industrial-black/80 dark:text-white/80">Chave API (Opcional se usar Env)</label>
                   <input 
                     type="password" 
                     value={settings.chatApiKey || ""}
                     onChange={(e) => setSettings({...settings, chatApiKey: e.target.value})}
-                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                    className="w-full bg-transparent border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                     placeholder="sk-..."
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="micro-label">Endpoint (Para OpenAI Compatível)</label>
+                  <label className="micro-label text-industrial-black/80 dark:text-white/80">Endpoint (Para OpenAI Compatível)</label>
                   <input 
                     type="text" 
                     value={settings.chatEndpoint || ""}
                     onChange={(e) => setSettings({...settings, chatEndpoint: e.target.value})}
-                    className="w-full border-b border-industrial-black/10 py-2 focus:border-bfi-red outline-none"
+                    className="w-full bg-transparent border-b border-industrial-black/10 dark:border-white/20 text-industrial-black dark:text-white py-2 focus:border-bfi-red outline-none"
                     placeholder="https://api.openai.com/v1/chat/completions"
                   />
                 </div>
                 <div className="md:col-span-2 mt-4">
-                  <button type="submit" className="w-full bg-industrial-black text-white py-4 font-black uppercase tracking-widest hover:bg-bfi-red transition-all">
+                  <button type="submit" className="w-full bg-industrial-black dark:bg-white text-white dark:text-industrial-black py-4 font-black uppercase tracking-widest hover:bg-bfi-red dark:hover:bg-bfi-red dark:hover:text-white transition-all">
                     Guardar Configurações IA
                   </button>
                 </div>

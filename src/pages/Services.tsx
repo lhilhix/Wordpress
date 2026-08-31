@@ -46,7 +46,7 @@ export default function Services() {
   ];
 
   return (
-    <div className="min-h-screen bg-white selection:bg-bfi-red selection:text-white">
+    <div className="min-h-screen bg-white dark:bg-[#0D0F12] text-industrial-black dark:text-white transition-colors duration-200 selection:bg-bfi-red selection:text-white">
       <Navbar />
       
       <main>
@@ -69,7 +69,7 @@ export default function Services() {
         </section>
 
         {/* Detailed Services Grid */}
-        <section className="py-32 px-6">
+        <section className="py-32 px-6 bg-white dark:bg-[#0D0F12]">
           <div className="max-w-screen-2xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
               {detailedServices.map((service, index) => (
@@ -82,13 +82,13 @@ export default function Services() {
                 >
                   <div className="mb-8">{service.icon}</div>
                   <div className="micro-label text-bfi-red mb-2">{service.subtitle}</div>
-                  <h2 className="text-3xl font-black uppercase tracking-tighter mb-6">{service.title}</h2>
-                  <p className="text-industrial-black/60 mb-8 leading-relaxed">
+                  <h2 className="text-3xl font-black uppercase tracking-tighter mb-6 text-industrial-black dark:text-white">{service.title}</h2>
+                  <p className="text-industrial-black/60 dark:text-white/70 mb-8 leading-relaxed">
                     {service.description}
                   </p>
                   <ul className="space-y-4">
                     {service.details.map((detail, idx) => (
-                      <li key={idx} className="flex items-center gap-3 text-sm font-bold uppercase tracking-tight text-industrial-black/80">
+                      <li key={idx} className="flex items-center gap-3 text-sm font-bold uppercase tracking-tight text-industrial-black/80 dark:text-white/80">
                         <div className="w-1.5 h-1.5 bg-bfi-red"></div>
                         {detail}
                       </li>
@@ -104,7 +104,7 @@ export default function Services() {
         <GridSection />
 
         {/* Industrial Stats */}
-        <section className="py-24 bg-industrial-gray px-6 border-y border-industrial-black/5">
+        <section className="py-24 bg-industrial-gray dark:bg-[#14171D] px-6 border-y border-industrial-black/5 dark:border-white/10 transition-colors">
           <div className="max-w-screen-2xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
             {[
               { label: "Capacidade Mensal", value: "2M+", sub: "Peças" },
@@ -113,9 +113,9 @@ export default function Services() {
               { label: "Anos de Know-how", value: "30+", sub: "Experiência" }
             ].map((stat, i) => (
               <div key={i}>
-                <div className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-2">{stat.value}</div>
+                <div className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-2 text-industrial-black dark:text-white">{stat.value}</div>
                 <div className="micro-label text-bfi-red mb-1">{stat.label}</div>
-                <div className="text-[10px] uppercase font-bold text-industrial-black/30 tracking-widest">{stat.sub}</div>
+                <div className="text-[10px] uppercase font-bold text-industrial-black/30 dark:text-white/40 tracking-widest">{stat.sub}</div>
               </div>
             ))}
           </div>
